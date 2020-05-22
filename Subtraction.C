@@ -13,178 +13,7 @@
 #include <TGraph.h>
 #include "Subtraction.h"
 
-
-void  Subtraction::prot3_rot_func(TVector3  V3prot[3],TVector3  V3prot_uncorr[3],TLorentzVector V4el,double Ecal_3pto2p[][2],double  pmiss_perp_3pto2p[][2],double  P3pto2p[][2],double N_p1[3],double Ecal_3pto1p[3],double  pmiss_perp_3pto1p[3], double *N_p3det){
-
-    double m_prot=0.9382720813;
-    const int N_3p=3, N_2p=2;
-    double N_p2[N_3p]={0},N_p1det[3][N_3p]={0};
-    TVector3 V3_3p_rot[N_3p],V3_2p_rot[N_3p],V3_prot_el_3pto2p[N_2p],V3_prot_el_3pto1p[N_3p];
-    double rot_angle;
-    double N_pthree=0;
-    bool prot_stat[N_3p];
-    int count =0;
-
-
-
-    for(int g=0; g<N_tot; g++){
-
-         rot_angle=gRandom->Uniform(0,2*TMath::Pi());
-
-         for(int i=0;i<N_3p;i++) {
-  	         V3_3p_rot[i]= V3prot_uncorr[i];
-  	         V3_3p_rot[i].Rotate(rot_angle,V3q);
-         }
-
-
-         for(int ind_p=0;ind_p<N_3p;ind_p++) prot_stat[ind_p]=PFiducialCut(fbeam_en, V3_3p_rot[ind_p]);
-
-         if( prot_stat[0]  && !prot_stat[1]  && !prot_stat[2])  N_p1[0]=N_p1[0]+1;
-         if(!prot_stat[0] &&   prot_stat[1]  && !prot_stat[2])  N_p1[1]=N_p1[1]+1;
-         if(!prot_stat[0] &&  !prot_stat[1]  &&  prot_stat[2])  N_p1[2]=N_p1[2]+1;
-         if( prot_stat[0]  &&  prot_stat[1]  &&  prot_stat[2])  N_pthree=N_pthree+1;
-
-         if(prot_stat[0] && prot_stat[1] && !prot_stat[2])   N_p2[0]=N_p2[0]+1;
-         if(prot_stat[0] && !prot_stat[1] && prot_stat[2])   N_p2[1]=N_p2[1]+1;
-         if(!prot_stat[0] && prot_stat[1] && prot_stat[2])   N_p2[2]=N_p2[2]+1;
-
-
-     }//for loop of 3p rotations ends
-
-   //-----------------------------------------  3p to 1p  -----------------------------------------------------------------------
-     for(int j=0;j<N_3p;j++)    { //looping through 1p combinations out of 3protons
-
-         V3_prot_el_3pto1p[j]=V4el.Vect()+ V3prot[j];
-         Ecal_3pto1p[j]=V4el.E()+ TMath::Sqrt(m_prot*m_prot+V3prot[j].Mag()*V3prot[j].Mag())-m_prot+bind_en[target_name];
-         pmiss_perp_3pto1p[j]=TMath::Sqrt(V3_prot_el_3pto1p[j].Px()*V3_prot_el_3pto1p[j].Px()+V3_prot_el_3pto1p[j].Py()*V3_prot_el_3pto1p[j].Py());
-     }
-
-
-   //-----------------------------------------  3p to 2p->1p  -----------------------------------------------------------------------
-     for(int ind1=0;ind1<N_3p;ind1++){   //looping through 2p combinations  out of 3p
-       for(int ind2=0;ind2<N_3p;ind2++){
-  	    if(ind1!=ind2 && ind1<ind2){
-
-  	     for(int g1=0; g1<N_tot; g1++){
-
-  	       rot_angle=gRandom->Uniform(0,2*TMath::Pi());
-
-  	       V3_2p_rot[ind1]=V3prot_uncorr[ind1];
-  	       V3_2p_rot[ind2]=V3prot_uncorr[ind2];
-  	       V3_2p_rot[ind1].Rotate(rot_angle,V3q);
-  	       V3_2p_rot[ind2].Rotate(rot_angle,V3q);
-
-  	       if(PFiducialCut(fbeam_en, V3_2p_rot[ind1])  && !PFiducialCut(fbeam_en, V3_2p_rot[ind2])) N_p1det[count][0]=N_p1det[count][0]+1;
-  	       if(!PFiducialCut(fbeam_en, V3_2p_rot[ind1]) && PFiducialCut(fbeam_en, V3_2p_rot[ind2]))  N_p1det[count][1]=N_p1det[count][1]+1;
-  	       if(PFiducialCut(fbeam_en, V3_2p_rot[ind1])  && PFiducialCut(fbeam_en, V3_2p_rot[ind2]))  N_p1det[count][2]=N_p1det[count][2]+1;
-  	     }
-
-
-  	     if( N_p1det[count][2]!=0   && N_pthree!=0){
-
-
-  	       V3_prot_el_3pto2p[0]=V4el.Vect()+ V3prot[ind1];
-  	       Ecal_3pto2p[count][0]=V4el.E()+ TMath::Sqrt(m_prot*m_prot+V3prot[ind1].Mag()*V3prot[ind1].Mag())-m_prot+bind_en[target_name];
-  	       pmiss_perp_3pto2p[count][0]=TMath::Sqrt(V3_prot_el_3pto2p[0].Px()*V3_prot_el_3pto2p[0].Px()+V3_prot_el_3pto2p[0].Py()*V3_prot_el_3pto2p[0].Py());
-  	       P3pto2p[count][0]=N_p1det[count][0]/N_p1det[count][2]*(N_p2[count]/N_pthree);
-
-  	       V3_prot_el_3pto2p[1]=V4el.Vect()+ V3prot[ind2];
-  	       Ecal_3pto2p[count][1]=V4el.E()+TMath::Sqrt(m_prot*m_prot+V3prot[ind2].Mag()*V3prot[ind2].Mag())-m_prot+bind_en[target_name];
-  	       pmiss_perp_3pto2p[count][1]=TMath::Sqrt(V3_prot_el_3pto2p[1].Px()*V3_prot_el_3pto2p[1].Px()+V3_prot_el_3pto2p[1].Py()*V3_prot_el_3pto2p[1].Py());
-  	       P3pto2p[count][1]=N_p1det[count][1]/N_p1det[count][2]*(N_p2[count]/N_pthree);
-  	     }
-
-
-       count=count +1;
-
-  	   }
-     }
-    }
-    *N_p3det=N_pthree;
-}
-
-
-void  Subtraction::prot2_rot_func(TVector3  V3prot[2],TVector3  V3prot_uncorr[2],TLorentzVector V4el,double Ecal_2pto1p[2],double  pmiss_perp_2pto1p[2],double  P2pto1p[2], double *Nboth){
-
-
-    const int N2=2;
-    double rot_angle, N_p2to1[N2]={0},m_prot=0.9382720813;
-    TVector3 V3_2prot[N2], V3_prot_el_2pto1p[N2];
-    double N_2=0;
-
-
-
-    for(int g1=0; g1<N_tot; g1++){
-
-
-      rot_angle=gRandom->Uniform(0,2*TMath::Pi());
-
-      V3_2prot[0]=V3prot_uncorr[0];
-      V3_2prot[1]=V3prot_uncorr[1];
-      V3_2prot[0].Rotate(rot_angle,V3q);
-      V3_2prot[1].Rotate(rot_angle,V3q);
-
-
-      if(PFiducialCut(fbeam_en, V3_2prot[0])  && !PFiducialCut(fbeam_en, V3_2prot[1])) N_p2to1[0]=N_p2to1[0]+1;
-      if(!PFiducialCut(fbeam_en, V3_2prot[0]) && PFiducialCut(fbeam_en, V3_2prot[1]))  N_p2to1[1]=N_p2to1[1]+1;
-      if(PFiducialCut(fbeam_en, V3_2prot[0])  && PFiducialCut(fbeam_en, V3_2prot[1]))  N_2=N_2+1;
-    }
-
-     //-----------------------------------------  2p to 1p  -----------------------------------------------------------------------
-      V3_prot_el_2pto1p[0]=V4el.Vect()+ V3prot[0];
-      Ecal_2pto1p[0]=V4el.E()+ TMath::Sqrt(m_prot*m_prot+V3prot[0].Mag()*V3prot[0].Mag())-m_prot+bind_en[target_name];
-      pmiss_perp_2pto1p[0]=TMath::Sqrt(V3_prot_el_2pto1p[0].Px()*V3_prot_el_2pto1p[0].Px()+V3_prot_el_2pto1p[0].Py()*V3_prot_el_2pto1p[0].Py());
-
-      V3_prot_el_2pto1p[1]=V4el.Vect()+ V3prot[1];
-      Ecal_2pto1p[1]=V4el.E()+ TMath::Sqrt(m_prot*m_prot+V3prot[1].Mag()*V3prot[1].Mag())-m_prot+bind_en[target_name];
-      pmiss_perp_2pto1p[1]=TMath::Sqrt(V3_prot_el_2pto1p[1].Px()*V3_prot_el_2pto1p[1].Px()+V3_prot_el_2pto1p[1].Py()*V3_prot_el_2pto1p[1].Py());
-
-
-    if( N_2!=0){
-    P2pto1p[0]=N_p2to1[0]/N_2;
-      P2pto1p[1]=N_p2to1[1]/N_2;
-    }
-    else{
-    P2pto1p[0]=0;
-      P2pto1p[1]=0;
-    }
-
-    *Nboth=N_2;
-  }
-
-
-void Subtraction::prot1_pi1_rot_func(TVector3  V3prot,TVector3 V3pi, int q_pi, double *N_pi_p,double *N_nopi_p){
-
-    double rotation_ang;
-    TVector3 V3_pi_rot, V3_p_rot;
-    Float_t pi_cphil=0,pi_cphir=0,pi_phimin=0,pi_phimax=0;
-    bool pi_stat=true;
-
-       double Npi_p = 0;
-       double Nnopi_p = 0;
-
-       for(int g=0; g<N_tot; g++){
-
-         rotation_ang=gRandom->Uniform(0,2*TMath::Pi());
-         V3_p_rot= V3prot;
-         V3_p_rot.Rotate(rotation_ang,V3q);
-
-
-         V3_pi_rot=V3pi;
-         V3_pi_rot.Rotate(rotation_ang,V3q);
-         pi_stat=Pi_phot_fid_united(fbeam_en, V3_pi_rot,q_pi);
-
-
-         if(PFiducialCut(fbeam_en, V3_p_rot)  && pi_stat) Npi_p=Npi_p+1;
-         if(PFiducialCut(fbeam_en, V3_p_rot)  && !pi_stat) Nnopi_p=Nnopi_p+1;
-
-       }
-       *N_pi_p=Npi_p;
-       *N_nopi_p=Nnopi_p;
-  }
-
-
-void Subtraction::prot1_pi2_rot_func(TVector3  V3prot,TVector3 V3pi[2], int q_pi[2], double *P_1p0pi,double P_1p1pi[2]){
+void Subtraction::prot1_pi2_rot_func(TVector3  V3prot,TVector3 V3pi[2], int q_pi[2],double P_1p1pi[2]){
 
     const int N_pi=2;
     double rotation_ang;
@@ -192,7 +21,7 @@ void Subtraction::prot1_pi2_rot_func(TVector3  V3prot,TVector3 V3pi[2], int q_pi
     bool status_pi[2]={true};
 
     double N_all = 0;
-    double Nnopi = 0,N_1p1pi[2]={0};
+    double N_1p1pi[2]={0};
 
        for(int g=0; g<N_tot; g++){
 
@@ -212,43 +41,31 @@ void Subtraction::prot1_pi2_rot_func(TVector3  V3prot,TVector3 V3pi[2], int q_pi
          if(PFiducialCut(fbeam_en, V3_p_rot)  && status_pi[0]  && !status_pi[1] ) N_1p1pi[0]=N_1p1pi[0]+1;
          if(PFiducialCut(fbeam_en, V3_p_rot)  && !status_pi[0]  && status_pi[1] ) N_1p1pi[1]=N_1p1pi[1]+1;
          if(PFiducialCut(fbeam_en, V3_p_rot)  && status_pi[0]  && status_pi[1] ) N_all=N_all+1;
-         if(PFiducialCut(fbeam_en, V3_p_rot)  && !status_pi[0]  && !status_pi[1]) Nnopi=Nnopi+1;
 
        }
 
 
        if(N_all!=0){
-         //----------------------1p2pi->1p0pi
-         *P_1p0pi=Nnopi/N_all;
-
-         //----------------------1p2pi->1p1pi->1p0pi
-         double N_nopi_p = 0,N_pi_p=0;
-
+         //----------------------1p2pi->1p1pi
          for(int h=0;h<N_pi;h++){
-
-  	 prot1_pi1_rot_func(V3prot,V3pi[h],q_pi[h],&N_pi_p,&N_nopi_p);
-  	 if(N_pi_p!=0) P_1p1pi[h]=(N_1p1pi[h]/N_all)*(N_nopi_p/N_pi_p);
-  	 else  P_1p1pi[h]=0;
+  	        P_1p1pi[h]=(N_1p1pi[h]/N_all);
          }
        }   //N_all!=0 statement
 
        else{
-         *P_1p0pi=0;
          P_1p1pi[0]=0;
          P_1p1pi[1]=0;
        }
   }
 
-
+//This function below still incomplete. Need to call other functions and calculate weights.
 void Subtraction::prot1_pi3_rot_func(TVector3  V3prot,TVector3 V3pi[3], int q_pi[3], double *P_tot){
-
-    *P_tot=0;
     const int N_pi=3;
     double rotation_ang;
     TVector3 V3_rot_pi[N_pi], V3_p_rot;
     bool status_pi[N_pi]={true};
     double N_all = 0;
-    double Nnopi = 0,N_1p1pi[3]={0},N_1p2pi[3]={0};
+    double N_1p1pi[3]={0},N_1p2pi[3]={0};
 
     for(int g=0; g<N_tot; g++){
 
@@ -271,58 +88,7 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot,TVector3 V3pi[3], int q_pi
          if(PFiducialCut(fbeam_en, V3_p_rot)  && status_pi[0]  && !status_pi[1] && status_pi[2]) N_1p2pi[1]=N_1p2pi[1]+1;
          if(PFiducialCut(fbeam_en, V3_p_rot)  && !status_pi[0]  && status_pi[1] && status_pi[2]) N_1p2pi[2]=N_1p2pi[2]+1;
          if(PFiducialCut(fbeam_en, V3_p_rot)  && status_pi[0]  && status_pi[1] && status_pi[2])  N_all=N_all+1;
-         if(PFiducialCut(fbeam_en, V3_p_rot)  && !status_pi[0]  && !status_pi[1] && !status_pi[2])Nnopi=Nnopi+1;
     }
-
-       if(N_all!=0){
-         //----------------------1p3pi->1p0pi
-         double P_1p0pi=0;
-
-         P_1p0pi=Nnopi/N_all;
-
-         //----------------------1p3pi->1p1pi->1p0pi
-         double N_nopi_p = 0,N_pi_p=0;
-         const int N2pi=2;
-         TVector3 V3_pion[N2pi];
-         int q_pion[N2pi];
-
-         double  P_1p1pi=0,P_1p2pi=0;
-
-         for(int h=0;h<N_pi;h++){
-
-          prot1_pi1_rot_func(V3prot,V3pi[h],q_pi[h],&N_pi_p,&N_nopi_p);
-  	      if(N_pi_p!=0) P_1p1pi=P_1p1pi+(N_1p1pi[h]/N_all)*(N_nopi_p/N_pi_p);
-
-    //----------------------1p3pi->1p2pi->1p0pi
-  	     double P_1p1pion[N2pi]={0},P_1p0pion=0;
-
-  	 if(h==0)   {
-  	   V3_pion[0]=   V3pi[0];   V3_pion[1]=V3pi[1];
-  	   q_pion[0]=    q_pi[0];    q_pion[1]=q_pi[1];
-
-  	 }
-  	 if(h==1)   {
-  	   V3_pion[0]=   V3pi[0];    V3_pion[1]=V3pi[2];
-  	   q_pion[0]=    q_pi[0];     q_pion[1]=q_pi[2];
-
-  	 }
-  	 if(h==2)   {
-  	   V3_pion[0]=   V3pi[1];   V3_pion[1]=V3pi[2];
-  	   q_pion[0]=    q_pi[1];    q_pion[1]=q_pi[2];
-
-  	 }
-   //----------------------1p3pi->1p2pi->1p1pi->1p0pi
-  	 prot1_pi2_rot_func(V3prot,V3_pion, q_pion,&P_1p0pion,P_1p1pion);
-  	 P_1p2pi=P_1p2pi+(N_1p2pi[h]/N_all)*(P_1p0pion-P_1p1pion[0]-P_1p1pion[1]);
-
-       }//for loop ends
-
-       *P_tot=P_1p2pi+P_1p1pi-P_1p0pi;
-       }   //N_all!=0 statement
-
-       else{
-         *P_tot=0;
-       }
 
   }
 
