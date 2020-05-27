@@ -13,7 +13,7 @@
 #include <TGraph.h>
 #include "Subtraction.h"
 
-void Subtraction::prot1_pi2_rot_func(TVector3  V3prot,TVector3 V3pi[2], int q_pi[2],double P_1p1pi[2]){
+void Subtraction::prot1_pi2_rot_func(TVector3 V3_el, TVector3  V3prot, TVector3 V3pi[2], int q_pi[2], double P_1p1pi[2]){
 
     const int N_pi=2;
     double rotation_ang;
@@ -89,7 +89,41 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot,TVector3 V3pi[3], int q_pi
          if(PFiducialCut(fbeam_en, V3_p_rot)  && !status_pi[0]  && status_pi[1] && status_pi[2]) N_1p2pi[2]=N_1p2pi[2]+1;
          if(PFiducialCut(fbeam_en, V3_p_rot)  && status_pi[0]  && status_pi[1] && status_pi[2])  N_all=N_all+1;
     }
-
+    //--------------1p2pi->1p1pi------
+    int count = 0;
+    for(int i=0; i<3; i++)
+        {
+          for(int j=0; j<3; j++)
+          {
+            if(i<j)
+            {
+              double V3pi2[2] = {0};
+              int q_pi2[2] = {0};
+              T3Vector V3_total[2];
+              N_1pion_1prot[0] = N_1pion_1prot[1] = 0;
+              N_2pion_1prot = 0;
+              V3pi2[0] = V3pi[i];
+              V3pi2[1] = V3pi[j];
+              q_pi2[0] = q_pi[i];
+              q_pi2[1] = q_pi[j];
+              V3_total[0] = V3pi[i] + V3prot + V3_el;
+              p_perp[0] = TMath::Sqrt(V3_total[0].X()*V3_total[0].X()+V3_total[0].Y()*V3_total[0].Y());
+              V4_total[1] = V4_pi[j] + V4_p_corr + V4_el;
+              p_perp[1] = TMath::Sqrt(V3_total[1].X()*V3_total[1].X()+V3_total[1].Y()*V3_total[1].Y());
+              double Ecal[3] = {0};
+              if(i==0 && j==1)
+              {
+                Ecal[0] = V4_el.E() + p_kin + V4_pi[i].E();
+                Ecal[1] = V4_el.E() + p_kin + V4_pi[j].E();
+              }
+              if(i==1 && j==2)
+              {
+                Ecal[2] = V4_el.E() + p_kin _ V4_pi[j].E();
+              }
+              prot1_pi2_rot_func(V3prot, V3pi, q_pi, P_1p1pi);
+            }
+          }
+        }
   }
 
 
