@@ -37,12 +37,7 @@ struct Subtraction {
   void  prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], int q_pi[3], double P_1p2pito1p1pi[6], double *P_tot);
   void  prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot_uncorr[2],TVector3 V3_1pi, int q_pi, TLorentzVector V4_el, double Ecal_2p1pi_to2p0pi[2],double p_miss_perp_2p1pi_to2p0pi[2],double P_2p1pito2p0pi[2],double P_2p1pito1p1pi[2],double P_2p1pito1p0pi[2],double *P_tot);
   void  prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot_uncorr[2],TVector3 V3_2pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal_2p2pi[2],double p_miss_perp_2p2pi[2],double P_tot_2p[2]);
-  void  prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot_uncorr[3],TVector3 V3_pi, int q_pi, TLorentzVector V4_el, double Ecal_3p1pi[3],double p_miss_perp_3p1pi[3],double P_tot_3p[3]);
-
-  void  pi1_rot_func(TVector3 V3_pi, int q_pi,  double *P_pi);
-  void  pi2_rot_func(TVector3 V3_pi[2], int q_pi[2], double *P_0pi,double P_1pi[2]);
-  void  pi3_rot_func(TVector3 V3_pi[3], int q_pi[3], double *P_0pi,double P_1pi[3],double P_320[3],double P_3210[][2]);
-  void  pi4_rot_func(TVector3 V3_pi[4], int q_pi[4], double *P_0pi,double *P_410,double *P_420,double *P_4210,double *P_430,double *P_4310,double *P_4320,double *P_43210);
+  void  prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot_uncorr[3],TVector3 V3_pi, int q_pi, TLorentzVector V4_el, double P_tot_3p[3]);
 
   void  SetQVector(TVector3 qin) {
     V3q.SetX(qin.X());
