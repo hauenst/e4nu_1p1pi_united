@@ -135,7 +135,7 @@ void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
     const int N_2prot=2;
     TVector3 V3_2p_rotated[N_2prot],V3_1pirot;
     bool pi1_stat=true;
-    double N_2p_0pi=0,N_all=0,N_1p_1pi[N_2prot]={0},N_1p_0pi[N_2prot]={0};
+    double N_all=0,N_1p_1pi[N_2prot]={0};
     double P_2pto1p[N_2prot]={0},N_2p_det=0;
     double   N_pidet=0,N_piundet=0,rot_angle;
     *P_tot=0;
@@ -156,43 +156,12 @@ void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
        pi1_stat=Pi_phot_fid_united(fbeam_en, V3_1pirot, q_pi);
 
 
-       if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi1_stat) N_2p_0pi=N_2p_0pi+1;
+
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && !PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi1_stat) N_1p_1pi[0]=N_1p_1pi[0]+1;
        if(!PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi1_stat) N_1p_1pi[1]=N_1p_1pi[1]+1;
-       if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && !PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi1_stat) N_1p_0pi[0]=N_1p_0pi[0]+1;
-       if(!PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi1_stat) N_1p_0pi[1]=N_1p_0pi[1]+1;
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi1_stat) N_all=N_all+1;
      }
 
-   //---------------------------------- 2p 1pi ->2p 0pi   ----------------------------------------------
-    if(N_all!=0){
-
-      prot2_rot_func(V3_2prot_corr,V3_2prot_uncorr, V4_el,Ecal_2p1pi_to2p0pi,p_miss_perp_2p1pi_to2p0pi,P_2pto1p ,&N_2p_det);
-
-      for(int z=0;z<N_2prot;z++){
-
-  	    P_2p1pito2p0pi[z]=(N_2p_0pi/N_all)*P_2pto1p[z];
-
-        //---------------------------------- 2p 1pi ->1p 1pi   ----------------------------------------------
-
-      	prot1_pi1_rot_func(V3_2prot_uncorr[z],V3_1pi, q_pi, &N_pidet,&N_piundet);
-        if(N_pidet!=0) P_2p1pito1p1pi[z]=(N_1p_1pi[z]/N_all)*(N_piundet/N_pidet);
-        else P_2p1pito1p1pi[z]=0;
-
-        //---------------------------------- 2p 1pi ->1p 0pi   ----------------------------------------------
-        P_2p1pito1p0pi[z]=(N_1p_0pi[z]/N_all);
-
-        *P_tot=*P_tot+P_2p1pito2p0pi[z]+P_2p1pito1p1pi[z]-P_2p1pito1p0pi[z];
-
-      }//looping through 2p
-      }
-
-  if(N_all==0){
-      P_2p1pito2p0pi[0]=P_2p1pito2p0pi[1]=0;
-      P_2p1pito1p1pi[0]= P_2p1pito1p1pi[1]=0;
-      P_2p1pito1p0pi[0]=P_2p1pito1p0pi[1]=0;
-      *P_tot=0;
-    }
 
   }
 
@@ -203,12 +172,12 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
     TVector3 V3_2p_rotated[N_2prot],V3_2pirot[N_2pi];
     bool pi2_stat[N_2pi]={true};
     double   rot_angle;
-    double N_2p_0pi=0,N_2p_1pi[N_2pi]={0},N_1p_2pi[N_2prot]={0},N_all=0,N_1p_1pi[N_2prot][N_2pi]={0},N_1p_0pi[N_2prot]={0};
+    double N_2p_1pi[N_2pi]={0},N_1p_2pi[N_2prot]={0},N_all=0,N_1p_1pi[N_2prot][N_2pi]={0};
     double   N_pidet=0,N_piundet=0;
     double P_2pto1p[N_2prot]={0},N_2p_det=0;
-    double P_1p0pi=0,P_1p1pi[N_2pi]={0};
-    double P_2p1pito2p0pi[2]={0}, P_2p1pito1p1pi[2]={0},P_2p1pito1p0pi[2]={0},Ptot=0;
-    double P_2p2pito1p0pi[N_2prot]={0},P_2p2pito1p1pi[N_2prot]={0},P_2p2pito1p2pi[N_2prot]={0},P_2p2pito2p1pi[N_2prot]={0};
+    double P_1p1pi[N_2pi]={0};
+    double P_2p1pito1p1pi[2]={0},Ptot=0;
+    double P_2p2pito1p1pi[N_2prot]={0},P_2p2pito1p2pi[N_2prot]={0},P_2p2pito2p1pi[N_2prot]={0};
     P_tot_2p[0]=P_tot_2p[1]=0;
 
     for(int g=0; g<N_tot; g++){
@@ -228,15 +197,12 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
 
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi2_stat[0]  && !pi2_stat[1])  N_2p_1pi[0]=N_2p_1pi[0]+1;
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi2_stat[0]  && pi2_stat[1])  N_2p_1pi[1]=N_2p_1pi[1]+1;
-       if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi2_stat[0]  && !pi2_stat[1]) N_2p_0pi=N_2p_0pi+1;
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && !PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi2_stat[0]  && pi2_stat[1])  N_1p_2pi[0]=N_1p_2pi[0]+1;
        if(!PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi2_stat[0]  && pi2_stat[1])  N_1p_2pi[1]=N_1p_2pi[1]+1;
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && !PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi2_stat[0]  && !pi2_stat[1])  N_1p_1pi[0][0]=N_1p_1pi[0][0]+1;
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && !PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi2_stat[0]  && pi2_stat[1])  N_1p_1pi[0][1]=N_1p_1pi[0][1]+1;
        if(!PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi2_stat[0]  && !pi2_stat[1])  N_1p_1pi[1][0]=N_1p_1pi[1][0]+1;
        if(!PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi2_stat[0]  && pi2_stat[1])  N_1p_1pi[1][1]=N_1p_1pi[1][1]+1;
-       if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && !PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi2_stat[0]  && !pi2_stat[1])  N_1p_0pi[0]=N_1p_0pi[0]+1;
-       if(!PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && !pi2_stat[0]  && !pi2_stat[1])  N_1p_0pi[1]=N_1p_0pi[1]+1;
        if(PFiducialCut(fbeam_en, V3_2p_rotated[0]) && PFiducialCut(fbeam_en, V3_2p_rotated[1]) && pi2_stat[0]  && pi2_stat[1])  N_all=N_all+1;
      }
 
@@ -246,10 +212,6 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
       prot2_rot_func(V3_2prot_corr,V3_2prot_uncorr, V4_el,Ecal_2p2pi,p_miss_perp_2p2pi,P_2pto1p ,&N_2p_det);
 
       for(int z=0;z<N_2prot;z++){
-   //---------------------------------- 2p 2pi ->1p 0pi   ----------------------------------------------
-
-        P_2p2pito1p0pi[z]= N_1p_0pi[z]/N_all;
-
    //---------------------------------- 2p 2pi ->1p 1pi   ----------------------------------------------
 
         for(int k=0;k<N_2pi;k++){
@@ -258,33 +220,20 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
           if(N_pidet!=0) P_2p2pito1p1pi[z]=P_2p2pito1p1pi[z]+(N_1p_1pi[z][k]/N_all)*(N_piundet/N_pidet);
         }
 
-   //---------------------------------- 2p 2pi ->2p 0pi   ----------------------------------------------
-
-        if(N_2p_det!=0)P_2p1pito2p0pi[z]=(N_2p_0pi/N_all)*P_2pto1p[z];
-
-        //---------------------------------- 2p 2pi ->1p 2pi   ----------------------------------------------
-
-        P_1p0pi=P_1p1pi[0]=P_1p1pi[1]=0;
-        prot1_pi2_rot_func(V3_2prot_uncorr[z],V3_2pi,q_pi,&P_1p0pi,P_1p1pi);
-        P_2p2pito1p2pi[z]=(N_1p_2pi[z]/N_all)*(P_1p0pi-P_1p1pi[0]-P_1p1pi[1]);
-
    //---------------------------------- 2p 2pi ->2p 1pi   ----------------------------------------------
 
-        P_2p1pito2p0pi[0]=P_2p1pito2p0pi[1]=0; P_2p1pito1p1pi[0]=P_2p1pito1p1pi[1]=0; P_2p1pito1p0pi[0]=P_2p1pito1p0pi[1]=0;Ptot=0;
-        prot2_pi1_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi[z], q_pi[z],V4_el,Ecal_2p2pi,p_miss_perp_2p2pi,P_2p1pito2p0pi, P_2p1pito1p1pi, P_2p1pito1p0pi,&Ptot);
+       P_2p1pito1p1pi[0]=P_2p1pito1p1pi[1]=0;Ptot=0;
+        //prot2_pi1_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi[z], q_pi[z],V4_el,Ecal_2p2pi,p_miss_perp_2p2pi,P_2p1pito2p0pi, P_2p1pito1p1pi, P_2p1pito1p0pi,&Ptot); ---DID NOT WANT TO REMOVE UNSURE OF HOW TO PROCEED
 
     // P_2p2pito2p1pi[z]=(N_2p_1pi[0]/N_all)*(-P_2p1pito2p0pi[z]- P_2p1pito1p1pi[z]+P_2p1pito1p0pi[z])+(N_2p_1pi[1]/N_all)*(-P_2p1pito2p0pi[z]- P_2p1pito1p1pi[z]+P_2p1pito1p0pi[z]);
    //P_tot_2p[z]=-P_2p2pito1p0pi[z]+P_2p2pito1p1pi[z]+P_2p1pito2p0pi[z]+P_2p2pito1p2pi[z]+P_2p2pito2p1pi[z];
 
    //P_2p2pito2p1pi[z]=(N_2p_1pi[z]/N_all)*(-P_2p1pito2p0pi[0]- P_2p1pito1p1pi[0]+P_2p1pito1p0pi[0])+(N_2p_1pi[z]/N_all)*(-P_2p1pito2p0pi[1]- P_2p1pito1p1pi[1]+P_2p1pito1p0pi[1]);
 
-        P_2p2pito2p1pi[0]= P_2p2pito2p1pi[0]+(N_2p_1pi[z]/N_all)*(-P_2p1pito2p0pi[0]- P_2p1pito1p1pi[0]+P_2p1pito1p0pi[0]);
-        P_2p2pito2p1pi[1]= P_2p2pito2p1pi[1]+(N_2p_1pi[z]/N_all)*(-P_2p1pito2p0pi[1]- P_2p1pito1p1pi[1]+P_2p1pito1p0pi[1]);
 
       }//looping through 2p
 
-      P_tot_2p[0]=-P_2p2pito1p0pi[0]+P_2p2pito1p1pi[0]+P_2p1pito2p0pi[0]+P_2p2pito1p2pi[0]+P_2p2pito2p1pi[0];
-      P_tot_2p[1]=-P_2p2pito1p0pi[1]+P_2p2pito1p1pi[1]+P_2p1pito2p0pi[1]+P_2p2pito1p2pi[1]+P_2p2pito2p1pi[1];
+
 
     }//N_all!=0
 
@@ -303,7 +252,7 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
     double   rot_angle;
 
     double N_all=0,N_1p1pi[N_3prot]={0},N_2p1pi[N_3prot]={0};
-    double  P_3p1pito1p0pi[N_3prot]={0},P_3p1pito1p1pi[N_3prot]={0};
+    double  P_3p1pito1p1pi[N_3prot]={0};
     double   N_pidet=0,N_piundet=0;
     TVector3 V3_2p_corr[N_3prot],V3_2p_uncorr[N_3prot];
     double P_2pto1p[2]={0},N_2p_det=0;
