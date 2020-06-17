@@ -165,13 +165,10 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_Etot_bkgd_pipl_pimi_fact_pipl[n_slice], *h1_Etot_bkgd_pipl_pimi_fact_pimi[n_slice];
 
 	TH1F *h1_Etot_bkgd_1p2pi[n_slice], *h1_Erec_bkgd_1p2pi[n_slice];
-	TH1F *h1_Etot_bkgd_1p2pi_1p0pi[n_slice],*h1_Erec_bkgd_1p2pi_1p0pi[n_slice];
 	TH1F *h1_Etot_bkgd_1p3pi[n_slice], *h1_Erec_bkgd_1p3pi[n_slice];
 
 	TH1F *h1_Etot_p_bkgd_slice_2p2pi[n_slice], *h1_Erec_p_bkgd_slice_2p2pi[n_slice];
 	TH1F *h1_Etot_p_bkgd_slice_2p1pi_to1p1pi[n_slice],*h1_Erec_p_bkgd_slice_2p1pi_to1p1pi[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_2p1pi_to2p0pi[n_slice],*h1_Erec_p_bkgd_slice_2p1pi_to2p0pi[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_2p1pi_to1p0pi[n_slice],*h1_Erec_p_bkgd_slice_2p1pi_to1p0pi[n_slice];
 
 	TH1F *h1_Etot_piplpimi_subtruct_fact[n_slice],*h1_Erec_piplpimi_subtruct_fact[n_slice];
 	TH1F *h1_Etot_p_bkgd_slice_sub[n_slice],*h1_Erec_p_bkgd_slice_sub[n_slice];
@@ -185,11 +182,6 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_Etot_p_bkgd_slice_sub1p2pi[n_slice],*h1_Erec_p_bkgd_slice_sub1p2pi[n_slice];
 	TH1F *h1_Etot_p_bkgd_slice_sub2p1pi_1p[n_slice],*h1_Erec_p_bkgd_slice_sub2p1pi_1p[n_slice];
 	TH1F *h1_Etot_p_bkgd_slice_sub2p1pi_2p[n_slice],*h1_Erec_p_bkgd_slice_sub2p1pi_2p[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_sub2p1pi_1p0pi[n_slice],*h1_Erec_p_bkgd_slice_sub2p1pi_1p0pi[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_sub1p2pi_0pi[n_slice],*h1_Erec_p_bkgd_slice_sub1p2pi_0pi[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_sub1p3pi_0pi[n_slice],*h1_Erec_p_bkgd_slice_sub1p3pi_0pi[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_sub2p2pi_0pi[n_slice],*h1_Erec_p_bkgd_slice_sub2p2pi_0pi[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_sub3p1pi_0pi[n_slice],*h1_Erec_p_bkgd_slice_sub3p1pi_0pi[n_slice];
 
 	TH1F *h1_Etot_p_bkgd_slice_sub32[n_slice],*h1_Erec_p_bkgd_slice_sub32[n_slice];
 	TH1F *h1_Etot_p_bkgd_slice_sub31[n_slice],*h1_Erec_p_bkgd_slice_sub31[n_slice];
@@ -226,30 +218,30 @@ void genie_analysis::Loop(Int_t choice) {
 
 	// GENIE Systematic Uncertainties
 
-        //      TString TweakedVariable = "FormZone";                                                                                                                                                 
-        //      TString TweakedVariable = "AGKYpT1pi";                                                                                                                                                
-        //      TString TweakedVariable = "AhtBY";                                                                                                                                                    
-        //      TString TweakedVariable = "BhtBY";                                                                                                                                                    
-        //      TString TweakedVariable = "CV1uBY";                                                                                                                                                   
-        //      TString TweakedVariable = "CV2uBY";                                                                                                                                                  
-        //      TString TweakedVariable = "AGKYxF1pi";                                                                                                                                                
-        //      TString TweakedVariable = "MFP_pi";                                                                                                                                                   
-        //      TString TweakedVariable = "MFP_N";         
-        //      TString TweakedVariable = "FrCEx_pi";                                                                                                                                               
-        //      TString TweakedVariable = "FrInel_pi";                                                                       
-        //      TString TweakedVariable = "FrAbs_pi";                                                                                                        
-        //      TString TweakedVariable = "FrPiProd_pi";                                                                                                          
-        //      TString TweakedVariable = "FrCEx_N";                                                                                                      
-        //      TString TweakedVariable = "FrInel_N";                                                                                                            
-        //      TString TweakedVariable = "FrAbs_N";                                                                                                            
-        //      TString TweakedVariable = "FrPiProd_N";                                                                                                           
-        //      TString TweakedVariable = "RDecBR1gamma";                                                                                                         
-        //      TString TweakedVariable = "RDecBR1eta";                                                                                                                 
-        //      TString TweakedVariable = "EmpiricalMEC-Mq2d";                                                                                                                                        
-        //      TString TweakedVariable = "EmpiricalMEC-Mass";                                                                                                                                       
-        //      TString TweakedVariable = "EmpiricalMEC-Width";                                                                                                                                      
-        //      TString TweakedVariable = "EmpiricalMEC-APower";                                                                                                                                      
-        //      TString TweakedVariable = "EmpiricalMEC-FracPN_EM";                                                                                                                                   
+        //      TString TweakedVariable = "FormZone";
+        //      TString TweakedVariable = "AGKYpT1pi";
+        //      TString TweakedVariable = "AhtBY";
+        //      TString TweakedVariable = "BhtBY";
+        //      TString TweakedVariable = "CV1uBY";
+        //      TString TweakedVariable = "CV2uBY";
+        //      TString TweakedVariable = "AGKYxF1pi";
+        //      TString TweakedVariable = "MFP_pi";
+        //      TString TweakedVariable = "MFP_N";
+        //      TString TweakedVariable = "FrCEx_pi";
+        //      TString TweakedVariable = "FrInel_pi";
+        //      TString TweakedVariable = "FrAbs_pi";
+        //      TString TweakedVariable = "FrPiProd_pi";
+        //      TString TweakedVariable = "FrCEx_N";
+        //      TString TweakedVariable = "FrInel_N";
+        //      TString TweakedVariable = "FrAbs_N";
+        //      TString TweakedVariable = "FrPiProd_N";
+        //      TString TweakedVariable = "RDecBR1gamma";
+        //      TString TweakedVariable = "RDecBR1eta";
+        //      TString TweakedVariable = "EmpiricalMEC-Mq2d";
+        //      TString TweakedVariable = "EmpiricalMEC-Mass";
+        //      TString TweakedVariable = "EmpiricalMEC-Width";
+        //      TString TweakedVariable = "EmpiricalMEC-APower";
+        //      TString TweakedVariable = "EmpiricalMEC-FracPN_EM";
         //      TString TweakedVariable = "EmpiricalMEC-FracEMQE";
 
 
@@ -265,7 +257,7 @@ void genie_analysis::Loop(Int_t choice) {
 	// ---------------------------------------------------------------------------------------------------------------
 
 	double XSecScale = 1.;
-	TFile* XSecFile = TFile::Open("/uboone/app/users/apapadop/R-3_0_6/mySplines/xsec_gxspl-FNALbig.root"); 
+	TFile* XSecFile = TFile::Open("/uboone/app/users/apapadop/R-3_0_6/mySplines/xsec_gxspl-FNALbig.root");
 
 	TGraph* gr = NULL;
 
@@ -361,17 +353,12 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_E_rec_2pi_weight_frac_feed=new TH1F("h1_E_rec_2pi_weight_frac_feed","",n_bins,x_qe);
 	TH1F *h1_E_rec_3pi_weight_frac_feed=new TH1F("h1_E_rec_3pi_weight_frac_feed","",n_bins,x_qe);
 	TH1F *h1_E_rec_4pi_weight_frac_feed=new TH1F("h1_E_rec_4pi_weight_frac_feed","",n_bins,x_qe);
-	TH1F *h1_E_rec_0pi_frac_feed=new TH1F("h1_E_rec_0pi_frac_feed","",n_bins,x_qe);
 	TH1F *h1_E_tot_cut2_fracfeed = new TH1F("h1_E_tot_cut2_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_rec_cut2_new_fracfeed = new TH1F("h1_E_rec_cut2_new_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_tot_p_bkgd_fracfeed = new TH1F("h1_E_tot_p_bkgd_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_rec_p_bkgd_fracfeed = new TH1F("h1_E_rec_p_bkgd_fracfeed","",n_bins,x_qe);
-	TH1F *h1_E_tot_2p1pi_2p0pi_fracfeed = new TH1F("h1_E_tot_2p1pi_2p0pi_fracfeed","",n_bins,x_qe);
-	TH1F *h1_E_rec_2p1pi_2p0pi_fracfeed = new TH1F("h1_E_rec_2p1pi_2p0pi_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_tot_2p1pi_1p1pi_fracfeed = new TH1F("h1_E_tot_2p1pi_1p1pi_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_rec_2p1pi_1p1pi_fracfeed = new TH1F("h1_E_rec_2p1pi_1p1pi_fracfeed","",n_bins,x_qe);
-	TH1F *h1_E_tot_2p1pi_1p0pi_fracfeed = new TH1F("h1_E_tot_2p1pi_1p0pi_fracfeed","",n_bins,x_qe);
-	TH1F *h1_E_rec_2p1pi_1p0pi_fracfeed = new TH1F("h1_E_rec_2p1pi_1p0pi_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_tot_3pto2p_fracfeed = new TH1F("h1_E_tot_3pto2p_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_rec_3pto2p_fracfeed = new TH1F("h1_E_rec_3pto2p_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_tot_3pto1p_fracfeed = new TH1F("h1_E_tot_3pto1p_fracfeed","",n_bins,x_qe);
@@ -392,8 +379,6 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_E_rec_2p2pi_fracfeed = new TH1F("h1_E_rec_2p2pi_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_tot_3p1pi_fracfeed = new TH1F("h1_E_tot_3p1pi_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_rec_3p1pi_fracfeed = new TH1F("h1_E_rec_3p1pi_fracfeed","",n_bins,x_qe);
-	TH1F *h1_E_tot_1p2pi_1p0pi_fracfeed = new TH1F("h1_E_tot_1p2pi_1p0pi_fracfeed","",n_bins,x_qe);
-	TH1F *h1_E_rec_1p2pi_1p0pi_fracfeed = new TH1F("h1_E_rec_1p2pi_1p0pi_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_rec_undetfactor_fracfeed = new TH1F("h1_E_rec_undetfactor_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_tot_undetfactor_fracfeed = new TH1F("h1_E_tot_undetfactor_fracfeed","",n_bins,x_qe);
 
@@ -434,11 +419,8 @@ void genie_analysis::Loop(Int_t choice) {
 	TH2F *h2_Erec_pperp_421p = new TH2F("h2_Erec_pperp_421p","",400,0,1,400,0,6.);
 	TH2F *h2_Erec_pperp_41p = new TH2F("h2_Erec_pperp_41p","",400,0,1,400,0,6.);
 	TH2F *h2_Erec_pperp_1p1pi = new TH2F("h2_Erec_pperp_1p1pi","",400,0,1,400,0,6.);
-	TH2F *h2_Erec_pperp_1p2pi_1p0pi = new TH2F("h2_Erec_pperp_1p2pi_1p0pi","",400,0,1,400,0,6.);
 	TH2F *h2_Erec_pperp_1p2pi_1p1pi = new TH2F("h2_Erec_pperp_1p2pi_1p1pi","",400,0,1,400,0,6.);
-	TH2F *h2_Erec_pperp_2p1pi_2p0pi = new TH2F("h2_Erec_pperp_2p1pi_2p0pi","",400,0,1,400,0,6.);
 	TH2F *h2_Erec_pperp_2p1pi_1p1pi = new TH2F("h2_Erec_pperp_2p1pi_1p1pi","",400,0,1,400,0,6.);
-	TH2F *h2_Erec_pperp_2p1pi_1p0pi = new TH2F("h2_Erec_pperp_2p1pi_1p0pi","",400,0,1,400,0,6.);
 	TH2F *h2_Erec_pperp_1p3pi = new TH2F("h2_Erec_pperp_1p3pi","",400,0,1,400,0,6.);
 	TH2F *h2_Erec_pperp_2p2pi = new TH2F("h2_Erec_pperp_2p2pi","",400,0,1,400,0,6.);
 	TH2F *h2_Erec_pperp_3p1pi = new TH2F("h2_Erec_pperp_3p1pi","",400,0,1,400,0,6.);
@@ -492,26 +474,12 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_E_tot_4pto2p =new TH1F("h1_E_tot_4pto2p","",n_bins,x_values);
 	TH1F *h1_E_rec_4pto2p = new TH1F("h1_E_rec_4pto2p","",n_bins,x_values);
 	TH1F *h1_E_rec = new TH1F("h1_E_rec","",n_bins,x_values);
-	TH1F *h1_E_rec_0pi = new TH1F("h1_E_rec_0pi","",n_bins,x_values);
 	TH1F *h1_E_rec_1pi = new TH1F("h1_E_rec_1pi","",n_bins,x_values);
 	TH1F *h1_E_rec_1pi_weight = new TH1F("h1_E_rec_1pi_weight","",n_bins,x_values);
 	TH1F *h1_E_rec_2pi_weight = new TH1F("h1_E_rec_2pi_weight","",n_bins,x_values);
 	TH1F *h1_E_rec_3pi_weight = new TH1F("h1_E_rec_3pi_weight","",n_bins,x_values);
 	TH1F *h1_E_rec_4pi_weight = new TH1F("h1_E_rec_4pi_weight","",n_bins,x_values);
-	TH1F *h1_E_rec_20pi = new TH1F("h1_E_rec_20pi","",n_bins,x_values);
 	TH1F *h1_E_rec_21pi = new TH1F("h1_E_rec_21pi","",n_bins,x_values);
-	TH1F *h1_E_rec_30pi = new TH1F("h1_E_rec_30pi","",n_bins,x_values);
-	TH1F *h1_E_rec_310pi = new TH1F("h1_E_rec_310pi","",n_bins,x_values);
-	TH1F *h1_E_rec_320pi = new TH1F("h1_E_rec_320pi","",n_bins,x_values);
-	TH1F *h1_E_rec_3210pi = new TH1F("h1_E_rec_3210pi","",n_bins,x_values);
-	TH1F *h1_E_rec_40pi = new TH1F("h1_E_rec_40pi","",n_bins,x_values);
-	TH1F *h1_E_rec_410pi = new TH1F("h1_E_rec_410pi","",n_bins,x_values);
-	TH1F *h1_E_rec_420pi = new TH1F("h1_E_rec_420pi","",n_bins,x_values);
-	TH1F *h1_E_rec_4210pi = new TH1F("h1_E_rec_4210pi","",n_bins,x_values);
-	TH1F *h1_E_rec_430pi = new TH1F("h1_E_rec_430pi","",n_bins,x_values);
-	TH1F *h1_E_rec_4310pi = new TH1F("h1_E_rec_4310pi","",n_bins,x_values);
-	TH1F *h1_E_rec_4320pi = new TH1F("h1_E_rec_4320pi","",n_bins,x_values);
-	TH1F *h1_E_rec_43210pi = new TH1F("h1_E_rec_43210pi","",n_bins,x_values);
 	TH1F *h1_E_rec_1prot	= new TH1F("h1_E_rec_1prot","",n_bins,x_values);
 	TH1F *h1_E_tot_1prot	= new TH1F("h1_E_tot_1prot","",n_bins,x_values);
 	TH1F *h1_E_rec_cutpi1_piplpimi = new TH1F("h1_E_rec_cutpi1_piplpimi","",n_bins,x_values);
@@ -530,14 +498,8 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_E_rec_2p2pi	= new TH1F("h1_E_rec_2p2pi","",n_bins,x_values);
 	TH1F *h1_E_tot_3p1pi	= new TH1F("h1_E_tot_3p1pi","",n_bins,x_values);
 	TH1F *h1_E_rec_3p1pi	= new TH1F("h1_E_rec_3p1pi","",n_bins,x_values);
-	TH1F *h1_E_tot_1p2pi_1p0pi	= new TH1F("h1_E_tot_1p2pi_1p0pi","",n_bins,x_values);
-	TH1F *h1_E_rec_1p2pi_1p0pi	= new TH1F("h1_E_rec_1p2pi_1p0pi","",n_bins,x_values);
-	TH1F *h1_E_tot_2p1pi_2p0pi	= new TH1F("h1_E_tot_2p1pi_2p0pi","",n_bins,x_values);
-	TH1F *h1_E_rec_2p1pi_2p0pi	= new TH1F("h1_E_rec_2p1pi_2p0pi","",n_bins,x_values);
 	TH1F *h1_E_tot_2p1pi_1p1pi	= new TH1F("h1_E_tot_2p1pi_1p1pi","",n_bins,x_values);
 	TH1F *h1_E_rec_2p1pi_1p1pi	= new TH1F("h1_E_rec_2p1pi_1p1pi","",n_bins,x_values);
-	TH1F *h1_E_tot_2p1pi_1p0pi	= new TH1F("h1_E_tot_2p1pi_1p0pi","",n_bins,x_values);
-	TH1F *h1_E_rec_2p1pi_1p0pi	= new TH1F("h1_E_rec_2p1pi_1p0pi","",n_bins,x_values);
 
 	// Unweighted plots for the number of events
 
@@ -582,15 +544,9 @@ void genie_analysis::Loop(Int_t choice) {
 		h1_Etot_bkgd_1p2pi[h] = new TH1F(Form("h1_Etot_bkgd_1p2pi_%d",h+1),"",n_bins,x_values);
 		h1_Erec_bkgd_1p2pi[h] = new TH1F(Form("h1_Erec_bkgd_1p2pi_%d",h+1),"",n_bins,x_values);
 		h1_Etot_p_bkgd_slice_2p1pi_to1p1pi[h] = new TH1F(Form("h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_%d",h+1),"",n_bins,x_values);
-		h1_Etot_p_bkgd_slice_2p1pi_to2p0pi[h] = new TH1F(Form("h1_Etot_p_bkgd_slice_2p1pi_to2p0pi_%d",h+1),"",n_bins,x_values);
 		h1_Erec_p_bkgd_slice_2p1pi_to1p1pi[h] = new TH1F(Form("h1_Erec_p_bkgd_slice_2p1pi_to1p1pi_%d",h+1),"",n_bins,x_values);
-		h1_Erec_p_bkgd_slice_2p1pi_to2p0pi[h] = new TH1F(Form("h1_Erec_p_bkgd_slice_2p1pi_to2p0pi_%d",h+1),"",n_bins,x_values);
 		h1_Erec_p_bkgd_slice_2p2pi[h] = new TH1F(Form("h1_Erec_p_bkgd_slice_2p2pi_%d",h+1),"",n_bins,x_values);
-		h1_Erec_p_bkgd_slice_2p1pi_to1p0pi[h] = new TH1F(Form("h1_Erec_p_bkgd_slice_2p1pi_to1p0pi_%d",h+1),"",n_bins,x_values);
-		h1_Etot_p_bkgd_slice_2p1pi_to1p0pi[h] = new TH1F(Form("h1_Etot_p_bkgd_slice_2p1pi_to1p0pi_%d",h+1),"",n_bins,x_values);
 		h1_Etot_p_bkgd_slice_2p2pi[h] = new TH1F(Form("h1_Etot_p_bkgd_slice_2p2pi_%d",h+1),"",n_bins,x_values);
-		h1_Etot_bkgd_1p2pi_1p0pi[h] = new TH1F(Form("h1_Etot_bkgd_1p2pi_1p0pi_%d",h+1),"",n_bins,x_values);
-		h1_Erec_bkgd_1p2pi_1p0pi[h] = new TH1F(Form("h1_Erec_bkgd_1p2pi_1p0pi_%d",h+1),"",n_bins,x_values);
 		h1_Etot_bkgd_1p3pi[h] = new TH1F(Form("h1_Etot_bkgd_1p3pi_%d",h+1),"",n_bins,x_values);
 		h1_Erec_bkgd_1p3pi[h] = new TH1F(Form("h1_Erec_bkgd_1p3pi_%d",h+1),"",n_bins,x_values);
 	}
@@ -640,7 +596,7 @@ void genie_analysis::Loop(Int_t choice) {
 	// ---------------------------------------------------------------------------------------------------------------
 
 	// Get the number of events to run overall
-	
+
 //	int Nentries = TMath::Min(Ntfileentries,NtweightsEntries);
 
 	// ---------------------------------------------------------------------------------------------------------------
@@ -732,11 +688,11 @@ void genie_analysis::Loop(Int_t choice) {
 
 ////			double TuningWeight = ArrayWeights[0]; // - 1 sigma variation
 ////			double TuningWeight = ArrayWeights[1]; // 0 sigma variation
-//			double TuningWeight = ArrayWeights[2]; // + 1 sigma variation	
+//			double TuningWeight = ArrayWeights[2]; // + 1 sigma variation
 
 //			e_acc_ratio = e_acc_ratio * TuningWeight;
 
-			// --------------------------------------------------------------------------------------------------		
+			// --------------------------------------------------------------------------------------------------
 
 		}
 
@@ -760,12 +716,12 @@ void genie_analysis::Loop(Int_t choice) {
 
 		// ---------------------------------------------------------------------------------------------------------------------
 
-		// For neutrino scattering 
+		// For neutrino scattering
 		// switch to true for nu scattering to account for the difference in the propagator
 
 		bool neutrino = false;
 
-		if (neutrino && XSecFile) { 
+		if (neutrino && XSecFile) {
 
 			XSecScale = gr->Eval(Ev);
 			Mott_cross_sec = XSecScale;
@@ -794,8 +750,8 @@ void genie_analysis::Loop(Int_t choice) {
 
 		TVector3 V3_q = (V4_beam-V4_el).Vect();
 		double V3_q_theta_deg = V3_q.Theta() * 180. / TMath::Pi();
-		double V3_q_phi_deg = V3_q.Phi() * 180. / TMath::Pi() + 30.; 
-		if (V3_q_phi_deg > 360) { V3_q_phi_deg = V3_q_phi_deg - 360.; } 
+		double V3_q_phi_deg = V3_q.Phi() * 180. / TMath::Pi() + 30.;
+		if (V3_q_phi_deg > 360) { V3_q_phi_deg = V3_q_phi_deg - 360.; }
 		if (V3_q_phi_deg < 0) { V3_q_phi_deg = V3_q_phi_deg + 360.; }
 		double W_var = TMath::Sqrt((m_prot+nu)*(m_prot+nu)-V3_q*V3_q);
 
@@ -1131,482 +1087,6 @@ void genie_analysis::Loop(Int_t choice) {
 			V3_2prot_corr[0] = V3_prot_corr1;
 			V3_2prot_corr[1] = V3_prot_corr2;
 
-			//---------------------------------- 2p 0pi->  1p0pi   ----------------------------------------------
-
-			double E_tot_2p[2]={0};
-			double p_perp_tot_2p[2]={0};
-			double N_prot_both = 0;
-			double P_N_2p[2]={0};
-
-			rotation->prot2_rot_func( V3_2prot_corr, V3_2prot_uncorr, V4_el, E_tot_2p, p_perp_tot_2p, P_N_2p , &N_prot_both);
-
-			if(num_pi_phot==0 && N_prot_both!=0){
-
-				double histoweight = weight_protons*e_acc_ratio*wght/Mott_cross_sec; //total weight from 2p acceptance , 1e acceptance, Mott, and GENIE weight
-
-				for(int f = 0; f < num_p; f++){    //looping through two protons
-
-					h1_E_tot_p_bkgd->Fill(E_tot_2p[f],P_N_2p[f]*histoweight);
-					h1_E_rec_p_bkgd->Fill(E_rec,P_N_2p[f]*histoweight);
-					h2_Erec_pperp_2p->Fill(p_perp_tot_2p[f],E_rec,P_N_2p[f]*histoweight);
-					h2_Etot_pperp->Fill(p_perp_tot_2p[f],E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_E_tot_p_bkgd_fracfeed->Fill((E_tot_2p[f]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_N_2p[f]*histoweight);
-					h1_E_rec_p_bkgd_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_N_2p[f]*histoweight);
-					h2_pperp_W->Fill(W_var,p_perp_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[f]) *TMath::RadToDeg(),-P_N_2p[f]*histoweight);
-					h2_Ecal_Eqe->Fill(E_rec,E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_Ecal->Fill(E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_Ecal_Reso->Fill((E_tot_2p[f]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_N_2p[f]*histoweight);
-					h2_Ecal_Etrue->Fill(E_tot_2p[f],Ev,-P_N_2p[f]*histoweight);
-					h2_Etrue_Ecal->Fill(Ev,E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot_2p[f],-P_N_2p[f]*histoweight);
-
-					h1_xbjk_weight->Fill(x_bjk,-P_N_2p[f]*histoweight);
-					h1_Q2_weight->Fill(reco_Q2,-P_N_2p[f]*histoweight);
-					h1_Wvar_weight->Fill(W_var,-P_N_2p[f]*histoweight);
-					h1_nu_weight->Fill(nu,-P_N_2p[f]*histoweight);
-					h1_el_mom_corr->Fill(V4_el.Rho(),-P_N_2p[f]*histoweight);
-					h1_prot_mom->Fill(V3_2prot_corr[f].Mag(),-P_N_2p[f]*histoweight);
-					h1_MissMomentum->Fill(p_perp_tot_2p[f],-P_N_2p[f]*histoweight);
-
-					// -----------------------------------------------------------------------------------------------
-					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-					CalKineVars = CalculateCalKineVars(E_tot_2p[f],V4_el);
-					LocalWeight = -P_N_2p[f]*histoweight;
-
-					h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-					h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-					h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-					h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-					h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-					if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-					// Fill plots based on underlying interactions
-
-					ECal_BreakDown[0]->Fill(E_tot_2p[f],LocalWeight);
-					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_perp_tot_2p[f],LocalWeight);
-					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[0]->Fill(nu,LocalWeight);
-					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
- 					if (choice == 1) {
-						ECal_BreakDown[Interaction]->Fill(E_tot_2p[f],LocalWeight);
-						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_perp_tot_2p[f],LocalWeight);
-						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-					}
-
-					// -----------------------------------------------------------------------------------------------
-
-					for(int i = 0 ; i < n_slice; i++) {
-
-						if (p_perp_tot_2p[f] < pperp_max[i] && p_perp_tot_2p[f] > pperp_min[i]) {
-							h1_Etot_p_bkgd_slice[i]->Fill(E_tot_2p[f],P_N_2p[f]*histoweight);
-							h1_Erec_p_bkgd_slice[i]->Fill(E_rec,P_N_2p[f]*histoweight);
-						}
-
-					}
-
-				} //looping through two protons
-
-				h1_E_tot_2p_det->Fill(E_tot_2p[0],histoweight);
-				h1_E_rec_2p_det->Fill(E_rec,histoweight);
-
-			}//no pions cut and N_prot_both!=0
-
-			//---------------------------------- 2p 1pi   ----------------------------------------------
-			//Const int can be placed somewhere up after if for 2 protons F.H. 05.09.19
-			const int N_2prot=2;
-			//Variable might/could be placed in a more local context F.H. 05.09.19
-			double Ecal_2p1pi_to2p0pi[N_2prot]={0};
-			double p_miss_perp_2p1pi_to2p0pi[N_2prot]={0};
-
-			if (num_pi_phot==1) {
-
-				TVector3 V3_1pi_corr;
-				double pion_acc_ratio = 1;
-
-				if (choice == 0) { //CLAS data
-					V3_1pi_corr.SetXYZ(pxf[ind_pi_phot[0]],pyf[ind_pi_phot[0]],pzf[ind_pi_phot[0]]);
-				}
-
-				if (choice == 1) { //GENIE data
-					pion_acc_ratio = 0;//reset to 0 just to be save
-					V3_1pi_corr.SetXYZ(Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pxf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pyf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pzf[ind_pi_phot[0]]);
-
-					double phi_pion = V3_1pi_corr.Phi();
-					V3_1pi_corr.SetPhi(phi_pion + TMath::Pi()); // Vec.Phi() is between (-180,180)
-					phi_pion += TMath::Pi(); // GENIE coordinate system flipped with respect to CLAS
-
-					double pion_theta = V3_1pi_corr.Theta();
-					double pion_mom_corr = V3_1pi_corr.Mag();
-
-					if (charge_pi[0] == 1) { //acceptance for pi plus
-						pion_acc_ratio = acceptance_c(pion_mom_corr, cos(pion_theta), phi_pion, 211, file_acceptance_pip);
-						if ( fabs(pion_acc_ratio) != pion_acc_ratio ) { continue; }
-					}
-					else if (charge_pi[0] == -1) {    //acceptance for pi minus. using electron acceptance map
-						pion_acc_ratio = acceptance_c(pion_mom_corr, cos(pion_theta), phi_pion, -211, file_acceptance);
-						if ( fabs(pion_acc_ratio) != pion_acc_ratio ) { continue; }
-					}
-					else if (charge_pi[0] == 0) {    //acceptance for neutral, setting to 1 for now F.H. 09/24/19
-						pion_acc_ratio = 1;
-					}
-					else { std::cout << "WARNING: 2proton and 1 Pion loop. pion_acc_ratio is still 0. Continue with next event " << std::endl;	continue; }
-				}
-
-				double P_2p1pito2p0pi[2] = {0};
-				double P_2p1pito1p1pi[2] = {0};
-				double P_2p1pito1p0pi[2] = {0};
-				double Ptot = 0;
-
-				rotation->prot2_pi1_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_1pi_corr, charge_pi[0], V4_el,Ecal_2p1pi_to2p0pi,p_miss_perp_2p1pi_to2p0pi,P_2p1pito2p0pi, P_2p1pito1p1pi, P_2p1pito1p0pi,&Ptot);
-
-				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
-				//Is this correct in the following loop? F.H. 09/01/19
-
-				for(int z=0; z < N_2prot; z++){ //looping over two protons
-
-					//---------------------------------- 2p 1pi ->2p 0pi ----------------------------------------------
-
-					h1_E_tot_2p1pi_2p0pi->Fill(Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_E_rec_2p1pi_2p0pi->Fill(E_rec,P_2p1pito2p0pi[z]*histoweight);
-					h2_Erec_pperp_2p1pi_2p0pi->Fill(p_miss_perp_2p1pi_to2p0pi[z],E_rec,P_2p1pito2p0pi[z]*histoweight);
-					h2_Etot_pperp->Fill(p_miss_perp_2p1pi_to2p0pi[z],Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_E_tot_2p1pi_2p0pi_fracfeed->Fill((Ecal_2p1pi_to2p0pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_2p1pito2p0pi[z]*histoweight);
-					h1_E_rec_2p1pi_2p0pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_2p1pito2p0pi[z]*histoweight);
-					h2_pperp_W->Fill(W_var,p_miss_perp_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[z]) *TMath::RadToDeg(),P_2p1pito2p0pi[z]*histoweight);
-					h2_Ecal_Eqe->Fill(E_rec,Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_Ecal->Fill(Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_Ecal_Reso->Fill((Ecal_2p1pi_to2p0pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_2p1pito2p0pi[z]*histoweight);
-					h2_Ecal_Etrue->Fill(Ecal_2p1pi_to2p0pi[z],Ev,P_2p1pito2p0pi[z]*histoweight);
-					h2_Etrue_Ecal->Fill(Ev,Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-
-					h1_xbjk_weight->Fill(x_bjk,P_2p1pito2p0pi[z]*histoweight);
-					h1_Q2_weight->Fill(reco_Q2,P_2p1pito2p0pi[z]*histoweight);
-					h1_Wvar_weight->Fill(W_var,P_2p1pito2p0pi[z]*histoweight);
-					h1_nu_weight->Fill(nu,P_2p1pito2p0pi[z]*histoweight);
-					h1_el_mom_corr->Fill(V4_el.Rho(),P_2p1pito2p0pi[z]*histoweight);
-					h1_prot_mom->Fill(V3_2prot_corr[z].Mag(),P_2p1pito2p0pi[z]*histoweight);
-					h1_MissMomentum->Fill(p_miss_perp_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-
-					// -----------------------------------------------------------------------------------------------
-					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-					CalKineVars = CalculateCalKineVars(Ecal_2p1pi_to2p0pi[z],V4_el);
-					LocalWeight = P_2p1pito2p0pi[z]*histoweight;
-
-					h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-					h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-					h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-					h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-					h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-					if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-					// Fill plots based on underlying interactions
-
-					ECal_BreakDown[0]->Fill(Ecal_2p1pi_to2p0pi[z],LocalWeight);
-					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_miss_perp_2p1pi_to2p0pi[z],LocalWeight);
-					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[0]->Fill(nu,LocalWeight);
-					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
- 					if (choice == 1) {
-						ECal_BreakDown[Interaction]->Fill(Ecal_2p1pi_to2p0pi[z],LocalWeight);
-						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_miss_perp_2p1pi_to2p0pi[z],LocalWeight);
-						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-					}
-
-					// -----------------------------------------------------------------------------------------------
-
-					for(int i = 0; i < n_slice; i++){
-						if (p_miss_perp_2p1pi_to2p0pi[z]<pperp_max[i] && p_miss_perp_2p1pi_to2p0pi[z]>pperp_min[i]){
-							h1_Etot_p_bkgd_slice_2p1pi_to2p0pi[i]->Fill(Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-							h1_Erec_p_bkgd_slice_2p1pi_to2p0pi[i]->Fill(E_rec,P_2p1pito2p0pi[z]*histoweight);
-						}
-					}
-
-					//---------------------------------- 2p 1pi ->1p 1pi   ----------------------------------------------
-
-					h1_E_tot_2p1pi_1p1pi->Fill(E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-					h1_E_rec_2p1pi_1p1pi->Fill(E_rec,P_2p1pito1p1pi[z]*histoweight);
-					h2_Erec_pperp_2p1pi_1p1pi->Fill(p_perp_tot_2p[z],E_rec,P_2p1pito1p1pi[z]*histoweight);
-					h2_Etot_pperp->Fill(p_perp_tot_2p[z],E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-					h1_E_tot_2p1pi_1p1pi_fracfeed->Fill((E_tot_2p[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_2p1pito1p1pi[z]*histoweight);
-					h1_E_rec_2p1pi_1p1pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_2p1pito1p1pi[z]*histoweight);
-					h2_pperp_W->Fill(W_var,p_perp_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[z])*TMath::RadToDeg(),P_2p1pito1p1pi[z]*histoweight);
-					h2_Ecal_Eqe->Fill(E_rec,E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-					h1_Ecal->Fill(E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-					h1_Ecal_Reso->Fill((E_tot_2p[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_2p1pito1p1pi[z]*histoweight);
-					h2_Ecal_Etrue->Fill(E_tot_2p[z],Ev,P_2p1pito1p1pi[z]*histoweight);
-					h2_Etrue_Ecal->Fill(Ev,E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-
-					h1_xbjk_weight->Fill(x_bjk,P_2p1pito1p1pi[z]*histoweight);
-					h1_Q2_weight->Fill(reco_Q2,P_2p1pito1p1pi[z]*histoweight);
-					h1_Wvar_weight->Fill(W_var,P_2p1pito1p1pi[z]*histoweight);
-					h1_nu_weight->Fill(nu,P_2p1pito1p1pi[z]*histoweight);
-					h1_el_mom_corr->Fill(V4_el.Rho(),P_2p1pito1p1pi[z]*histoweight);
-					h1_prot_mom->Fill(V3_2prot_corr[z].Mag(),P_2p1pito1p1pi[z]*histoweight);
-					h1_MissMomentum->Fill(p_perp_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-
-					// -----------------------------------------------------------------------------------------------
-					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-					CalKineVars = CalculateCalKineVars(E_tot_2p[z],V4_el);
-					LocalWeight = P_2p1pito1p1pi[z]*histoweight;
-
-					h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-					h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-					h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-					h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-					h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-					if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-					// Fill plots based on underlying interactions
-
-					ECal_BreakDown[0]->Fill(E_tot_2p[z],LocalWeight);
-					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_perp_tot_2p[z],LocalWeight);
-					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[0]->Fill(nu,LocalWeight);
-					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
- 					if (choice == 1) {
-						ECal_BreakDown[Interaction]->Fill(E_tot_2p[z],LocalWeight);
-						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_perp_tot_2p[z],LocalWeight);
-						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-					}
-
-					// -----------------------------------------------------------------------------------------------
-
-					for(int i = 0; i < n_slice; i++){
-						if (p_perp_tot_2p[z]<pperp_max[i] && p_perp_tot_2p[z]>pperp_min[i]){
-							h1_Etot_p_bkgd_slice_2p1pi_to1p1pi[i]->Fill(E_tot_2p[z],P_2p1pito1p1pi[z]*histoweight);
-							h1_Erec_p_bkgd_slice_2p1pi_to1p1pi[i]->Fill(E_rec,P_2p1pito1p1pi[z]*histoweight);
-						}
-					}
-
-					//---------------------------------- 2p 1pi ->1p 0pi   ----------------------------------------------
-
-					h1_E_tot_2p1pi_1p0pi->Fill(E_tot_2p[z], P_2p1pito1p0pi[z]*histoweight);
-					h1_E_rec_2p1pi_1p0pi->Fill(E_rec,P_2p1pito1p0pi[z]*histoweight);
-					h2_Erec_pperp_2p1pi_1p0pi->Fill(p_perp_tot_2p[z],E_rec,P_2p1pito1p0pi[z]*histoweight);
-					h2_Etot_pperp->Fill(p_perp_tot_2p[z],E_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-					h1_E_tot_2p1pi_1p0pi_fracfeed->Fill((E_tot_2p[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_2p1pito1p0pi[z]*histoweight);
-					h1_E_rec_2p1pi_1p0pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_2p1pito1p0pi[z]*histoweight);
-					h2_pperp_W->Fill(W_var,p_perp_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[z])*TMath::RadToDeg(),-P_2p1pito1p0pi[z]*histoweight);
-					h2_Ecal_Eqe->Fill(E_rec,E_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-					h1_Ecal->Fill(E_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-					h1_Ecal_Reso->Fill((E_tot_2p[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],-P_2p1pito1p0pi[z]*histoweight);
-					h2_Ecal_Etrue->Fill(E_tot_2p[z],Ev,-P_2p1pito1p0pi[z]*histoweight);
-					h2_Etrue_Ecal->Fill(Ev,E_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-
-					h1_xbjk_weight->Fill(x_bjk,-P_2p1pito1p0pi[z]*histoweight);
-					h1_Q2_weight->Fill(reco_Q2,-P_2p1pito1p0pi[z]*histoweight);
-					h1_Wvar_weight->Fill(W_var,-P_2p1pito1p0pi[z]*histoweight);
-					h1_nu_weight->Fill(nu,-P_2p1pito1p0pi[z]*histoweight);
-					h1_el_mom_corr->Fill(V4_el.Rho(),-P_2p1pito1p0pi[z]*histoweight);
-					h1_prot_mom->Fill(V3_2prot_corr[z].Mag(),-P_2p1pito1p0pi[z]*histoweight);
-					h1_MissMomentum->Fill(p_perp_tot_2p[z],-P_2p1pito1p0pi[z]*histoweight);
-
-					// -----------------------------------------------------------------------------------------------
-					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-					CalKineVars = CalculateCalKineVars(E_tot_2p[z],V4_el);
-					LocalWeight = -P_2p1pito1p0pi[z]*histoweight;
-
-					h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-					h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-					h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-					h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-					h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-					if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-					// Fill plots based on underlying interactions
-
-					ECal_BreakDown[0]->Fill(E_tot_2p[z],LocalWeight);
-					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_perp_tot_2p[z],LocalWeight);
-					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[0]->Fill(nu,LocalWeight);
-					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
- 					if (choice == 1) {
-						ECal_BreakDown[Interaction]->Fill(E_tot_2p[z],LocalWeight);
-						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_perp_tot_2p[z],LocalWeight);
-						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-					}
-
-					// -----------------------------------------------------------------------------------------------
-
-					for(int i = 0; i < n_slice; i++) {
-
-						if (p_perp_tot_2p[z]<pperp_max[i] && p_perp_tot_2p[z]>pperp_min[i]){
-
-							h1_Etot_p_bkgd_slice_2p1pi_to1p0pi[i]->Fill(E_tot_2p[z],P_2p1pito1p0pi[z]*histoweight);
-							h1_Erec_p_bkgd_slice_2p1pi_to1p0pi[i]->Fill(E_rec,P_2p1pito1p0pi[z]*histoweight);
-						}
-					}
-
-				}//filling the histograms for 2protons
-
-			}//1pi requirement
-
-			//---------------------------------- 2p 2pi ----------------------------------------------
-
-			const int N_2pi=2;
-			double Ecal_2p2pi[N_2prot];
-			double p_miss_perp_2p2pi[N_2prot];
-			double Ptot_2p[2]={0};
-
-			if (num_pi_phot == 2) {
-
-				TVector3 V3_2pi_corr[N_2pi];
-				double pion_acc_ratio[N_2pi] = {1};
-				for (int i = 0; i < num_pi_phot; i++) {
-
-					if (choice == 0) { //CLAS data
-						V3_2pi_corr[i].SetXYZ(pxf[ind_pi_phot[i]],pyf[ind_pi_phot[i]],pzf[ind_pi_phot[i]]);
-						pion_acc_ratio[i] = 1; //Acceptance 1 for CLAS data
-					}
-
-					if (choice == 1) { //GENIE data
-						pion_acc_ratio[i] = 0; //reset to 0 just to be same
-						V3_2pi_corr[i].SetXYZ(Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pxf[ind_pi_phot[i]],Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pyf[ind_pi_phot[i]],
-								Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pzf[ind_pi_phot[i]]);
-						double phi_pion = V3_2pi_corr[i].Phi();
-						V3_2pi_corr[i].SetPhi(phi_pion + TMath::Pi() ); // Vec.Phi() is between (-180,180)
-						phi_pion += TMath::Pi(); // GENIE coordinate system flipped with respect to CLAS
-
-						double pion_theta = V3_2pi_corr[i].Theta();
-						double pion_mom_corr = V3_2pi_corr[i].Mag();
-
-						if (charge_pi[i] == 1) { //acceptance for pi plus
-							pion_acc_ratio[i] = acceptance_c(pion_mom_corr, cos(pion_theta), phi_pion, 211, file_acceptance_pip);
-							if ( fabs(pion_acc_ratio[i]) != pion_acc_ratio[i] ) { continue; }
-						}
-						else if (charge_pi[i] == -1) {		//acceptance for pi minus. using electron acceptance map
-							pion_acc_ratio[i] = acceptance_c(pion_mom_corr, cos(pion_theta), phi_pion, -211, file_acceptance);
-							if ( fabs(pion_acc_ratio[i]) != pion_acc_ratio[i] ) { continue; }
-						}
-						else if (charge_pi[i] == 0) {		//acceptance for photon set to 1 for now F.H. 09/24/19
-							pion_acc_ratio[i] = 1;
-						}
-						else { std::cout << "WARNING: 2proton and 2 Pion loop. pion_acc_ratio is still 0. Continue with next event " << std::endl;	continue;
-						}
-					}
-				}
-
-				rotation->prot2_pi2_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi_corr,charge_pi, V4_el, Ecal_2p2pi,p_miss_perp_2p2pi,Ptot_2p);
-
-				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
-				double histoweight = weight_pions * weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
-				//Is this correct in the following loop? F.H. 09/01/19
-
-
-				for(int z = 0; z < N_2prot; z++){ //looping over two protons
-
-					//---------------------------------- 2p 2pi ->1p 0pi   ----------------------------------------------
-
-					h1_E_tot_2p2pi->Fill(E_tot_2p[z], Ptot_2p[z]*histoweight);
-					h1_E_rec_2p2pi->Fill(E_rec,Ptot_2p[z]*histoweight);
-					h2_Erec_pperp_2p2pi->Fill(p_perp_tot_2p[z],E_rec,Ptot_2p[z]*histoweight);
-					h2_Etot_pperp->Fill(p_perp_tot_2p[z],E_tot_2p[z],Ptot_2p[z]*histoweight);
-					h1_E_tot_2p2pi_fracfeed->Fill((E_tot_2p[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],Ptot_2p[z]*histoweight);
-					h1_E_rec_2p2pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],Ptot_2p[z]*histoweight);
-					h2_pperp_W->Fill(W_var,p_perp_tot_2p[z],Ptot_2p[z]*histoweight);
-					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[z])*TMath::RadToDeg(),Ptot_2p[z]*histoweight);
-					h2_Ecal_Eqe->Fill(E_rec,E_tot_2p[z],Ptot_2p[z]*histoweight);
-					h1_Ecal->Fill(E_tot_2p[z],Ptot_2p[z]*histoweight);
-					h1_Ecal_Reso->Fill((E_tot_2p[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],Ptot_2p[z]*histoweight);
-					h2_Ecal_Etrue->Fill(E_tot_2p[z],Ev,Ptot_2p[z]*histoweight);
-					h2_Etrue_Ecal->Fill(Ev,E_tot_2p[z],Ptot_2p[z]*histoweight);
-					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot_2p[z],Ptot_2p[z]*histoweight);
-					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot_2p[z],Ptot_2p[z]*histoweight);
-
-					h1_xbjk_weight->Fill(x_bjk,Ptot_2p[z]*histoweight);
-					h1_Q2_weight->Fill(reco_Q2,Ptot_2p[z]*histoweight);
-					h1_Wvar_weight->Fill(W_var,Ptot_2p[z]*histoweight);
-					h1_nu_weight->Fill(nu,Ptot_2p[z]*histoweight);
-					h1_el_mom_corr->Fill(V4_el.Rho(),Ptot_2p[z]*histoweight);
-					h1_prot_mom->Fill(V3_2prot_corr[z].Mag(),Ptot_2p[z]*histoweight);
-					h1_MissMomentum->Fill(p_perp_tot_2p[z],Ptot_2p[z]*histoweight);
-
-					// -----------------------------------------------------------------------------------------------
-					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-					CalKineVars = CalculateCalKineVars(E_tot_2p[z],V4_el);
-					LocalWeight = Ptot_2p[z]*histoweight;
-
-					h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-					h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-					h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-					h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-					h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-					if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-					// Fill plots based on underlying interactions
-
-					ECal_BreakDown[0]->Fill(E_tot_2p[z],LocalWeight);
-					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_perp_tot_2p[z],LocalWeight);
-					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[0]->Fill(nu,LocalWeight);
-					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
- 					if (choice == 1) {
-						ECal_BreakDown[Interaction]->Fill(E_tot_2p[z],LocalWeight);
-						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_perp_tot_2p[z],LocalWeight);
-						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-					}
-
-					// -----------------------------------------------------------------------------------------------
-
-					for(int i = 0; i < n_slice; i++) {
-
-						if (p_perp_tot_2p[z]<pperp_max[i] && p_perp_tot_2p[z]>pperp_min[i]){
-							h1_Etot_p_bkgd_slice_2p2pi[i]->Fill(E_tot_2p[z],Ptot_2p[z]*histoweight);
-							h1_Erec_p_bkgd_slice_2p2pi[i]->Fill(E_rec,Ptot_2p[z]*histoweight);
-						}
-					}
-
-				} //Filling the histogram for two protons
-
-			}//2pi requirement
-
-		} //2prot requirement
 
 		// -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1677,7 +1157,7 @@ void genie_analysis::Loop(Int_t choice) {
 			V3_prot_el[2][1]=V4_el.Vect()+V3_prot_uncorr[2];
 
 
-			rotation->prot3_rot_func( V3_prot_corr,V3_prot_uncorr,V4_el,E_cal_3pto2p,p_miss_perp_3pto2p, P_3pto2p,N_p1, E_cal_3pto1p,p_miss_perp_3pto1p,&N_p_three);
+			rotation->prot3_rot_func(V3_3prot_corr[3], V3_3prot_uncorr[3], V3_pi, q_pi, V4_el, P_tot_3p[3]);
 
 			//acceptance weight for all three protons ( = 1 for CLAS data)
 			double weight_protons =	p_acc_ratio[0] * p_acc_ratio[1] * p_acc_ratio[2];
@@ -1685,7 +1165,7 @@ void genie_analysis::Loop(Int_t choice) {
 			if(num_pi_phot==0 && N_p_three!=0){
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 electron, GENIE weight and Mott cross section
 
 				for(int count = 0; count < N_comb; count++) { //Loop over number of combinations
@@ -1829,7 +1309,7 @@ void genie_analysis::Loop(Int_t choice) {
 					// -----------------------------------------------------------------------------------------------
 
 					for(int i = 0; i < n_slice; i++) {
-					
+
 						if (p_miss_perp[j]<pperp_max[i] && p_miss_perp[j]>pperp_min[i]){
 							h1_Etot_3pto1p_slice[i]->Fill(E_cal[j],P_3pto1p[j]*histoweight);
 							h1_Erec_3pto1p_slice[i]->Fill(E_rec,P_3pto1p[j]*histoweight);
@@ -1883,10 +1363,8 @@ void genie_analysis::Loop(Int_t choice) {
 
 				}
 
-				rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot_uncorr, V3_pi_corr, charge_pi[0] , V4_el,	Ecal_3p1pi,p_miss_perp_3p1pi, P_tot_3p);
-
 				//for CLAS data is histoweight = 1/Mott_cross_sec
-				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 pion, 1 electron, GENIE weight and Mott cross section
 
 				for(int j = 0; j < N_3p; j++) { //loop over 3 protons
@@ -1955,7 +1433,7 @@ void genie_analysis::Loop(Int_t choice) {
 							h1_Etot_3p1pi_slice[i]->Fill(E_cal[j],P_tot_3p[j]*histoweight);
 							h1_Erec_3p1pi_slice[i]->Fill(E_rec,P_tot_3p[j]*histoweight);
 						}
-					
+
 					}
 
 				} //end loop over N_3p
@@ -2021,7 +1499,7 @@ void genie_analysis::Loop(Int_t choice) {
 				V4_prot4_el[i] = V4_p4_corr[i] + V4_el;
 				E_cal_p4[i] = V4_el.E() + V4_p4_corr[i].E() - m_prot + bind_en[ftarget];
 				p_miss_perp_p4[i] = TMath::Sqrt(V4_prot4_el[i].Px()*V4_prot4_el[i].Px() + V4_prot4_el[i].Py()*V4_prot4_el[i].Py());
-	
+
 			} //end loop over N_p4
 
 			//acceptance weight for all four protons. It is 1 for CLAS data
@@ -2074,7 +1552,7 @@ void genie_analysis::Loop(Int_t choice) {
 				double p_miss_perp_43pto1p[N_3p];
 				double P_43pto1p[3] = {0};
 
-				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 electron, GENIE weight and Mott cross section
 
 				for(int g = 0; g < Ncomb_4to3; g++){   //estimating the undetected 4p contribution to  3p
@@ -2099,7 +1577,7 @@ void genie_analysis::Loop(Int_t choice) {
 						V3_prot_corr[0]=V3_prot4_corr[1]; V3_prot_corr[1]=V3_prot4_corr[2]; V3_prot_corr[2]=V3_prot4_corr[3];
 					}
 
-					rotation->prot3_rot_func(V3_prot_corr, V3_prot_uncorr,V4_el,E_cal_4pto3p,p_miss_perp_4pto3p, P_4pto3p,N_p1,E_cal_43pto1p,p_miss_perp_43pto1p,&N_p_three);
+					rotation->prot3_rot_func(V3_prot_corr, V3_prot_uncorr,V4_el,E_cal_4pto3p,p_miss_perp_4pto3p, P_4pto3p,N_p1,E_cal_43pto1p,p_miss_perp_43pto1p,&N_p_three); //NOT IN SUBTRACTION FUNCTION
 
 					V3_el_prot[0][0]=V4_el.Vect()+V3_prot_uncorr[0];
 					V3_el_prot[0][1]=V4_el.Vect()+V3_prot_uncorr[1];
@@ -2120,9 +1598,9 @@ void genie_analysis::Loop(Int_t choice) {
 								h1_E_rec_4pto3p->Fill(E_rec, P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h2_Erec_pperp_4321p->Fill(p_miss_perp_4pto3p[count][j],E_rec,P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h2_Etot_pperp->Fill(p_miss_perp_4pto3p[count][j],E_cal_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
-								h1_E_tot_4pto3p_fracfeed->Fill((E_cal_4pto3p[count][j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], 
+								h1_E_tot_4pto3p_fracfeed->Fill((E_cal_4pto3p[count][j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],
 												P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
-								h1_E_rec_4pto3p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en], 
+								h1_E_rec_4pto3p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],
 												P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h2_pperp_W->Fill(W_var,p_miss_perp_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h1_theta0->Fill((V4_beam.Vect()).Angle(V3_el_prot[count][j])*TMath::RadToDeg(),-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
@@ -2289,7 +1767,7 @@ void genie_analysis::Loop(Int_t choice) {
 							V3p2_uncorr[0]=V3_prot4_uncorr[ind1];
 							V3p2_uncorr[1]=V3_prot4_uncorr[ind2];
 
-							rotation->prot2_rot_func( V3p2, V3p2_uncorr, V4_el,E_cal_4pto2p,p_miss_perp_4pto2p,  P_4pto2p, &N_two);
+							rotation->prot2_rot_func( V3p2, V3p2_uncorr, V4_el,E_cal_4pto2p,p_miss_perp_4pto2p,  P_4pto2p, &N_two);//NOT IN SUBTRACTION.C
 
 							if( N_two!=0  && N_p_four!=0){
 
@@ -2299,9 +1777,9 @@ void genie_analysis::Loop(Int_t choice) {
 									h1_E_rec_4pto2p->Fill(E_rec, P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h2_Erec_pperp_421p->Fill( p_miss_perp_4pto2p[j],E_rec,P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h2_Etot_pperp->Fill( p_miss_perp_4pto2p[j],E_cal_4pto2p[j],P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
-									h1_E_tot_4pto2p_fracfeed->Fill((E_cal_4pto2p[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], 
+									h1_E_tot_4pto2p_fracfeed->Fill((E_cal_4pto2p[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],
 													P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
-									h1_E_rec_4pto2p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en], 
+									h1_E_rec_4pto2p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],
 													P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h2_pperp_W->Fill(W_var,p_miss_perp_4pto2p[j], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3p2_uncorr[j])*TMath::RadToDeg(),
@@ -2470,16 +1948,6 @@ void genie_analysis::Loop(Int_t choice) {
 
 		h1_E_rec->Fill(E_rec,WeightIncl);
 
-		if(num_pi_phot ==0){
-
-			h1_E_rec_0pi->Fill(E_rec,WeightIncl);
-			h1_E_rec_0pi_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],WeightIncl);
-
-			// Inclusive Case BreakDown
-			InclusiveEQE_BreakDown[0]->Fill(E_rec,WeightIncl);
-			if (choice == 1 && WeightIncl > 0) { InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,WeightIncl); }
-		}
-
 		//----------------------------- e- ,1pi  -----------------------------------------
 
 		if(num_pi_phot == 1){
@@ -2519,7 +1987,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 			}
 
-			rotation->pi1_rot_func( V3_pi_corr, charge_pi[0], &P_undet);
+			rotation->pi1_rot_func( V3_pi_corr, charge_pi[0], &P_undet);//NOT IN SUBTRACTION.C
 
 			//histoweight is 1/Mott_cross_sec for CLAS data
 			double histoweight = pion_acc_ratio * WeightIncl;
@@ -2542,7 +2010,6 @@ void genie_analysis::Loop(Int_t choice) {
 			const int N_2pi = 2;
 			TVector3 V3_2pi_corr[N_2pi];
 			double P_1pi[N_2pi] = {0};
-			double P_0pi = 0;
 			double pion_acc_ratio[N_2pi] = {1};
 
 			for (int i = 0; i < num_pi_phot; i++) {
@@ -2578,34 +2045,11 @@ void genie_analysis::Loop(Int_t choice) {
 				}
 			} //end loop over num_pi_phot
 
-			rotation->pi2_rot_func(V3_2pi_corr, charge_pi, &P_0pi,P_1pi);
 			//weight_pions is 1 for CLAS data
 			double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
 			//histoweight is 1/Mott_cross_sec for CLAS data
 			double histoweight = weight_pions * e_acc_ratio * wght/Mott_cross_sec;
 
-			//----------------------------- e- ,2pi->0pi (-) -----------------------------------------
-
-			h1_E_rec_2pi_weight->Fill(E_rec,(-P_0pi)*histoweight);
-			h1_E_rec_2pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_0pi)*histoweight);
-			h1_E_rec_20pi->Fill(E_rec,(P_0pi)*histoweight);
-
-			// Inclusive Case BreakDown
-			InclusiveEQE_BreakDown[0]->Fill(E_rec,(-P_0pi)*histoweight);
-			if (choice == 1 && P_0pi*histoweight > 0) { InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(-P_0pi)*histoweight); }
-
-			//----------------------------- e- ,2pi->1pi->0pi (+)  -----------------------------------------
-
-			for(int k = 0; k < N_2pi; k++){ //loop over two pions
-
-				h1_E_rec_2pi_weight->Fill(E_rec,P_1pi[k]*histoweight);
-				h1_E_rec_2pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1pi[k]*histoweight);
-				h1_E_rec_21pi->Fill(E_rec,(P_1pi[k])*histoweight);
-
-				// Inclusive Case BreakDown
-				InclusiveEQE_BreakDown[0]->Fill(E_rec,(P_1pi[k])*histoweight);
-				if (choice == 1 && P_1pi[k]*histoweight > 0) { InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(P_1pi[k])*histoweight); }
-			}
 
 		} //end if for two pion events
 
@@ -2616,10 +2060,7 @@ void genie_analysis::Loop(Int_t choice) {
 			const int N_3pi=3;
 			const int N_2pi=2;
 			TVector3 V3_3pi_corr[N_3pi];
-			double P_0pi = 0;
 			double P_1pi[N_3pi]={0};
-			double P_320pi[N_3pi]={0};
-			double P_3210pi[N_3pi][N_2pi]={0};
 			double pion_acc_ratio[N_3pi] = {1};
 
 			for (int i = 0; i < num_pi_phot; i++) {
@@ -2659,59 +2100,11 @@ void genie_analysis::Loop(Int_t choice) {
 
 			} //end loop over num_pi_phot
 
-			rotation->pi3_rot_func( V3_3pi_corr, charge_pi, &P_0pi, P_1pi, P_320pi,P_3210pi);
+
 			//weight_pions is 1 for CLAS data
 			double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1] * pion_acc_ratio[2];
 			//histoweight is 1/Mott_cross_sec for CLAS data
 			double histoweight = weight_pions * e_acc_ratio * wght/Mott_cross_sec;
-
-			//---------------------------3pi->0pi----------------------------------------------
-
-			h1_E_rec_3pi_weight->Fill(E_rec,(-P_0pi)*histoweight);
-			h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_0pi)*histoweight);
-			h1_E_rec_30pi->Fill(E_rec,(P_0pi)*histoweight);
-
-			// Inclusive Case BreakDown
-			InclusiveEQE_BreakDown[0]->Fill(E_rec,(P_0pi)*histoweight);
-			if (choice == 1 && P_0pi*histoweight > 0) { InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(P_0pi)*histoweight); }
-
-			for(int h = 0; h < N_3pi; h++){ //loop over three pions
-
-				//---------------------------3pi->1pi->0pi----------------------------------------------
-
-				h1_E_rec_3pi_weight->Fill(E_rec,P_1pi[h]*histoweight);
-				h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1pi[h]*histoweight);
-				h1_E_rec_310pi->Fill(E_rec,(P_1pi[h])*histoweight);
-
-				// Inclusive Case BreakDown
-				InclusiveEQE_BreakDown[0]->Fill(E_rec,(P_1pi[h])*histoweight);
-				if (choice == 1 && P_1pi[h]*histoweight > 0) { InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(P_1pi[h])*histoweight); }
-
-				//---------------------------3pi->2pi->0pi----------------------------------------------
-
-				h1_E_rec_3pi_weight->Fill(E_rec,P_320pi[h]*histoweight);
-				h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_320pi[h]*histoweight);
-				h1_E_rec_320pi->Fill(E_rec,(P_320pi[h])*histoweight);
-
-				// Inclusive Case BreakDown
-				InclusiveEQE_BreakDown[0]->Fill(E_rec,(P_320pi[h])*histoweight);
-				if (choice == 1 && P_320pi[h]*histoweight > 0) { InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(P_320pi[h])*histoweight); }
-
-				//---------------------------3pi->2pi->1pi->0pi----------------------------------------------
-
-				for(int g = 0; g < N_2pi; g++){ //loop over two pions
-
-					h1_E_rec_3pi_weight->Fill(E_rec,(-P_3210pi[h][g])*histoweight);
-					h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_3210pi[h][g])*histoweight);
-					h1_E_rec_3210pi->Fill(E_rec,(P_3210pi[h][g])*histoweight);
-
-					// Inclusive Case BreakDown
-					InclusiveEQE_BreakDown[0]->Fill(E_rec,(-P_3210pi[h][g])*histoweight);
-					if (choice == 1 && P_3210pi[h][g]*histoweight > 0) { InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(-P_3210pi[h][g])*histoweight); }
-
-				}
-
-			}//end of 3pi loop
 
 		}//end of 3pi requirement
 
@@ -2721,14 +2114,6 @@ void genie_analysis::Loop(Int_t choice) {
 
 			const int N_4pi=4;
 			TVector3 V3_4pi_corr[N_4pi];
-			double P_0pi=0;
-			double P_410pi=0;
-			double P_420pi=0;
-			double P_4210pi=0;
-			double P_430pi=0;
-			double P_4310pi=0;
-			double P_4320pi=0;
-			double P_43210pi=0;
 			double pion_acc_ratio[N_4pi] = {1};
 
 			for (int i = 0; i < num_pi_phot; i++) {
@@ -2767,52 +2152,11 @@ void genie_analysis::Loop(Int_t choice) {
 
 			} //end loop over num_pi_phot
 
-			rotation->pi4_rot_func(V3_4pi_corr, charge_pi, &P_0pi,&P_410pi,&P_420pi,&P_4210pi,&P_430pi,&P_4310pi,&P_4320pi,&P_43210pi);
 
 			//weight_pions is 1 for CLAS data
 			double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1] * pion_acc_ratio[2] * pion_acc_ratio[3];
 			//histoweight is 1/Mott_cross_sec for CLAS data
 			double histoweight = weight_pions * e_acc_ratio * wght/Mott_cross_sec;
-
-			//---------------------------4pi->0pi----------------------------------------------
-
-			//why is it here not split like for 3pi case, sum over all weights is done here F.H 04.08.19
-			h1_E_rec_4pi_weight->Fill(E_rec,(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight);
-			h1_E_rec_4pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight);
-			h1_E_rec_40pi->Fill(E_rec,(P_0pi)*histoweight);
-
-			// Inclusive Case BreakDown
-			InclusiveEQE_BreakDown[0]->Fill(E_rec,(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight);
-			if (choice == 1 && (-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight != 0) 
-				{ InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight); }
-
-			//---------------------------4pi->1pi->0pi----------------------------------------------
-
-			h1_E_rec_410pi->Fill(E_rec,(P_410pi)*histoweight);
-
-			//---------------------------4pi->2pi->0pi----------------------------------------------
-
-			h1_E_rec_420pi->Fill(E_rec,(P_420pi)*histoweight);
-
-			//---------------------------4pi->2pi->1pi->0pi----------------------------------------------
-
-			h1_E_rec_4210pi->Fill(E_rec,(P_4210pi)*histoweight);
-
-			//---------------------------4pi->3pi->0pi----------------------------------------------
-
-			h1_E_rec_430pi->Fill(E_rec,(P_430pi)*histoweight);
-
-			//---------------------------4pi->3pi->1pi->0pi----------------------------------------------
-
-			h1_E_rec_4310pi->Fill(E_rec,(P_4310pi)*histoweight);
-
-			//---------------------------4pi->3pi->2pi->0pi----------------------------------------------
-
-			h1_E_rec_4320pi->Fill(E_rec,(P_4320pi)*histoweight);
-
-			//---------------------------4pi->3pi->2pi->1pi->0pi----------------------------------------------
-
-			h1_E_rec_43210pi->Fill(E_rec,(P_43210pi)*histoweight);
 
 		}//end of 4 pi/photon requirement
 
@@ -2873,134 +2217,6 @@ void genie_analysis::Loop(Int_t choice) {
 			h2_Erec_pperp->Fill(p_perp_tot,E_rec,histoweight_inc);
 			h2_Etot_pperp->Fill(p_perp_tot,E_tot,histoweight_inc);
 
-			//---------------------------------- 1p 0pi   ----------------------------------------------
-
-			// Main Plots
-
-			if(num_pi_phot == 0){
-
-				double ECalReso = (E_tot-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en];
-				double EQEReso = (E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en];
-
-				SignalEvents++;
-
-				if (p_perp_tot < pperp_max[0]) { PMiss_FirstSlice++; }
-				if (p_perp_tot > pperp_max[0] && p_perp_tot < pperp_max[1]) { PMiss_SecondSlice++; }
-				if (p_perp_tot > pperp_max[1]) { PMiss_ThirdSlice++; }
-
-				if (fabs(ECalReso)*100. < 5) { 
-					ECalSignalEventsWithin5Perc++; 
-					if (p_perp_tot < pperp_max[0]) { ECalSignalEventsWithin5Perc_FirstSlice++; }
-					if (p_perp_tot > pperp_max[0] && p_perp_tot < pperp_max[1]) { ECalSignalEventsWithin5Perc_SecondSlice++; }
-					if (p_perp_tot > pperp_max[1]) { ECalSignalEventsWithin5Perc_ThirdSlice++; }
-				}
-
-				if (fabs(EQEReso)*100. < 5) { 
-					EQESignalEventsWithin5Perc++; 
-					if (p_perp_tot < pperp_max[0]) { EQESignalEventsWithin5Perc_FirstSlice++; }
-					if (p_perp_tot > pperp_max[0] && p_perp_tot < pperp_max[1]) { EQESignalEventsWithin5Perc_SecondSlice++; }
-					if (p_perp_tot > pperp_max[1]) { EQESignalEventsWithin5Perc_ThirdSlice++; }
-				}
-
-				if (Interaction == 1) { QESignalEvents++; }
-				else if (Interaction == 2) { MECSignalEvents++; }
-				else if (Interaction == 3) { RESSignalEvents++; }
-				else if (Interaction == 4) { DISSignalEvents++; }
-				else { OtherSignalEvents++; }
-
-				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
-
-				h2_Erec_pperp_newcut2->Fill(p_perp_tot,E_rec,histoweight);
-				h2_Etot_pperp->Fill(p_perp_tot,E_tot,histoweight);
-				h1_E_rec_cut2_new->Fill(E_rec,histoweight);
-				h1_E_tot_cut2->Fill(E_tot,histoweight);
-				h1_E_tot_cut2_fracfeed->Fill(ECalReso,histoweight);
-				h1_E_rec_cut2_new_fracfeed->Fill(EQEReso,histoweight);
-				h2_pperp_W->Fill(W_var,p_perp_tot,histoweight);
-				h1_theta0->Fill((V4_beam.Vect()).Angle(V4_prot_el_tot.Vect()) *TMath::RadToDeg(),histoweight);
-				h2_Ecal_Eqe->Fill(E_rec,E_tot,histoweight);
-				h1_Ecal->Fill(E_tot,histoweight);
-				h1_Ecal_Reso->Fill((E_tot-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],histoweight);
-				h2_Ecal_Etrue->Fill(E_tot,Ev,histoweight);
-				h2_Etrue_Ecal->Fill(Ev,E_tot,histoweight);
-				h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot,histoweight);
-				h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot,histoweight);
-
-				h1_xbjk_weight->Fill(x_bjk,histoweight);
-				h1_Q2_weight->Fill(reco_Q2,histoweight);
-				h1_Wvar_weight->Fill(W_var,histoweight);
-				h1_nu_weight->Fill(nu,histoweight);
-				h1_el_mom_corr->Fill(V4_el.Rho(),histoweight);
-				h1_prot_mom->Fill(V3_prot_corr.Mag(),histoweight);
-				h1_MissMomentum->Fill(p_perp_tot,histoweight);
-
-				// -----------------------------------------------------------------------------------------------
-
-				// Unweighted plots for number of events
-
-				h1_MissMomentum_NoWeight->Fill(p_perp_tot,histoweight_NoMott);
-
-				h1_ECal_Slice0_NoWeight->Fill(E_tot,histoweight_NoMott);
-				h1_EQE_Slice0_NoWeight->Fill(E_rec,histoweight_NoMott);
-
-				if (p_perp_tot < pperp_max[0]) { h1_ECal_Slice1_NoWeight->Fill(E_tot,histoweight_NoMott); h1_EQE_Slice1_NoWeight->Fill(E_rec,histoweight_NoMott); }
-				if (p_perp_tot > pperp_max[0] && p_perp_tot < pperp_max[1]) { h1_ECal_Slice2_NoWeight->Fill(E_tot,histoweight_NoMott); h1_EQE_Slice2_NoWeight->Fill(E_rec,histoweight_NoMott); }
-				if (p_perp_tot > pperp_max[1]) { h1_ECal_Slice3_NoWeight->Fill(E_tot,histoweight_NoMott); h1_EQE_Slice3_NoWeight->Fill(E_rec,histoweight_NoMott); }
-
-				// -----------------------------------------------------------------------------------------------
-				// Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-				CalKineVars = CalculateCalKineVars(E_tot,V4_el);
-				LocalWeight = histoweight;
-
-				h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-				h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-				h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-				h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-				h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-				if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-				// Fill plots based on underlying interactions
-
-				ECal_BreakDown[0]->Fill(E_tot,LocalWeight);
-				EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-				Pmiss_BreakDown[0]->Fill(p_perp_tot,LocalWeight);
-				Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-				Nu_BreakDown[0]->Fill(nu,LocalWeight);
-				Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
-				if (choice == 1) {
-					ECal_BreakDown[Interaction]->Fill(E_tot,LocalWeight);
-					EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[Interaction]->Fill(p_perp_tot,LocalWeight);
-					Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-					Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-				}
-
-				// -----------------------------------------------------------------------------------------------
-
-				for(int i = 0; i < n_slice; i++) {
-
-					if (p_perp_tot<pperp_max[i] && p_perp_tot>pperp_min[i]){
-
-						h1_Etot_Npi0[i]->Fill(E_tot,histoweight);
-						h1_Erec_Npi0[i]->Fill(E_rec,histoweight);
-
-					}
-				}
-
-				if (p_perp_tot < 0.2){
-					
-					h1_E_rec_cut005_newcut3->Fill(E_rec,histoweight);
-					h2_Erec_pperp_cut3->Fill(p_perp_tot,E_rec,histoweight);
-					h2_Etot_pperp->Fill(p_perp_tot,E_tot,histoweight);
-				}
-
-			} //num pi=0
-
 			//---------------------------------- 1p 1pi   ----------------------------------------------
 
 			if(num_pi_phot == 1){
@@ -3029,7 +2245,7 @@ void genie_analysis::Loop(Int_t choice) {
 					double pion_mom_corr = V3_pi_corr.Mag();
 
 					if (charge_pi[0] == 1) { //acceptance for pi plus
-					
+
 						pion_acc_ratio = acceptance_c(pion_mom_corr, cos(pion_theta), phi_pion, 211, file_acceptance_pip);
 						if ( fabs(pion_acc_ratio) != pion_acc_ratio ) { continue; }
 					}
@@ -3044,10 +2260,10 @@ void genie_analysis::Loop(Int_t choice) {
 
 				}
 
-				rotation->prot1_pi1_rot_func(V3_prot_uncorr,V3_pi_corr, charge_pi[0], &N_piphot_det,&N_piphot_undet);
+				rotation->prot1_pi1_rot_func(V3_prot_uncorr,V3_pi, q_pi, &N_pidet, &N_piundet);
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
 				//1proton, 1 Pion, 1 electron acceptance, GENIE weight and Mott
 
 				if(N_piphot_det!=0){
@@ -3135,7 +2351,6 @@ void genie_analysis::Loop(Int_t choice) {
 
 				const int N_2pi=2;
 				TVector3 V3_2pi_corr[N_2pi],V3_2pi_rot[N_2pi],V3_p_rot;
-				double P_1p0pi=0;
 				double P_1p1pi[N_2pi]={1};
 
 				double pion_acc_ratio[N_2pi] = {0};
@@ -3174,11 +2389,10 @@ void genie_analysis::Loop(Int_t choice) {
 
 				} //end loop over num_pi_phot
 
-				rotation->prot1_pi2_rot_func(V3_prot_uncorr,V3_2pi_corr,charge_pi,&P_1p0pi,P_1p1pi);
 				//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
 				//1proton, 2 Pion, 1 electron acceptance, GENIE weight and Mott
 
 				//---------------------------------- 1p 2pi->1p1pi   ----------------------------------------------
@@ -3254,75 +2468,6 @@ void genie_analysis::Loop(Int_t choice) {
 
 				} //end loop over N_2pi
 
-				//---------------------------------- 1p 2pi->1p0pi   ----------------------------------------------
-
-				h1_E_tot_1p2pi_1p0pi->Fill(E_tot,P_1p0pi*histoweight);
-				h1_E_rec_1p2pi_1p0pi->Fill(E_rec,P_1p0pi*histoweight);
-				h2_Erec_pperp_1p2pi_1p0pi->Fill(p_perp_tot,E_rec,P_1p0pi*histoweight);
-				h2_Etot_pperp->Fill(p_perp_tot,E_tot,-P_1p0pi*histoweight);
-				h1_E_tot_1p2pi_1p0pi_fracfeed->Fill((E_tot-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_1p0pi*histoweight);
-				h1_E_rec_1p2pi_1p0pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1p0pi*histoweight);
-				h2_pperp_W->Fill(W_var,p_perp_tot,-P_1p0pi*histoweight);
-				h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_prot_uncorr)*TMath::RadToDeg(),-P_1p0pi*histoweight);
-				h2_Ecal_Eqe->Fill(E_rec,E_tot,-P_1p0pi*histoweight);
-				h1_Ecal->Fill(E_tot,-P_1p0pi*histoweight);
-				h1_Ecal_Reso->Fill((E_tot-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],-P_1p0pi*histoweight);
-				h2_Ecal_Etrue->Fill(E_tot,Ev,-P_1p0pi*histoweight);
-				h2_Etrue_Ecal->Fill(Ev,E_tot,-P_1p0pi*histoweight);
-				h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot,-P_1p0pi*histoweight);
-				h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot,-P_1p0pi*histoweight);
-
-				h1_xbjk_weight->Fill(x_bjk,-P_1p0pi*histoweight);
-				h1_Q2_weight->Fill(reco_Q2,-P_1p0pi*histoweight);
-				h1_Wvar_weight->Fill(W_var,-P_1p0pi*histoweight);
-				h1_nu_weight->Fill(nu,-P_1p0pi*histoweight);
-				h1_el_mom_corr->Fill(V4_el.Rho(),-P_1p0pi*histoweight);
-				h1_prot_mom->Fill(V3_prot_corr.Mag(),-P_1p0pi*histoweight);
-				h1_MissMomentum->Fill(p_perp_tot,-P_1p0pi*histoweight);
-
-				// -----------------------------------------------------------------------------------------------
-				// apapadop: Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-				CalKineVars = CalculateCalKineVars(E_tot,V4_el);
-				LocalWeight = -P_1p0pi*histoweight;
-
-				h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-				h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-				h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-				h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-				h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-				if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-				// Fill plots based on underlying interactions
-
-				ECal_BreakDown[0]->Fill(E_tot,LocalWeight);
-				EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-				Pmiss_BreakDown[0]->Fill(p_perp_tot,LocalWeight);
-				Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-				Nu_BreakDown[0]->Fill(nu,LocalWeight);
-				Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
-				if (choice == 1) {
-					ECal_BreakDown[Interaction]->Fill(E_tot,LocalWeight);
-					EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[Interaction]->Fill(p_perp_tot,LocalWeight);
-					Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-					Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-				}
-
-				// -----------------------------------------------------------------------------------------------
-
-				for(int i = 0; i < n_slice; i++){
-
-					if (p_perp_tot<pperp_max[i] && p_perp_tot>pperp_min[i]){
-
-						h1_Etot_bkgd_1p2pi_1p0pi[i]->Fill(E_tot,P_1p0pi*histoweight);
-						h1_Erec_bkgd_1p2pi_1p0pi[i]->Fill(E_rec,P_1p0pi*histoweight);
-					}
-				}
-
 			}//1p 2pi statetment ends
 
 			//---------------------------------- 1p 3pi   ----------------------------------------------
@@ -3368,14 +2513,14 @@ void genie_analysis::Loop(Int_t choice) {
 
 				} //end loop over num_pi_phot
 
-				rotation->prot1_pi3_rot_func(V3_prot_uncorr, V3_3pi_corr, charge_pi, &P_1p3pi);
+				rotation->prot1_pi3_rot_func(V3prot, V3pi[3], q_pi[3], P_tot);
 		 		//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1] * pion_acc_ratio[2];
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
 				//1proton, 3 Pion, 1 electron acceptance, GENIE weight and Mott
 
-				//---------------------------------- 1p 3pi->1p 0pi  total ?? F.H. 08/13/19 check logic here compared to 1p 2pi case ----------------------------
+				//---------------------------------- 1p 3pi->1p 0pi  total ?? F.H. 08/13/19 check logic here compared to 1p 2pi case ---------------------------- look over here i don't think it was done correct
 
 				h1_E_tot_1p3pi->Fill(E_tot,P_1p3pi*histoweight);
 				h1_E_rec_1p3pi->Fill(E_rec,P_1p3pi*histoweight);
@@ -3441,7 +2586,7 @@ void genie_analysis::Loop(Int_t choice) {
 						h1_Erec_bkgd_1p3pi[i]->Fill(E_rec,P_1p3pi*histoweight);
 					}
 				}
-		
+
 			}//end of 1p 3pi requirement
 
 		} // 1proton ends
@@ -3515,40 +2660,6 @@ void genie_analysis::Loop(Int_t choice) {
 		h1_Erec_p_bkgd_slice_sub1p2pi[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub41[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub1p2pi_%d",i+1));
 		h1_Erec_p_bkgd_slice_sub1p2pi[i]->Add(h1_Erec_bkgd_1p2pi[i]);
 
-		//------------------------------------undetected 1p 2pi-> 1p 0pi  ------ --------------------------------------
-
-		h1_Etot_p_bkgd_slice_sub1p2pi_0pi[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub1p2pi[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub1p2pi_0pi_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub1p2pi_0pi[i]->Add(h1_Etot_bkgd_1p2pi_1p0pi[i],-1);
-		h1_Erec_p_bkgd_slice_sub1p2pi_0pi[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub1p2pi[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub1p2pi_0pi_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub1p2pi_0pi[i]->Add(h1_Erec_bkgd_1p2pi_1p0pi[i],-1);
-
-		//------------------------------------undetected 1p 3pi-> 1p 0pi  ------ --------------------------------------
-
-		h1_Etot_p_bkgd_slice_sub1p3pi_0pi[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub1p2pi_0pi[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub1p3pi_0pi_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub1p3pi_0pi[i]->Add(h1_Etot_bkgd_1p3pi[i]);
-		h1_Erec_p_bkgd_slice_sub1p3pi_0pi[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub1p2pi_0pi[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub1p3pi_0pi_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub1p3pi_0pi[i]->Add(h1_Erec_bkgd_1p3pi[i]);
-
-		//------------------------------------undetected 2p 2pi-> 1p 0pi  ------ --------------------------------------
-
-		h1_Etot_p_bkgd_slice_sub2p2pi_0pi[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub1p3pi_0pi[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub2p2pi_0pi_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub2p2pi_0pi[i]->Add(h1_Etot_p_bkgd_slice_2p2pi[i]);
-		h1_Erec_p_bkgd_slice_sub2p2pi_0pi[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub1p3pi_0pi[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub2p2pi_0pi_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub2p2pi_0pi[i]->Add(h1_Erec_p_bkgd_slice_2p2pi[i]);
-
-		//------------------------------------undetected 3p 1pi->1p 0pi  ------ --------------------------------------
-
-		h1_Etot_p_bkgd_slice_sub3p1pi_0pi[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub2p2pi_0pi[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub3p1pi_0pi_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub3p1pi_0pi[i]->Add(h1_Etot_3p1pi_slice[i]);
-		h1_Erec_p_bkgd_slice_sub3p1pi_0pi[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub2p2pi_0pi[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub3p1pi_0pi_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub3p1pi_0pi[i]->Add(h1_Erec_3p1pi_slice[i]);
-
-		//------------------------------------undetected 2p 1pi ->2p 0pi  ------ --------------------------------------
-
-		h1_Etot_p_bkgd_slice_sub2p1pi_2p[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub3p1pi_0pi[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub2p1pi_2p_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub2p1pi_2p[i]->Add(h1_Etot_p_bkgd_slice_2p1pi_to2p0pi[i]);
-		h1_Erec_p_bkgd_slice_sub2p1pi_2p[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub3p1pi_0pi[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub2p1pi_2p_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub2p1pi_2p[i]->Add(h1_Erec_p_bkgd_slice_2p1pi_to2p0pi[i]);
 
 		//------------------------------------undetected 2p 1pi ->1p 1pi  ------ --------------------------------------
 
@@ -3556,13 +2667,6 @@ void genie_analysis::Loop(Int_t choice) {
 		h1_Etot_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Etot_p_bkgd_slice_2p1pi_to1p1pi[i]);
 		h1_Erec_p_bkgd_slice_sub2p1pi_1p[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub2p1pi_2p[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub2p1pi_1p_%d",i+1));
 		h1_Erec_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Erec_p_bkgd_slice_2p1pi_to1p1pi[i]);
-
-		//------------------------------------undetected 2p 1pi ->1p 0pi  ------ --------------------------------------
-
-		h1_Etot_p_bkgd_slice_sub2p1pi_1p0pi[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub2p1pi_1p[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub2p1pi_1p0pi_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub2p1pi_1p0pi[i]->Add(h1_Etot_p_bkgd_slice_2p1pi_to1p0pi[i],-1);
-		h1_Erec_p_bkgd_slice_sub2p1pi_1p0pi[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub2p1pi_1p[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub2p1pi_1p0pi_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub2p1pi_1p0pi[i]->Add(h1_Erec_p_bkgd_slice_2p1pi_to1p0pi[i],-1);
 
 	}
 
@@ -3723,137 +2827,6 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h_Etot_subtruct_piplpimi_1p2pi_fracfeed=(TH1F*)	h_Etot_subtruct_piplpimi_41prot_fracfeed->Clone("h_Etot_subtruct_piplpimi_1p2pi_fracfeed");
 	h_Etot_subtruct_piplpimi_1p2pi_fracfeed->Add(h1_E_tot_1p2pi_fracfeed);
 
-	//------------------------------------undetected 1p 2pi-> 1p 0pi  ------ --------------------------------------
-
-	TH1F *h_Erec_subtruct_piplpimi_1p2pi_1p0pi=(TH1F*)	h_Erec_subtruct_piplpimi_1p2pi->Clone("h_Erec_subtruct_piplpimi_1p2pi_1p0pi");
-	h_Erec_subtruct_piplpimi_1p2pi_1p0pi->Add(h1_E_rec_1p2pi_1p0pi,-1);
-
-	TH1F *h_Etot_subtruct_piplpimi_1p2pi_1p0pi=(TH1F*) h_Etot_subtruct_piplpimi_1p2pi->Clone("h_Etot_subtruct_piplpimi_1p2pi_1p0pi");
-	h_Etot_subtruct_piplpimi_1p2pi_1p0pi->Add(h1_E_tot_1p2pi_1p0pi,-1);
-
-	TH2F *h2_Erec_pperp_sub_1p2pi_1p0pi=(TH2F*) h2_Erec_pperp_sub_1p2pi_1p1pi->Clone("h2_Erec_pperp_sub_1p2pi_1p0pi");
-	h2_Erec_pperp_sub_1p2pi_1p0pi->Add(h2_Erec_pperp_1p2pi_1p0pi,-1);
-
-	TH1F *h_Erec_subtruct_piplpimi_1p2pi_1p0pi_fracfeed=(TH1F*)	h_Erec_subtruct_piplpimi_1p2pi_fracfeed->Clone("h_Erec_subtruct_piplpimi_1p2pi_1p0pi_fracfeed");
-	h_Erec_subtruct_piplpimi_1p2pi_1p0pi_fracfeed->Add(h1_E_rec_1p2pi_1p0pi_fracfeed,-1);
-
-	TH1F *h_Etot_subtruct_piplpimi_1p2pi_1p0pi_fracfeed=(TH1F*) h_Etot_subtruct_piplpimi_1p2pi_fracfeed->Clone("h_Etot_subtruct_piplpimi_1p2pi_1p0pi_fracfeed");
-	h_Etot_subtruct_piplpimi_1p2pi_1p0pi_fracfeed->Add(h1_E_tot_1p2pi_1p0pi_fracfeed,-1);
-
-	//------------------------------------undetected 1p 3pi-> 1p 0pi  ------ --------------------------------------
-
-	TH1F *h_Erec_subtruct_piplpimi_1p3pi=(TH1F*)	h_Erec_subtruct_piplpimi_1p2pi_1p0pi->Clone("h_Erec_subtruct_piplpimi_1p3pi");
-	h_Erec_subtruct_piplpimi_1p3pi->Add(h1_E_rec_1p3pi);
-
-	TH1F *h_Etot_subtruct_piplpimi_1p3pi=(TH1F*) h_Etot_subtruct_piplpimi_1p2pi_1p0pi->Clone("h_Etot_subtruct_piplpimi_1p3pi");
-	h_Etot_subtruct_piplpimi_1p3pi->Add(h1_E_tot_1p3pi);
-
-	TH2F *h2_Erec_pperp_sub_1p3pi=(TH2F*) h2_Erec_pperp_sub_1p2pi_1p0pi->Clone("h2_Erec_pperp_sub_1p3pi");
-	h2_Erec_pperp_sub_1p3pi->Add(h2_Erec_pperp_1p3pi);
-
-	TH1F *h_Erec_subtruct_piplpimi_1p3pi_fracfeed=(TH1F*)	h_Erec_subtruct_piplpimi_1p2pi_1p0pi_fracfeed->Clone("h_Erec_subtruct_piplpimi_1p3pi_fracfeed");
-	h_Erec_subtruct_piplpimi_1p3pi_fracfeed->Add(h1_E_rec_1p3pi_fracfeed);
-
-	TH1F *h_Etot_subtruct_piplpimi_1p3pi_fracfeed=(TH1F*) h_Etot_subtruct_piplpimi_1p2pi_1p0pi_fracfeed->Clone("h_Etot_subtruct_piplpimi_1p3pi_fracfeed");
-	h_Etot_subtruct_piplpimi_1p3pi_fracfeed->Add(h1_E_tot_1p3pi_fracfeed);
-
-
-	//------------------------------------undetected 2p 2pi -> 1p 0pi  ------ --------------------------------------
-
-	TH1F *h_Erec_subtruct_piplpimi_2p2pi=(TH1F*)	h_Erec_subtruct_piplpimi_1p3pi->Clone("h_Erec_subtruct_piplpimi_2p2pi");
-	h_Erec_subtruct_piplpimi_2p2pi->Add(h1_E_rec_2p2pi);
-
-	TH1F *h_Etot_subtruct_piplpimi_2p2pi=(TH1F*) h_Etot_subtruct_piplpimi_1p3pi->Clone("h_Etot_subtruct_piplpimi_2p2pi");
-	h_Etot_subtruct_piplpimi_2p2pi->Add(h1_E_tot_2p2pi);
-
-	TH2F *h2_Erec_pperp_sub_2p2pi=(TH2F*) h2_Erec_pperp_sub_1p3pi->Clone("h2_Erec_pperp_sub_2p2pi");
-	h2_Erec_pperp_sub_2p2pi->Add(h2_Erec_pperp_2p2pi);
-
-	TH1F *h_Erec_subtruct_piplpimi_2p2pi_fracfeed=(TH1F*)	h_Erec_subtruct_piplpimi_1p3pi_fracfeed->Clone("h_Erec_subtruct_piplpimi_2p2pi_fracfeed");
-	h_Erec_subtruct_piplpimi_2p2pi_fracfeed->Add(h1_E_rec_2p2pi_fracfeed);
-
-	TH1F *h_Etot_subtruct_piplpimi_2p2pi_fracfeed=(TH1F*) h_Etot_subtruct_piplpimi_1p3pi_fracfeed->Clone("h_Etot_subtruct_piplpimi_2p2pi_fracfeed");
-	h_Etot_subtruct_piplpimi_2p2pi_fracfeed->Add(h1_E_tot_2p2pi_fracfeed);
-
-
-	//------------------------------------undetected 3p 1pi -> 1p 0pi  ------ --------------------------------------
-
-	TH1F *h_Erec_subtruct_piplpimi_3p1pi=(TH1F*)	h_Erec_subtruct_piplpimi_2p2pi->Clone("h_Erec_subtruct_piplpimi_3p1pi");
-	h_Erec_subtruct_piplpimi_3p1pi->Add(h1_E_rec_3p1pi);
-
-	TH1F *h_Etot_subtruct_piplpimi_3p1pi=(TH1F*) h_Etot_subtruct_piplpimi_2p2pi->Clone("h_Etot_subtruct_piplpimi_3p1pi");
-	h_Etot_subtruct_piplpimi_3p1pi->Add(h1_E_tot_3p1pi);
-
-	TH2F *h2_Erec_pperp_sub_3p1pi=(TH2F*) h2_Erec_pperp_sub_2p2pi->Clone("h2_Erec_pperp_sub_3p1pi");
-	h2_Erec_pperp_sub_3p1pi->Add(h2_Erec_pperp_3p1pi);
-
-	TH1F *h_Erec_subtruct_piplpimi_3p1pi_fracfeed=(TH1F*)	h_Erec_subtruct_piplpimi_2p2pi_fracfeed->Clone("h_Erec_subtruct_piplpimi_3p1pi_fracfeed");
-	h_Erec_subtruct_piplpimi_3p1pi_fracfeed->Add(h1_E_rec_3p1pi_fracfeed);
-
-	TH1F *h_Etot_subtruct_piplpimi_3p1pi_fracfeed=(TH1F*) h_Etot_subtruct_piplpimi_2p2pi_fracfeed->Clone("h_Etot_subtruct_piplpimi_3p1pi_fracfeed");
-	h_Etot_subtruct_piplpimi_3p1pi_fracfeed->Add(h1_E_tot_3p1pi_fracfeed);
-
-	//------------------------------------undetected 2p 1pi -> 2p 0pi  --------------------------------------------
-
-	TH1F *h_Erec_subtruct_piplpimi_2p1pi_2p0pi=(TH1F*)	h_Erec_subtruct_piplpimi_3p1pi->Clone("h_Erec_subtruct_piplpimi_2p1pi_2p0pi");
-	h_Erec_subtruct_piplpimi_2p1pi_2p0pi->Add(h1_E_rec_2p1pi_2p0pi);
-
-	TH1F *h_Etot_subtruct_piplpimi_2p1pi_2p0pi=(TH1F*) h_Etot_subtruct_piplpimi_3p1pi->Clone("h_Etot_subtruct_piplpimi_2p1pi_2p0pi");
-	h_Etot_subtruct_piplpimi_2p1pi_2p0pi->Add(h1_E_tot_2p1pi_2p0pi);
-
-	TH2F *h2_Erec_pperp_sub_2p1pi_2p0pi=(TH2F*) h2_Erec_pperp_sub_3p1pi->Clone("h2_Erec_pperp_sub_2p1pi_2p0pi");
-	h2_Erec_pperp_sub_2p1pi_2p0pi->Add(h2_Erec_pperp_2p1pi_2p0pi);
-
-	TH1F *h_Erec_subtruct_piplpimi_2p1pi_2p0pi_fracfeed=(TH1F*)	h_Erec_subtruct_piplpimi_3p1pi_fracfeed->Clone("h_Erec_subtruct_piplpimi_2p1pi_2p0pi_fracfeed");
-	h_Erec_subtruct_piplpimi_2p1pi_2p0pi_fracfeed->Add(h1_E_rec_2p1pi_2p0pi_fracfeed);
-
-	TH1F *h_Etot_subtruct_piplpimi_2p1pi_2p0pi_fracfeed=(TH1F*) h_Etot_subtruct_piplpimi_3p1pi_fracfeed->Clone("h_Etot_subtruct_piplpimi_2p1pi_2p0pi_fracfeed");
-	h_Etot_subtruct_piplpimi_2p1pi_2p0pi_fracfeed->Add(h1_E_tot_2p1pi_2p0pi_fracfeed);
-
-//------------------------------------undetected 2p 1pi -> 1p 1pi  ------ --------------------------------------
-
-	TH1F *h_Erec_subtruct_piplpimi_2p1pi_1p1pi=(TH1F*)	h_Erec_subtruct_piplpimi_2p1pi_2p0pi->Clone("h_Erec_subtruct_piplpimi_2p1pi_1p1pi");
-	h_Erec_subtruct_piplpimi_2p1pi_1p1pi->Add(h1_E_rec_2p1pi_1p1pi);
-
-	TH1F *h_Etot_subtruct_piplpimi_2p1pi_1p1pi=(TH1F*) h_Etot_subtruct_piplpimi_2p1pi_2p0pi->Clone("h_Etot_subtruct_piplpimi_2p1pi_1p1pi");
-	h_Etot_subtruct_piplpimi_2p1pi_1p1pi->Add(h1_E_tot_2p1pi_1p1pi);
-
-	TH2F *h2_Erec_pperp_sub_2p1pi_1p1pi=(TH2F*) h2_Erec_pperp_sub_2p1pi_2p0pi->Clone("h2_Erec_pperp_sub_2p1pi_1p1pi");
-	h2_Erec_pperp_sub_2p1pi_1p1pi->Add(h2_Erec_pperp_2p1pi_1p1pi);
-
-	TH1F *h_Erec_subtruct_piplpimi_2p1pi_1p1pi_fracfeed=(TH1F*)	h_Erec_subtruct_piplpimi_2p1pi_2p0pi_fracfeed->Clone("h_Erec_subtruct_piplpimi_2p1pi_1p1pi_fracfeed");
-	h_Erec_subtruct_piplpimi_2p1pi_1p1pi_fracfeed->Add(h1_E_rec_2p1pi_1p1pi_fracfeed);
-
-	TH1F *h_Etot_subtruct_piplpimi_2p1pi_1p1pi_fracfeed=(TH1F*) h_Etot_subtruct_piplpimi_2p1pi_2p0pi_fracfeed->Clone("h_Etot_subtruct_piplpimi_2p1pi_1p1pi_fracfeed");
-	h_Etot_subtruct_piplpimi_2p1pi_1p1pi_fracfeed->Add(h1_E_tot_2p1pi_1p1pi_fracfeed);
-
-	//------------------------------------undetected 2p 1pi ->1p 0pi  ------ --------------------------------------
-
-//	TH1F *h_Erec_subtruct_piplpimi_2p1pi_1p0pi=(TH1F*)	h_Erec_subtruct_piplpimi_2p1pi_1p1pi->Clone("h_Erec_subtruct_piplpimi_2p1pi_1p0pi");
-	TH1F *h_Erec_subtruct_piplpimi_2p1pi_1p0pi=(TH1F*)	h_Erec_subtruct_piplpimi_2p1pi_1p1pi->Clone("eRecoEnergy_slice_0");
-	h_Erec_subtruct_piplpimi_2p1pi_1p0pi->Add(h1_E_rec_2p1pi_1p0pi,-1);
-
-//	TH1F *h_Etot_subtruct_piplpimi_2p1pi_1p0pi=(TH1F*) h_Etot_subtruct_piplpimi_2p1pi_1p1pi->Clone("h_Etot_subtruct_piplpimi_2p1pi_1p0pi");
-	TH1F *h_Etot_subtruct_piplpimi_2p1pi_1p0pi=(TH1F*) h_Etot_subtruct_piplpimi_2p1pi_1p1pi->Clone("epRecoEnergy_slice_0");
-	h_Etot_subtruct_piplpimi_2p1pi_1p0pi->Add(h1_E_tot_2p1pi_1p0pi,-1);
-
-	TH2F *h2_Erec_pperp_sub_2p1pi_1p0pi=(TH2F*) h2_Erec_pperp_sub_2p1pi_1p1pi->Clone("h2_Erec_pperp_sub_2p1pi_1p0pi");
-	h2_Erec_pperp_sub_2p1pi_1p0pi->Add(h2_Erec_pperp_2p1pi_1p0pi,-1);
-
-	TH1F *h_Erec_subtruct_piplpimi_2p1pi_1p0pi_fracfeed=(TH1F*)	h_Erec_subtruct_piplpimi_2p1pi_1p1pi_fracfeed->Clone("h_Erec_subtruct_piplpimi_2p1pi_1p0pi_fracfeed");
-	h_Erec_subtruct_piplpimi_2p1pi_1p0pi_fracfeed->Add(h1_E_rec_2p1pi_1p0pi_fracfeed,-1);
-
-	TH1F *h_Etot_subtruct_piplpimi_2p1pi_1p0pi_fracfeed=(TH1F*) h_Etot_subtruct_piplpimi_2p1pi_1p1pi_fracfeed->Clone("h_Etot_subtruct_piplpimi_2p1pi_1p0pi_fracfeed");
-	h_Etot_subtruct_piplpimi_2p1pi_1p0pi_fracfeed->Add(h1_E_tot_2p1pi_1p0pi_fracfeed,-1);
-
-
-	 //-----------------------------------looking only at e-, 1pi, undetected pion subtraction  ---------------------------------------
-
-	TH1F *h_Erec_subtruct_piplpimi_noprot = (TH1F*)  h1_E_rec_0pi->Clone("h_Erec_subtruct_piplpimi_noprot");
-	h_Erec_subtruct_piplpimi_noprot->Add(h1_E_rec_1pi_weight,-1);
-
-	TH1F *h_Erec_subtruct_piplpimi_noprot_frac_feed = (TH1F*)  h1_E_rec_0pi_frac_feed->Clone("h_Erec_subtruct_piplpimi_noprot_frac_feed");
-	h_Erec_subtruct_piplpimi_noprot_frac_feed->Add(h1_E_rec_1pi_weight_frac_feed,-1);
 	 //-----------------------------------looking only at e-, 2pi undetected pion subtraction  ---------------------------------------
 
 	TH1F *h_Erec_subtruct_piplpimi_noprot_2pi = (TH1F*)	h_Erec_subtruct_piplpimi_noprot->Clone("h_Erec_subtruct_piplpimi_noprot_2pi");
