@@ -1630,8 +1630,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 				}
 
-				rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot_uncorr, V3_pi_corr, charge_pi[0] , P_tot_3p);
-
+				rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot_uncorr, V3_pi_corr, charge_pi[0], V4_el, Ecal_3p1pi, p_miss_perp_3p1pi, P_tot_3p);
 				//for CLAS data is histoweight = 1/Mott_cross_sec
 				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 pion, 1 electron, GENIE weight and Mott cross section
