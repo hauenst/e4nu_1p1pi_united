@@ -1473,7 +1473,7 @@ void genie_analysis::Loop(Int_t choice) {
 					h1_nu_weight->Fill(nu,P_tot_2p[z][j]*histoweight);
 					h1_el_mom_corr->Fill(V4_el.Rho(),P_tot_2p[z][j]*histoweight);
 					h1_prot_mom->Fill(V3_2prot_corr[z].Mag(),P_tot_2p[z][j]*histoweight);
-					h1_MissMomentum->Fill(p_perp_tot_2p[z],P_tot_2p[z][j]*histoweight);
+					h1_MissMomentum->Fill(p_miss_perp2p2pi[z][j],P_tot_2p[z][j]*histoweight);
 
 					// -----------------------------------------------------------------------------------------------
 					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
@@ -1493,7 +1493,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 					ECal_BreakDown[0]->Fill(Ecal2p2pi[z][j],LocalWeight);
 					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_perp_tot_2p[z],LocalWeight);
+					Pmiss_BreakDown[0]->Fill(p_miss_perp2p2pi[z][j],LocalWeight);
 					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
 					Nu_BreakDown[0]->Fill(nu,LocalWeight);
 					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
@@ -1501,7 +1501,7 @@ void genie_analysis::Loop(Int_t choice) {
  					if (choice == 1) {
 						ECal_BreakDown[Interaction]->Fill(Ecal2p2pi[z][j],LocalWeight);
 						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_perp_tot_2p[z],LocalWeight);
+						Pmiss_BreakDown[Interaction]->Fill(p_miss_perp2p2pi[z][j],LocalWeight);
 						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
 						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
 						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
@@ -1511,7 +1511,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 					for(int i = 0; i < n_slice; i++) {
 
-						if (p_perp_tot_2p[z]<pperp_max[i] && p_perp_tot_2p[z]>pperp_min[i]){
+						if (p_miss_perp2p2pi[z][j]<pperp_max[i] && p_miss_perp2p2pi[z][j]>pperp_min[i]){
 							h1_Etot_p_bkgd_slice_2p2pi[i]->Fill(Ecal2p2pi[z][j],P_tot_2p[z][j]*histoweight);
 							h1_Erec_p_bkgd_slice_2p2pi[i]->Fill(E_rec,P_tot_2p[z][j]*histoweight);
 						}
@@ -1864,8 +1864,8 @@ void genie_analysis::Loop(Int_t choice) {
 				double Ecal[2] = {0};
 				double p_miss_perp[2] = {0};
 
-				rotation->prot1_pi2_rot_func(V3_prot_uncorr,V3_2pi_corr,charge_pi, V4_el, &P_1p0pi,P_1p1pi);
-				TVector3  V3prot, TVector3 V3pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal[2], double p_miss_perp[2], double P_1p1pi[2]
+				rotation->prot1_pi2_rot_func(V3_prot_uncorr,V3_2pi_corr,charge_pi, V4_el, Ecal, p_miss_perp, P_1p1pi);
+
 				//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
 				//histoweight is 1/Mott_cross_sec for CLAS data
@@ -1878,11 +1878,11 @@ void genie_analysis::Loop(Int_t choice) {
 
 					h1_E_tot_1p2pi->Fill(Ecal[z],P_1p1pi[z]*histoweight);
 					h1_E_rec_1p2pi->Fill(E_rec,P_1p1pi[z]*histoweight);
-					h2_Erec_pperp_1p2pi_1p1pi->Fill(p_perp_tot,E_rec,P_1p1pi[z]*histoweight);
-					h2_Etot_pperp->Fill(p_perp_tot,Ecal[z],P_1p1pi[z]*histoweight);
+					h2_Erec_pperp_1p2pi_1p1pi->Fill(p_miss_perp[z],E_rec,P_1p1pi[z]*histoweight);
+					h2_Etot_pperp->Fill(p_miss_perp[z],Ecal[z],P_1p1pi[z]*histoweight);
 					h1_E_tot_1p2pi_fracfeed->Fill((Ecal[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_1p1pi[z]*histoweight);
 					h1_E_rec_1p2pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1p1pi[z]*histoweight);
-					h2_pperp_W->Fill(W_var,p_perp_tot,P_1p1pi[z]*histoweight);
+					h2_pperp_W->Fill(W_var,p_miss_perp[z],P_1p1pi[z]*histoweight);
 					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_prot_uncorr)*TMath::RadToDeg(),P_1p1pi[z]*histoweight);
 					h2_Ecal_Eqe->Fill(E_rec,Ecal[z],P_1p1pi[z]*histoweight);
 					h1_Ecal->Fill(Ecal[z],P_1p1pi[z]*histoweight);
@@ -1898,7 +1898,7 @@ void genie_analysis::Loop(Int_t choice) {
 					h1_nu_weight->Fill(nu,P_1p1pi[z]*histoweight);
 					h1_el_mom_corr->Fill(V4_el.Rho(),P_1p1pi[z]*histoweight);
 					h1_prot_mom->Fill(V3_prot_corr.Mag(),P_1p1pi[z]*histoweight);
-					h1_MissMomentum->Fill(p_perp_tot,P_1p1pi[z]*histoweight);
+					h1_MissMomentum->Fill(p_miss_perp[z],P_1p1pi[z]*histoweight);
 
 					// -----------------------------------------------------------------------------------------------
 					// apapadop: Reconstruct xB, W, Q2 using Ecal instead of Etrue
@@ -1918,7 +1918,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 					ECal_BreakDown[0]->Fill(Ecal[z],LocalWeight);
 					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_perp_tot,LocalWeight);
+					Pmiss_BreakDown[0]->Fill(p_miss_perp[z],LocalWeight);
 					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
 					Nu_BreakDown[0]->Fill(nu,LocalWeight);
 					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
@@ -1926,7 +1926,7 @@ void genie_analysis::Loop(Int_t choice) {
 					if (choice == 1) {
 						ECal_BreakDown[Interaction]->Fill(Ecal[z],LocalWeight);
 						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_perp_tot,LocalWeight);
+						Pmiss_BreakDown[Interaction]->Fill(p_miss_perp[z],LocalWeight);
 						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
 						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
 						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
@@ -1936,7 +1936,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 					for(int i = 0; i < n_slice; i++){
 
-						if (p_perp_tot<pperp_max[i] && p_perp_tot>pperp_min[i]){
+						if (p_miss_perp[z]<pperp_max[i] && p_miss_perp[z]>pperp_min[i]){
 
 							h1_Etot_bkgd_1p2pi[i]->Fill(Ecal[z],P_1p1pi[z]*histoweight);
 							h1_Erec_bkgd_1p2pi[i]->Fill(E_rec,P_1p1pi[z]*histoweight);
@@ -1953,7 +1953,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 				const int N_3pi=3;
 				TVector3 V3_3pi_corr[N_3pi],V3_3pi_rot[N_3pi],V3_p_rot;
-				double P_1p3pi = 0;
+				double P_1p3pi[3] = {0};
 				double pion_acc_ratio[N_3pi] = {1};
 
 				for (int i = 0; i < num_pi_phot; i++) {
@@ -1989,8 +1989,9 @@ void genie_analysis::Loop(Int_t choice) {
 					}
 
 				} //end loop over num_pi_phot
-
-				rotation->prot1_pi3_rot_func(V3_prot_uncorr, V3_3pi_corr, charge_pi, &P_1p3pi);
+				double Ecal1p3pi[3] = {0};
+				double p_perp1p3pi[3] = {0};
+				rotation->prot1_pi3_rot_func(V3_prot_uncorr, V3_3pi_corr, charge_pi, V4_el, Ecal1p3pi, p_perp1p3pi, P_1p3pi);
 		 		//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1] * pion_acc_ratio[2];
 				//histoweight is 1/Mott_cross_sec for CLAS data
@@ -1998,36 +1999,38 @@ void genie_analysis::Loop(Int_t choice) {
 				//1proton, 3 Pion, 1 electron acceptance, GENIE weight and Mott
 
 				//---------------------------------- 1p 3pi->1p 0pi  total ?? F.H. 08/13/19 check logic here compared to 1p 2pi case ----------------------------
+				for(int z=0;z<3;z++)
+				{
 
-				h1_E_tot_1p3pi->Fill(E_tot,P_1p3pi*histoweight);
-				h1_E_rec_1p3pi->Fill(E_rec,P_1p3pi*histoweight);
-				h2_Erec_pperp_1p3pi->Fill(p_perp_tot,E_rec,P_1p3pi*histoweight);
-				h2_Etot_pperp->Fill(p_perp_tot,E_tot,P_1p3pi*histoweight);
-				h1_E_tot_1p3pi_fracfeed->Fill((E_tot-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_1p3pi*histoweight);
-				h1_E_rec_1p3pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1p3pi*histoweight);
-				h2_pperp_W->Fill(W_var,p_perp_tot,P_1p3pi*histoweight);
-				h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_prot_uncorr)*TMath::RadToDeg(),P_1p3pi*histoweight);
-				h2_Ecal_Eqe->Fill(E_rec,E_tot,P_1p3pi*histoweight);
-				h1_Ecal->Fill(E_tot,P_1p3pi*histoweight);
-				h1_Ecal_Reso->Fill((E_tot-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_1p3pi*histoweight);
-				h2_Ecal_Etrue->Fill(E_tot,Ev,P_1p3pi*histoweight);
-				h2_Etrue_Ecal->Fill(Ev,E_tot,P_1p3pi*histoweight);
-				h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot,P_1p3pi*histoweight);
-				h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot,P_1p3pi*histoweight);
+				h1_E_tot_1p3pi->Fill(Ecal1p3pi[z],P_1p3pi[z]*histoweight);
+				h1_E_rec_1p3pi->Fill(E_rec,P_1p3pi[z]*histoweight);
+				h2_Erec_pperp_1p3pi->Fill(p_perp1p3pi[z],E_rec,P_1p3pi[z]*histoweight);
+				h2_Etot_pperp->Fill(p_perp1p3pi[z],Ecal1p3pi[z],P_1p3pi[z]*histoweight);
+				h1_E_tot_1p3pi_fracfeed->Fill((Ecal1p3pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_1p3pi[z]*histoweight);
+				h1_E_rec_1p3pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1p3pi[z]*histoweight);
+				h2_pperp_W->Fill(W_var,p_perp1p3pi[z],P_1p3pi[z]*histoweight);
+				h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_prot_uncorr)*TMath::RadToDeg(),P_1p3pi[z]*histoweight);
+				h2_Ecal_Eqe->Fill(E_rec,Ecal1p3pi[z],P_1p3pi[z]*histoweight);
+				h1_Ecal->Fill(Ecal1p3pi[z],P_1p3pi[z]*histoweight);
+				h1_Ecal_Reso->Fill((Ecal1p3pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_1p3pi[z]*histoweight);
+				h2_Ecal_Etrue->Fill(Ecal1p3pi[z],Ev,P_1p3pi[z]*histoweight);
+				h2_Etrue_Ecal->Fill(Ev,Ecal1p3pi[z],P_1p3pi[z]*histoweight);
+				h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/Ecal1p3pi[z],P_1p3pi[z]*histoweight);
+				h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-Ecal1p3pi[z],P_1p3pi[z]*histoweight);
 
-				h1_xbjk_weight->Fill(x_bjk,P_1p3pi*histoweight);
-				h1_Q2_weight->Fill(reco_Q2,P_1p3pi*histoweight);
-				h1_Wvar_weight->Fill(W_var,P_1p3pi*histoweight);
-				h1_nu_weight->Fill(nu,P_1p3pi*histoweight);
-				h1_el_mom_corr->Fill(V4_el.Rho(),P_1p3pi*histoweight);
-				h1_prot_mom->Fill(V3_prot_corr.Mag(),P_1p3pi*histoweight);
-				h1_MissMomentum->Fill(p_perp_tot,P_1p3pi*histoweight);
+				h1_xbjk_weight->Fill(x_bjk,P_1p3pi[z]*histoweight);
+				h1_Q2_weight->Fill(reco_Q2,P_1p3pi[z]*histoweight);
+				h1_Wvar_weight->Fill(W_var,P_1p3pi[z]*histoweight);
+				h1_nu_weight->Fill(nu,P_1p3pi[z]*histoweight);
+				h1_el_mom_corr->Fill(V4_el.Rho(),P_1p3pi[z]*histoweight);
+				h1_prot_mom->Fill(V3_prot_corr.Mag(),P_1p3pi[z]*histoweight);
+				h1_MissMomentum->Fill(p_perp1p3pi[z],P_1p3pi[z]*histoweight);
 
 				// -----------------------------------------------------------------------------------------------
 				// apapadop: Reconstruct xB, W, Q2 using Ecal instead of Etrue
 
-				CalKineVars = CalculateCalKineVars(E_tot,V4_el);
-				LocalWeight = P_1p3pi*histoweight;
+				CalKineVars = CalculateCalKineVars(Ecal1p3pi[z],V4_el);
+				LocalWeight = P_1p3pi[z]*histoweight;
 
 				h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
 				h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
@@ -2039,17 +2042,17 @@ void genie_analysis::Loop(Int_t choice) {
 
 				// Fill plots based on underlying interactions
 
-				ECal_BreakDown[0]->Fill(E_tot,LocalWeight);
+				ECal_BreakDown[0]->Fill(Ecal1p3pi[z],LocalWeight);
 				EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-				Pmiss_BreakDown[0]->Fill(p_perp_tot,LocalWeight);
+				Pmiss_BreakDown[0]->Fill(p_perp1p3pi[z],LocalWeight);
 				Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
 				Nu_BreakDown[0]->Fill(nu,LocalWeight);
 				Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
 
 				if (choice == 1) {
-					ECal_BreakDown[Interaction]->Fill(E_tot,LocalWeight);
+					ECal_BreakDown[Interaction]->Fill(Ecal1p3pi[z],LocalWeight);
 					EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[Interaction]->Fill(p_perp_tot,LocalWeight);
+					Pmiss_BreakDown[Interaction]->Fill(p_perp1p3pi[z],LocalWeight);
 					Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
 					Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
 					Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
@@ -2058,11 +2061,12 @@ void genie_analysis::Loop(Int_t choice) {
 				// -----------------------------------------------------------------------------------------------
 
 				for(int i = 0; i < n_slice; i++){
-					if (p_perp_tot<pperp_max[i] && p_perp_tot>pperp_min[i]){
-						h1_Etot_bkgd_1p3pi[i]->Fill(E_tot,P_1p3pi*histoweight);
-						h1_Erec_bkgd_1p3pi[i]->Fill(E_rec,P_1p3pi*histoweight);
+					if (p_perp1p3pi[z]<pperp_max[i] && p_perp1p3pi[z]>pperp_min[i]){
+						h1_Etot_bkgd_1p3pi[i]->Fill(Ecal1p3pi[z],P_1p3pi[z]*histoweight);
+						h1_Erec_bkgd_1p3pi[i]->Fill(E_rec,P_1p3pi[z]*histoweight);
 					}
 				}
+			}
 
 			}//end of 1p 3pi requirement
 
