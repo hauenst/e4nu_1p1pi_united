@@ -240,7 +240,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 	// ---------------------------------------------------------------------------------------------------------------
 
 	double XSecScale = 1.;
-//	TFile* XSecFile = TFile::Open("/uboone/app/users/apapadop/R-3_0_6/mySplines/xsec_gxspl-FNALbig.root"); 
+//	TFile* XSecFile = TFile::Open("/uboone/app/users/apapadop/R-3_0_6/mySplines/xsec_gxspl-FNALbig.root");
 
 //	TGraph* gr = NULL;
 
@@ -255,10 +255,10 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 
 	TFile *file_out;
 	if (choice == 0) { file_out = new TFile(Form("data_e2a_ep_%s_%s_neutrino6_united4_radphot_test.root",ftarget.c_str(),fbeam_en.c_str()), "Recreate");}
-	else { 
+	else {
 
 		TString Dir = "Up";
-		if (sigma == 0) { Dir = "Down"; } 
+		if (sigma == 0) { Dir = "Down"; }
 		file_out = new TFile("mySystematics"+Dir+"/genie_e2a_ep_"+TString(ftarget.c_str())+"_"+TString(fbeam_en.c_str())+"_neutrino6_united4_radphot_test_"+TString(tweak.c_str())+".root", "Recreate");
 	}
 
@@ -620,7 +620,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 	// ---------------------------------------------------------------------------------------------------------------
 
 	// Get the number of events to run overall
-	
+
 //	int Nentries = TMath::Min(Ntfileentries,NtweightsEntries);
 
 	// ---------------------------------------------------------------------------------------------------------------
@@ -712,7 +712,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 			double TuningWeight = ArrayWeights[sigma];
 			e_acc_ratio = e_acc_ratio * TuningWeight;
 
-			// --------------------------------------------------------------------------------------------------		
+			// --------------------------------------------------------------------------------------------------
 
 		}
 
@@ -736,12 +736,12 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 
 		// ---------------------------------------------------------------------------------------------------------------------
 
-		// For neutrino scattering 
+		// For neutrino scattering
 		// switch to true for nu scattering to account for the difference in the propagator
 
 //		bool neutrino = false;
 
-//		if (neutrino) { 
+//		if (neutrino) {
 
 //			XSecScale = gr->Eval(Ev);
 //			Mott_cross_sec = XSecScale;
@@ -770,8 +770,8 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 
 		TVector3 V3_q = (V4_beam-V4_el).Vect();
 		double V3_q_theta_deg = V3_q.Theta() * 180. / TMath::Pi();
-		double V3_q_phi_deg = V3_q.Phi() * 180. / TMath::Pi() + 30.; 
-		if (V3_q_phi_deg > 360) { V3_q_phi_deg = V3_q_phi_deg - 360.; } 
+		double V3_q_phi_deg = V3_q.Phi() * 180. / TMath::Pi() + 30.;
+		if (V3_q_phi_deg > 360) { V3_q_phi_deg = V3_q_phi_deg - 360.; }
 		if (V3_q_phi_deg < 0) { V3_q_phi_deg = V3_q_phi_deg + 360.; }
 		double W_var = TMath::Sqrt((m_prot+nu)*(m_prot+nu)-V3_q*V3_q);
 
@@ -1107,101 +1107,12 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 			V3_2prot_corr[0] = V3_prot_corr1;
 			V3_2prot_corr[1] = V3_prot_corr2;
 
-			//---------------------------------- 2p 0pi->  1p0pi   ----------------------------------------------
-
-			double E_tot_2p[2]={0};
-			double p_perp_tot_2p[2]={0};
-			double N_prot_both = 0;
-			double P_N_2p[2]={0};
-
-			rotation->prot2_rot_func( V3_2prot_corr, V3_2prot_uncorr, V4_el, E_tot_2p, p_perp_tot_2p, P_N_2p , &N_prot_both);
-
-			if(num_pi_phot==0 && N_prot_both!=0){
-
-				double histoweight = weight_protons*e_acc_ratio*wght/Mott_cross_sec; //total weight from 2p acceptance , 1e acceptance, Mott, and GENIE weight
-
-				for(int f = 0; f < num_p; f++){    //looping through two protons
-
-					h1_E_tot_p_bkgd->Fill(E_tot_2p[f],P_N_2p[f]*histoweight);
-					h1_E_rec_p_bkgd->Fill(E_rec,P_N_2p[f]*histoweight);
-					h2_Erec_pperp_2p->Fill(p_perp_tot_2p[f],E_rec,P_N_2p[f]*histoweight);
-					h2_Etot_pperp->Fill(p_perp_tot_2p[f],E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_E_tot_p_bkgd_fracfeed->Fill((E_tot_2p[f]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_N_2p[f]*histoweight);
-					h1_E_rec_p_bkgd_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_N_2p[f]*histoweight);
-					h2_pperp_W->Fill(W_var,p_perp_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[f]) *TMath::RadToDeg(),-P_N_2p[f]*histoweight);
-					h2_Ecal_Eqe->Fill(E_rec,E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_Ecal->Fill(E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h1_Ecal_Reso->Fill((E_tot_2p[f]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_N_2p[f]*histoweight);
-					h2_Ecal_Etrue->Fill(E_tot_2p[f],Ev,-P_N_2p[f]*histoweight);
-					h2_Etrue_Ecal->Fill(Ev,E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_tot_2p[f],-P_N_2p[f]*histoweight);
-					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_tot_2p[f],-P_N_2p[f]*histoweight);
-
-					h1_xbjk_weight->Fill(x_bjk,-P_N_2p[f]*histoweight);
-					h1_Q2_weight->Fill(reco_Q2,-P_N_2p[f]*histoweight);
-					h1_Wvar_weight->Fill(W_var,-P_N_2p[f]*histoweight);
-					h1_nu_weight->Fill(nu,-P_N_2p[f]*histoweight);
-					h1_el_mom_corr->Fill(V4_el.Rho(),-P_N_2p[f]*histoweight);
-					h1_prot_mom->Fill(V3_2prot_corr[f].Mag(),-P_N_2p[f]*histoweight);
-					h1_MissMomentum->Fill(p_perp_tot_2p[f],-P_N_2p[f]*histoweight);
-
-					// -----------------------------------------------------------------------------------------------
-					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
-
-					CalKineVars = CalculateCalKineVars(E_tot_2p[f],V4_el);
-					LocalWeight = -P_N_2p[f]*histoweight;
-
-					h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
-					h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
-					h1_xbjkCal_weight->Fill(CalKineVars.at(2),LocalWeight);
-					h1_WvarCal_weight->Fill(CalKineVars.at(3),LocalWeight);
-
-					h2_Q2_nu_weight->Fill(nu,reco_Q2,LocalWeight);
-					if (el_phi_mod > 0 && el_phi_mod< 60) {h2_Q2_nu_weight_FirstSector->Fill(nu,reco_Q2,LocalWeight); }
-
-					// Fill plots based on underlying interactions
-
-					ECal_BreakDown[0]->Fill(E_tot_2p[f],LocalWeight);
-					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_perp_tot_2p[f],LocalWeight);
-					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
-					Nu_BreakDown[0]->Fill(nu,LocalWeight);
-					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
-
- 					if (choice == 1) {
-						ECal_BreakDown[Interaction]->Fill(E_tot_2p[f],LocalWeight);
-						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_perp_tot_2p[f],LocalWeight);
-						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
-						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
-						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
-					}
-
-					// -----------------------------------------------------------------------------------------------
-
-					for(int i = 0 ; i < n_slice; i++) {
-
-						if (p_perp_tot_2p[f] < pperp_max[i] && p_perp_tot_2p[f] > pperp_min[i]) {
-							h1_Etot_p_bkgd_slice[i]->Fill(E_tot_2p[f],P_N_2p[f]*histoweight);
-							h1_Erec_p_bkgd_slice[i]->Fill(E_rec,P_N_2p[f]*histoweight);
-						}
-
-					}
-
-				} //looping through two protons
-
-				h1_E_tot_2p_det->Fill(E_tot_2p[0],histoweight);
-				h1_E_rec_2p_det->Fill(E_rec,histoweight);
-
-			}//no pions cut and N_prot_both!=0
-
 			//---------------------------------- 2p 1pi   ----------------------------------------------
 			//Const int can be placed somewhere up after if for 2 protons F.H. 05.09.19
 			const int N_2prot=2;
 			//Variable might/could be placed in a more local context F.H. 05.09.19
-			double Ecal_2p1pi_to2p0pi[N_2prot]={0};
-			double p_miss_perp_2p1pi_to2p0pi[N_2prot]={0};
+			double Ecal_2p1pi[N_2prot]={0};
+			double p_miss_perp_2p1pi[N_2prot]={0};
 
 			if (num_pi_phot==1) {
 
@@ -1237,49 +1148,46 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 					else { std::cout << "WARNING: 2proton and 1 Pion loop. pion_acc_ratio is still 0. Continue with next event " << std::endl;	continue; }
 				}
 
-				double P_2p1pito2p0pi[2] = {0};
-				double P_2p1pito1p1pi[2] = {0};
-				double P_2p1pito1p0pi[2] = {0};
-				double Ptot = 0;
+				double Ptot[2] = {0};
 
-				rotation->prot2_pi1_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_1pi_corr, charge_pi[0], V4_el,Ecal_2p1pi_to2p0pi,p_miss_perp_2p1pi_to2p0pi,P_2p1pito2p0pi, P_2p1pito1p1pi, P_2p1pito1p0pi,&Ptot);
+				rotation->prot2_pi1_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_1pi_corr, charge_pi[0], V4_el,Ecal_2p1pi,p_miss_perp_2p1pi, Ptot);
 
-				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Is this correct in the following loop? F.H. 09/01/19
 
 				for(int z=0; z < N_2prot; z++){ //looping over two protons
 
 					//---------------------------------- 2p 1pi ->2p 0pi ----------------------------------------------
 
-					h1_E_tot_2p1pi_2p0pi->Fill(Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_E_rec_2p1pi_2p0pi->Fill(E_rec,P_2p1pito2p0pi[z]*histoweight);
-					h2_Erec_pperp_2p1pi_2p0pi->Fill(p_miss_perp_2p1pi_to2p0pi[z],E_rec,P_2p1pito2p0pi[z]*histoweight);
-					h2_Etot_pperp->Fill(p_miss_perp_2p1pi_to2p0pi[z],Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_E_tot_2p1pi_2p0pi_fracfeed->Fill((Ecal_2p1pi_to2p0pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_2p1pito2p0pi[z]*histoweight);
-					h1_E_rec_2p1pi_2p0pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_2p1pito2p0pi[z]*histoweight);
-					h2_pperp_W->Fill(W_var,p_miss_perp_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[z]) *TMath::RadToDeg(),P_2p1pito2p0pi[z]*histoweight);
-					h2_Ecal_Eqe->Fill(E_rec,Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_Ecal->Fill(Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h1_Ecal_Reso->Fill((Ecal_2p1pi_to2p0pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],P_2p1pito2p0pi[z]*histoweight);
-					h2_Ecal_Etrue->Fill(Ecal_2p1pi_to2p0pi[z],Ev,P_2p1pito2p0pi[z]*histoweight);
-					h2_Etrue_Ecal->Fill(Ev,Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
+					h1_E_tot_2p1pi_2p0pi->Fill(Ecal_2p1pi[z],Ptot[z]*histoweight);
+					h1_E_rec_2p1pi_2p0pi->Fill(E_rec,Ptot[z]*histoweight);
+					h2_Erec_pperp_2p1pi_2p0pi->Fill(p_miss_perp_2p1pi[z],E_rec,Ptot[z]*histoweight);
+					h2_Etot_pperp->Fill(p_miss_perp_2p1pi[z],Ecal_2p1pi[z],Ptot[z]*histoweight);
+					h1_E_tot_2p1pi_2p0pi_fracfeed->Fill((Ecal_2p1pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],Ptot[z]*histoweight);
+					h1_E_rec_2p1pi_2p0pi_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],Ptot[z]*histoweight);
+					h2_pperp_W->Fill(W_var,p_miss_perp_2p1pi[z],Ptot[z]*histoweight);
+					h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_2prot_uncorr[z]) *TMath::RadToDeg(),Ptot[z]*histoweight);
+					h2_Ecal_Eqe->Fill(E_rec,Ecal_2p1pi[z],Ptot[z]*histoweight);
+					h1_Ecal->Fill(Ecal_2p1pi[z],Ptot[z]*histoweight);
+					h1_Ecal_Reso->Fill((Ecal_2p1pi[z]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],Ptot[z]*histoweight);
+					h2_Ecal_Etrue->Fill(Ecal_2p1pi[z],Ev,Ptot[z]*histoweight);
+					h2_Etrue_Ecal->Fill(Ev,Ecal_2p1pi[z],Ptot[z]*histoweight);
+					h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/Ecal_2p1pi[z],Ptot[z]*histoweight);
+					h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-Ecal_2p1pi[z],Ptot[z]*histoweight);
 
-					h1_xbjk_weight->Fill(x_bjk,P_2p1pito2p0pi[z]*histoweight);
-					h1_Q2_weight->Fill(reco_Q2,P_2p1pito2p0pi[z]*histoweight);
-					h1_Wvar_weight->Fill(W_var,P_2p1pito2p0pi[z]*histoweight);
-					h1_nu_weight->Fill(nu,P_2p1pito2p0pi[z]*histoweight);
-					h1_el_mom_corr->Fill(V4_el.Rho(),P_2p1pito2p0pi[z]*histoweight);
-					h1_prot_mom->Fill(V3_2prot_corr[z].Mag(),P_2p1pito2p0pi[z]*histoweight);
-					h1_MissMomentum->Fill(p_miss_perp_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
+					h1_xbjk_weight->Fill(x_bjk,Ptot[z]*histoweight);
+					h1_Q2_weight->Fill(reco_Q2,Ptot[z]*histoweight);
+					h1_Wvar_weight->Fill(W_var,Ptot[z]*histoweight);
+					h1_nu_weight->Fill(nu,Ptot[z]*histoweight);
+					h1_el_mom_corr->Fill(V4_el.Rho(),Ptot[z]*histoweight);
+					h1_prot_mom->Fill(V3_2prot_corr[z].Mag(),Ptot[z]*histoweight);
+					h1_MissMomentum->Fill(p_miss_perp_2p1pi[z],Ptot[z]*histoweight);
 
 					// -----------------------------------------------------------------------------------------------
 					// Reconstruct xB, W, Q2 using Ecal instead of Etrue
 
-					CalKineVars = CalculateCalKineVars(Ecal_2p1pi_to2p0pi[z],V4_el);
-					LocalWeight = P_2p1pito2p0pi[z]*histoweight;
+					CalKineVars = CalculateCalKineVars(Ecal_2p1pi[z],V4_el);
+					LocalWeight = Ptot[z]*histoweight;
 
 					h1_nuCal_weight->Fill(CalKineVars.at(0),LocalWeight);
 					h1_Q2Cal_weight->Fill(CalKineVars.at(1),LocalWeight);
@@ -1291,17 +1199,17 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 
 					// Fill plots based on underlying interactions
 
-					ECal_BreakDown[0]->Fill(Ecal_2p1pi_to2p0pi[z],LocalWeight);
+					ECal_BreakDown[0]->Fill(Ecal_2p1pi[z],LocalWeight);
 					EQE_BreakDown[0]->Fill(E_rec,LocalWeight);
-					Pmiss_BreakDown[0]->Fill(p_miss_perp_2p1pi_to2p0pi[z],LocalWeight);
+					Pmiss_BreakDown[0]->Fill(p_miss_perp_2p1pi[z],LocalWeight);
 					Q2_BreakDown[0]->Fill(reco_Q2,LocalWeight);
 					Nu_BreakDown[0]->Fill(nu,LocalWeight);
 					Pe_BreakDown[0]->Fill(V4_el.Rho(),LocalWeight);
 
  					if (choice == 1) {
-						ECal_BreakDown[Interaction]->Fill(Ecal_2p1pi_to2p0pi[z],LocalWeight);
+						ECal_BreakDown[Interaction]->Fill(Ecal_2p1pi[z],LocalWeight);
 						EQE_BreakDown[Interaction]->Fill(E_rec,LocalWeight);
-						Pmiss_BreakDown[Interaction]->Fill(p_miss_perp_2p1pi_to2p0pi[z],LocalWeight);
+						Pmiss_BreakDown[Interaction]->Fill(p_miss_perp_2p1pi[z],LocalWeight);
 						Q2_BreakDown[Interaction]->Fill(reco_Q2,LocalWeight);
 						Nu_BreakDown[Interaction]->Fill(nu,LocalWeight);
 						Pe_BreakDown[Interaction]->Fill(V4_el.Rho(),LocalWeight);
@@ -1310,9 +1218,9 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 					// -----------------------------------------------------------------------------------------------
 
 					for(int i = 0; i < n_slice; i++){
-						if (p_miss_perp_2p1pi_to2p0pi[z]<pperp_max[i] && p_miss_perp_2p1pi_to2p0pi[z]>pperp_min[i]){
-							h1_Etot_p_bkgd_slice_2p1pi_to2p0pi[i]->Fill(Ecal_2p1pi_to2p0pi[z],P_2p1pito2p0pi[z]*histoweight);
-							h1_Erec_p_bkgd_slice_2p1pi_to2p0pi[i]->Fill(E_rec,P_2p1pito2p0pi[z]*histoweight);
+						if (p_miss_perp_2p1pi[z]<pperp_max[i] && p_miss_perp_2p1pi[z]>pperp_min[i]){
+							h1_Etot_p_bkgd_slice_2p1pi_to2p0pi[i]->Fill(Ecal_2p1pi[z],Ptot[z]*histoweight);
+							h1_Erec_p_bkgd_slice_2p1pi_to2p0pi[i]->Fill(E_rec,Ptot[z]*histoweight);
 						}
 					}
 
@@ -1502,9 +1410,9 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				}
 
 				rotation->prot2_pi2_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi_corr,charge_pi, V4_el, Ecal_2p2pi,p_miss_perp_2p2pi,Ptot_2p);
-
+				TVector3 V3_2prot_corr[2],TVector3 V3_2prot_uncorr[2],TVector3 V3_2pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal[2][2], double p_miss_perp[2][2], double P_tot_2p[2][2]
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
-				double histoweight = weight_pions * weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_pions * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Is this correct in the following loop? F.H. 09/01/19
 
 
@@ -1661,7 +1569,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 			if(num_pi_phot==0 && N_p_three!=0){
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 electron, GENIE weight and Mott cross section
 
 				for(int count = 0; count < N_comb; count++) { //Loop over number of combinations
@@ -1805,7 +1713,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 					// -----------------------------------------------------------------------------------------------
 
 					for(int i = 0; i < n_slice; i++) {
-					
+
 						if (p_miss_perp[j]<pperp_max[i] && p_miss_perp[j]>pperp_min[i]){
 							h1_Etot_3pto1p_slice[i]->Fill(E_cal[j],P_3pto1p[j]*histoweight);
 							h1_Erec_3pto1p_slice[i]->Fill(E_rec,P_3pto1p[j]*histoweight);
@@ -1862,7 +1770,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot_uncorr, V3_pi_corr, charge_pi[0] , V4_el,	Ecal_3p1pi,p_miss_perp_3p1pi, P_tot_3p);
 
 				//for CLAS data is histoweight = 1/Mott_cross_sec
-				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 pion, 1 electron, GENIE weight and Mott cross section
 
 				for(int j = 0; j < N_3p; j++) { //loop over 3 protons
@@ -1931,7 +1839,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 							h1_Etot_3p1pi_slice[i]->Fill(E_cal[j],P_tot_3p[j]*histoweight);
 							h1_Erec_3p1pi_slice[i]->Fill(E_rec,P_tot_3p[j]*histoweight);
 						}
-					
+
 					}
 
 				} //end loop over N_3p
@@ -1997,7 +1905,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				V4_prot4_el[i] = V4_p4_corr[i] + V4_el;
 				E_cal_p4[i] = V4_el.E() + V4_p4_corr[i].E() - m_prot + bind_en[ftarget];
 				p_miss_perp_p4[i] = TMath::Sqrt(V4_prot4_el[i].Px()*V4_prot4_el[i].Px() + V4_prot4_el[i].Py()*V4_prot4_el[i].Py());
-	
+
 			} //end loop over N_p4
 
 			//acceptance weight for all four protons. It is 1 for CLAS data
@@ -2050,7 +1958,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				double p_miss_perp_43pto1p[N_3p];
 				double P_43pto1p[3] = {0};
 
-				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 electron, GENIE weight and Mott cross section
 
 				for(int g = 0; g < Ncomb_4to3; g++){   //estimating the undetected 4p contribution to  3p
@@ -2096,9 +2004,9 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 								h1_E_rec_4pto3p->Fill(E_rec, P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h2_Erec_pperp_4321p->Fill(p_miss_perp_4pto3p[count][j],E_rec,P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h2_Etot_pperp->Fill(p_miss_perp_4pto3p[count][j],E_cal_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
-								h1_E_tot_4pto3p_fracfeed->Fill((E_cal_4pto3p[count][j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], 
+								h1_E_tot_4pto3p_fracfeed->Fill((E_cal_4pto3p[count][j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],
 												P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
-								h1_E_rec_4pto3p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en], 
+								h1_E_rec_4pto3p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],
 												P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h2_pperp_W->Fill(W_var,p_miss_perp_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
 								h1_theta0->Fill((V4_beam.Vect()).Angle(V3_el_prot[count][j])*TMath::RadToDeg(),-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*histoweight);
@@ -2275,9 +2183,9 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 									h1_E_rec_4pto2p->Fill(E_rec, P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h2_Erec_pperp_421p->Fill( p_miss_perp_4pto2p[j],E_rec,P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h2_Etot_pperp->Fill( p_miss_perp_4pto2p[j],E_cal_4pto2p[j],P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
-									h1_E_tot_4pto2p_fracfeed->Fill((E_cal_4pto2p[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], 
+									h1_E_tot_4pto2p_fracfeed->Fill((E_cal_4pto2p[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en],
 													P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
-									h1_E_rec_4pto2p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en], 
+									h1_E_rec_4pto2p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],
 													P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h2_pperp_W->Fill(W_var,p_miss_perp_4pto2p[j], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*histoweight);
 									h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3p2_uncorr[j])*TMath::RadToDeg(),
@@ -2759,7 +2667,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 
 			// Inclusive Case BreakDown
 			InclusiveEQE_BreakDown[0]->Fill(E_rec,(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight);
-			if (choice == 1 && (-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight != 0) 
+			if (choice == 1 && (-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight != 0)
 				{ InclusiveEQE_BreakDown[Interaction]->Fill(E_rec,(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*histoweight); }
 
 			//---------------------------4pi->1pi->0pi----------------------------------------------
@@ -2864,15 +2772,15 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				if (p_perp_tot > pperp_max[0] && p_perp_tot < pperp_max[1]) { PMiss_SecondSlice++; }
 				if (p_perp_tot > pperp_max[1]) { PMiss_ThirdSlice++; }
 
-				if (fabs(ECalReso)*100. < 5) { 
-					ECalSignalEventsWithin5Perc++; 
+				if (fabs(ECalReso)*100. < 5) {
+					ECalSignalEventsWithin5Perc++;
 					if (p_perp_tot < pperp_max[0]) { ECalSignalEventsWithin5Perc_FirstSlice++; }
 					if (p_perp_tot > pperp_max[0] && p_perp_tot < pperp_max[1]) { ECalSignalEventsWithin5Perc_SecondSlice++; }
 					if (p_perp_tot > pperp_max[1]) { ECalSignalEventsWithin5Perc_ThirdSlice++; }
 				}
 
-				if (fabs(EQEReso)*100. < 5) { 
-					EQESignalEventsWithin5Perc++; 
+				if (fabs(EQEReso)*100. < 5) {
+					EQESignalEventsWithin5Perc++;
 					if (p_perp_tot < pperp_max[0]) { EQESignalEventsWithin5Perc_FirstSlice++; }
 					if (p_perp_tot > pperp_max[0] && p_perp_tot < pperp_max[1]) { EQESignalEventsWithin5Perc_SecondSlice++; }
 					if (p_perp_tot > pperp_max[1]) { EQESignalEventsWithin5Perc_ThirdSlice++; }
@@ -2969,7 +2877,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				}
 
 				if (p_perp_tot < 0.2){
-					
+
 					h1_E_rec_cut005_newcut3->Fill(E_rec,histoweight);
 					h2_Erec_pperp_cut3->Fill(p_perp_tot,E_rec,histoweight);
 					h2_Etot_pperp->Fill(p_perp_tot,E_tot,histoweight);
@@ -3005,7 +2913,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 					double pion_mom_corr = V3_pi_corr.Mag();
 
 					if (charge_pi[0] == 1) { //acceptance for pi plus
-					
+
 						pion_acc_ratio = acceptance_c(pion_mom_corr, cos(pion_theta), phi_pion, 211, file_acceptance_pip);
 						if ( fabs(pion_acc_ratio) != pion_acc_ratio ) { continue; }
 					}
@@ -3023,7 +2931,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				rotation->prot1_pi1_rot_func(V3_prot_uncorr,V3_pi_corr, charge_pi[0], &N_piphot_det,&N_piphot_undet);
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
 				//1proton, 1 Pion, 1 electron acceptance, GENIE weight and Mott
 
 				if(N_piphot_det!=0){
@@ -3154,7 +3062,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 				//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
 				//1proton, 2 Pion, 1 electron acceptance, GENIE weight and Mott
 
 				//---------------------------------- 1p 2pi->1p1pi   ----------------------------------------------
@@ -3348,7 +3256,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 		 		//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1] * pion_acc_ratio[2];
 				//histoweight is 1/Mott_cross_sec for CLAS data
-				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec; 
+				double histoweight = weight_pions * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
 				//1proton, 3 Pion, 1 electron acceptance, GENIE weight and Mott
 
 				//---------------------------------- 1p 3pi->1p 0pi  total ?? F.H. 08/13/19 check logic here compared to 1p 2pi case ----------------------------
@@ -3417,7 +3325,7 @@ void systematics::Loop(Int_t choice, std::string tweak, int sigma) {
 						h1_Erec_bkgd_1p3pi[i]->Fill(E_rec,P_1p3pi*histoweight);
 					}
 				}
-		
+
 			}//end of 1p 3pi requirement
 
 		} // 1proton ends

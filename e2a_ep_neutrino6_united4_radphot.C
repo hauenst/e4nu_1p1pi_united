@@ -1868,7 +1868,6 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
           N_prot_both = 0;
           double P_N_2p[2]={0};
           V3_q=(V4_beam-V4_el).Vect();
-          rotation->prot2_rot_func(V3_2prot_corr, V3_2prot_uncorr, V4_el, E_tot_2p, p_perp_tot_2p, P_N_2p , &N_prot_both);
 
           if(num_pi_phot==0 && N_prot_both!=0){
             for(int f = 0; f < num_p; f++){    //looping through two protons
@@ -1922,9 +1921,9 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
             double P_2p1pito2p0pi[2]={0};
             double P_2p1pito1p1pi[2]={0};
             double P_2p1pito1p0pi[2]={0};
-            double Ptot=0;
+            double Ptot[2]={0};
 
-            rotation->prot2_pi1_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_1pi, q[ind_pi_phot[0]],V4_el,Ecal_2p1pi_to2p0pi,p_miss_perp_2p1pi_to2p0pi,P_2p1pito2p0pi, P_2p1pito1p1pi, P_2p1pito1p0pi,&Ptot);
+            rotation->prot2_pi1_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_1pi, q[ind_pi_phot[0]], Ptot);
 
             for(int z=0; z < N_2prot; z++){ //looping over two protons
 
@@ -2018,7 +2017,8 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
           const int N_2pi=2;
           int q_pi2[2];
           TVector3 V3_2pi[N_2pi];
-          double Ecal_2p2pi[N_2prot],p_miss_perp_2p2pi[N_2prot],Ptot_2p[2]={0};
+          double Ecal_2p2pi[N_2prot],p_miss_perp_2p2pi[N_2prot];
+          double Ptot_2p[2][2]={0};
           bool ecstat_pi2[N_2pi]={false};
 
           if ( num_pi_phot == 2) {
@@ -2030,7 +2030,7 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
             ecstat_pi2[0] = ec_radstat_n[0];
             ecstat_pi2[1] = ec_radstat_n[1];
 
-            rotation->prot2_pi2_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi,q_pi2 ,V4_el, Ecal_2p2pi,p_miss_perp_2p2pi,Ptot_2p);
+            rotation->prot2_pi2_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi,q_pi2,Ptot_2p);
 
             for(int z = 0; z < N_2prot; z++){ //looping over two protons
 
@@ -2140,8 +2140,6 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
 	         }
 	         V3_q=(V4_beam-V4_el).Vect();
 
-           rotation->prot3_rot_func( V3_prot_corr,V3_prot,V4_el,E_cal_3pto2p,p_miss_perp_3pto2p, P_3pto2p,N_p1, E_cal_3pto1p,p_miss_perp_3pto1p,&N_p_three);
-
 	         if(num_pi_phot==0 && N_p_three!=0){
 	           for(int count = 0; count < N_comb;count++)    { //Loop over number of combinations
                for(int j = 0; j < N_2p; j++)    { //loop over two protons
@@ -2223,7 +2221,7 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
              V3_q=(V4_beam-V4_el).Vect();
              V3_pi_phot.SetXYZ(p[ind_pi_phot[0]]*cx[ind_pi_phot[0]],p[ind_pi_phot[0]]*cy[ind_pi_phot[0]],p[ind_pi_phot[0]]*cz[ind_pi_phot[0]]);
 
-             rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot, V3_pi_phot,q[ind_pi_phot[0]], V4_el,  Ecal_3p1pi,p_miss_perp_3p1pi, P_tot_3p);
+             rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot, V3_pi_phot,q[ind_pi_phot[0]],P_tot_3p);
 
 	           for(int j = 0; j < N_3p; j++)    { //loop over 3 protons
 
@@ -2258,298 +2256,6 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
 	      }//vertex cut for all three protons
 	  }//end if num_p == 3  3proton requiremnet
 
-//Events with exactly 4 protons
-	 	 if(num_p==4){
-
-	      const int N_p4=4;
-	      TLorentzVector V4_p4_uncorr[N_p4], V4_p4_corr[N_p4],V4_prot4_el[N_p4];
-	      float prot4_vz[N_p4];
-	      double prot4_phi[N_p4],prot4_theta[N_p4],prot4_vz_corr[N_p4],prot4_p_corr[N_p4];
-	      TVector3 V3_prot4[N_p4],V3_prot4_corr[N_p4];
-	      double E_cal_p4[N_p4]={0};
-        double p_miss_perp_p4[N_p4]={0};
-        double P_4pto1p[N_p4]={0};
-	      TVector3 V3_p4_rot[N_p4];
-	      bool prot4_stat[N_p4]={false};
-	      const int Ncomb_4to1 = 4,Ncomb_4to2 = 6, Ncomb_4to3 = 4;
-	      double N_p4_p1[Ncomb_4to1]={0};
-        double N_p4_p2[Ncomb_4to2]={0};
-        double N_p4_p3[Ncomb_4to3]={0};
-        double N_p_four=0;
-
-	      for(int i = 0; i < N_p4; i++)  //loop over 4 protons
-	      {
-	         V4_p4_uncorr[i].SetPxPyPzE(p[index_p[i]]*cx[index_p[i]],p[index_p[i]]*cy[index_p[i]],p[index_p[i]]*cz[index_p[i]],TMath::Sqrt(m_prot*m_prot+p[index_p[i]]*p[index_p[i]]));
-	         prot4_vz[i]=vz[index_p[i]];
-	         prot4_phi[i]=TMath::ATan2(cy[index_p[i]],cx[index_p[i]])*TMath::RadToDeg()+30;
-	         if(prot4_phi[i]<0)prot4_phi[i]=prot4_phi[i]+360;
-	         prot4_theta[i]=TMath::ACos(cz[index_p[i]])*TMath::RadToDeg();
-	         prot4_vz_corr[i]=prot4_vz[i]+vz_corr(vz_corr_func,prot4_phi[i],prot4_theta[i]);
-
-	         if(ProtonMomCorrection_He3_4Cell(ftarget,V4_p4_uncorr[i],prot4_vz_corr[i]) != -1)
-           {
-		           prot4_p_corr[i]=ProtonMomCorrection_He3_4Cell(ftarget,V4_p4_uncorr[i],prot4_vz_corr[i]);
-           }
-	         else
-		       {
-               prot4_p_corr[i]=p[index_p[i]];
-           }
-
-	         V3_prot4[i].SetXYZ(p[index_p[i]]*cx[index_p[i]],p[index_p[i]]*cy[index_p[i]],p[index_p[i]]*cz[index_p[i]]);
-	         V3_prot4_corr[i].SetXYZ(prot4_p_corr[i]*cx[index_p[i]],prot4_p_corr[i]*cy[index_p[i]],prot4_p_corr[i]*cz[index_p[i]]);
-	         V4_p4_corr[i].SetPxPyPzE(prot4_p_corr[i]*cx[index_p[i]],prot4_p_corr[i]*cy[index_p[i]],prot4_p_corr[i]*cz[index_p[i]],TMath::Sqrt(m_prot*m_prot+prot4_p_corr[i]*prot4_p_corr[i]));
-	         V4_prot4_el[i]=V4_p4_corr[i]+V4_el;
-	         E_cal_p4[i]=V4_el.E()+ V4_p4_corr[i].E()-m_prot+bind_en[ftarget];
-	         p_miss_perp_p4[i]=TMath::Sqrt(V4_prot4_el[i].Px()*V4_prot4_el[i].Px()+V4_prot4_el[i].Py()*V4_prot4_el[i].Py());
-	      } //end loop over 4 protons
-
-	      h1_el_4prot_vertdiff1->Fill(el_vert_corr- prot4_vz_corr[0]);
-	      h1_el_4prot_vertdiff2->Fill(el_vert_corr- prot4_vz_corr[1]);
-	      h1_el_4prot_vertdiff3->Fill(el_vert_corr- prot4_vz_corr[2]);
-	      h1_el_4prot_vertdiff4->Fill(el_vert_corr- prot4_vz_corr[3]);
-
-        //Electron and Proton vertex difference cut
-	      if(   (el_vert_corr- prot4_vz_corr[0])>vertdiff_min[ftarget] && (el_vert_corr- prot4_vz_corr[0])<vertdiff_max[ftarget] &&
-              (el_vert_corr- prot4_vz_corr[1])>vertdiff_min[ftarget] && (el_vert_corr- prot4_vz_corr[1])<vertdiff_max[ftarget] &&
-              (el_vert_corr- prot4_vz_corr[2])>vertdiff_min[ftarget] && (el_vert_corr- prot4_vz_corr[2])<vertdiff_max[ftarget] &&
-              (el_vert_corr- prot4_vz_corr[3])>vertdiff_min[ftarget] && (el_vert_corr- prot4_vz_corr[3])<vertdiff_max[ftarget])
-        {
-
-	         V3_q=(V4_beam-V4_el).Vect();
-
-           if ( num_pi_phot == 0){ //no pion or photon
-	            for(int g = 0; g < N_tot; g++){ //this looks like a 4-proton rotation function -> could be placed maybe in an extra function
-
-		              double rot_angle = gRandom->Uniform(0,2*TMath::Pi());
-		              for(int i = 0; i < N_p4;i++) {
-		                  V3_p4_rot[i]= V3_prot4[i];
-		                  V3_p4_rot[i].Rotate(rot_angle,V3_q);
-		              }
-		              for(int i_p = 0; i_p < N_p4; i_p++) {
-                    prot4_stat[i_p] = PFiducialCut(fbeam_en, V3_p4_rot[i_p]);
-                  }
-
-		              if( prot4_stat[0]  && !prot4_stat[1]   && !prot4_stat[2] && !prot4_stat[3])  N_p4_p1[0]=N_p4_p1[0]+1;//Detecting 1p out of 4p
-		              if(!prot4_stat[0]  &&   prot4_stat[1]  && !prot4_stat[2] && !prot4_stat[3])  N_p4_p1[1]=N_p4_p1[1]+1;
-		              if(!prot4_stat[0]  &&  !prot4_stat[1]  &&  prot4_stat[2] && !prot4_stat[3])  N_p4_p1[2]=N_p4_p1[2]+1;
-		              if(!prot4_stat[0]  &&  !prot4_stat[1]  && !prot4_stat[2] &&  prot4_stat[3])  N_p4_p1[3]=N_p4_p1[3]+1;
-		              if( prot4_stat[0]  &&  prot4_stat[1]   &&  prot4_stat[2] &&  prot4_stat[3])  N_p_four=N_p_four+1;   //Detecting 4p out of 4p
-
-		              if( prot4_stat[0]  &&  prot4_stat[1]  && !prot4_stat[2]  && !prot4_stat[3])  N_p4_p2[0]=N_p4_p2[0]+1;//Detecting 2p out of 4p
-		              if( prot4_stat[0]  && !prot4_stat[1]  &&  prot4_stat[2]  && !prot4_stat[3])  N_p4_p2[1]=N_p4_p2[1]+1;
-		              if( prot4_stat[0]  && !prot4_stat[1]  && !prot4_stat[2]  &&  prot4_stat[3])  N_p4_p2[2]=N_p4_p2[2]+1;
-		              if(!prot4_stat[0]  &&  prot4_stat[1]  &&  prot4_stat[2]  && !prot4_stat[3])  N_p4_p2[3]=N_p4_p2[3]+1;
-		              if(!prot4_stat[0]  &&  prot4_stat[1]  && !prot4_stat[2]  &&  prot4_stat[3])  N_p4_p2[4]=N_p4_p2[4]+1;
-		              if(!prot4_stat[0]  && !prot4_stat[1]  &&  prot4_stat[2]  &&  prot4_stat[3])  N_p4_p2[5]=N_p4_p2[5]+1;
-
-
-		              if( prot4_stat[0]  &&  prot4_stat[1]  &&  prot4_stat[2]  && !prot4_stat[3])  N_p4_p3[0]=N_p4_p3[0]+1;//Detecting 3p out of 4p
-		              if( prot4_stat[0]  &&  prot4_stat[1]  &&  !prot4_stat[2] &&  prot4_stat[3])  N_p4_p3[1]=N_p4_p3[1]+1;
-		              if( prot4_stat[0]  && !prot4_stat[1]  &&  prot4_stat[2]  &&  prot4_stat[3])  N_p4_p3[2]=N_p4_p3[2]+1;
-		              if(!prot4_stat[0]  &&  prot4_stat[1]  &&  prot4_stat[2]  &&  prot4_stat[3])  N_p4_p3[3]=N_p4_p3[3]+1;
-	            }//for loop of 4p rotations ends
-
-                // still no pions
-              int N_comb=3;    //number of 2 proton combination out of three
-	            const int N_2p=2, N_3p=3;
-	            double E_cal_4pto3p[3][N_2p]={0};
-              double p_miss_perp_4pto3p[3][N_2p]={0};
-              double P_4pto3p[3][N_2p]={0};
-	            TVector3 V3_prot[N_3p],V3_prot_uncorr[N_3p],V3_prot_el_4pto3p[N_3p][N_2p],V3_el_prot[N_comb][N_2p];
-	            double N_p_three=0,N_p1[N_3p]={0};
-              double E_cal_43pto1p[N_3p];
-              double p_miss_perp_43pto1p[N_3p];
-              double P_43pto1p[3]={0};
-
-	            for(int g = 0; g < Ncomb_4to3; g++){   //estimating the undetected 4p contribution to  3p
-		             if(g==0) {
-		                 V3_prot_uncorr[0]=V3_prot4[0]; V3_prot_uncorr[1]=V3_prot4[1]; V3_prot_uncorr[2]=V3_prot4[2];
-		                 V3_prot[0]=V3_prot4_corr[0]; V3_prot[1]=V3_prot4_corr[1]; V3_prot[2]=V3_prot4_corr[2];
-		             }
-		             if(g==1){
-		                 V3_prot_uncorr[0]=V3_prot4[0]; V3_prot_uncorr[1]=V3_prot4[1]; V3_prot_uncorr[2]=V3_prot4[3];
-		                 V3_prot[0]=V3_prot4_corr[0]; V3_prot[1]=V3_prot4_corr[1]; V3_prot[2]=V3_prot4_corr[3];
-		             }
-		             if(g==2){
-		                 V3_prot_uncorr[0]=V3_prot4[0]; V3_prot_uncorr[1]=V3_prot4[2]; V3_prot_uncorr[2]=V3_prot4[3];
-		                 V3_prot[0]=V3_prot4_corr[0]; V3_prot[1]=V3_prot4_corr[2]; V3_prot[2]=V3_prot4_corr[3];
-		             }
-		             if(g==3){
-		                 V3_prot_uncorr[0]=V3_prot4[1]; V3_prot_uncorr[1]=V3_prot4[2]; V3_prot_uncorr[2]=V3_prot4[3];
-		                 V3_prot[0]=V3_prot4_corr[1]; V3_prot[1]=V3_prot4_corr[2]; V3_prot[2]=V3_prot4_corr[3];
-		             }
-
-		             rotation->prot3_rot_func( V3_prot, V3_prot_uncorr,V4_el,E_cal_4pto3p,p_miss_perp_4pto3p, P_4pto3p,N_p1,E_cal_43pto1p,p_miss_perp_43pto1p,&N_p_three);
-
-		             V3_el_prot[0][0]=V4_el.Vect()+V3_prot_uncorr[0];
-		             V3_el_prot[0][1]=V4_el.Vect()+V3_prot_uncorr[1];
-		             V3_el_prot[1][0]=V4_el.Vect()+V3_prot_uncorr[0];
-		             V3_el_prot[1][1]=V4_el.Vect()+V3_prot_uncorr[2];
-		             V3_el_prot[2][0]=V4_el.Vect()+V3_prot_uncorr[1];
-		             V3_el_prot[2][1]=V4_el.Vect()+V3_prot_uncorr[2];
-
-		             if( N_p_three!=0 && N_p_four!=0){
-		   	             for(int count = 0; count < N_comb; count++)    { //looping through number of 2 proton combination out of 3 protons
-	                      for(int j = 0;j < N_2p; j++)    {  //looping through number of 1 proton combination out of 2 protons
-
-	//-----------------------------------------  4p to 3p->2->1  -----------------------------------------------------------------------
-
-		                      h1_E_tot_4pto3p->Fill(E_cal_4pto3p[count][j], P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h1_E_rec_4pto3p->Fill(E_rec, P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h1_Etot_p4321_bkgd09->Fill(E_cal_4pto3p[count][j],P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h2_Erec_pperp_4321p->Fill(p_miss_perp_4pto3p[count][j],E_rec,P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h1_E_tot_4pto3p_fracfeed->Fill((E_cal_4pto3p[count][j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h1_E_rec_4pto3p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en], P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h2_pperp_W->Fill(W_var,p_miss_perp_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h1_theta0->Fill((V4_beam.Vect()).Angle(V3_el_prot[count][j])*TMath::RadToDeg(),-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h2_Ecal_Eqe->Fill(E_rec,E_cal_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_cal_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-		                      h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_cal_4pto3p[count][j],-P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-
-		                      for (int n = 0; n < N_pperp; n++){
-			                       for(int z = 0; z < N_Ecal; z++){
-			                            if(E_cal_4pto3p[count][j] > Ecal_lowlim[z] && E_cal_4pto3p[count][j] < Ecal_uplim[z] && p_miss_perp_4pto3p[count][j]>pperp_cut[n])  {
-                                     h1_Etot_p_bkgd_slice_Ecalcut4321[n][z]->Fill(E_cal_4pto3p[count][j], P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-                                  }
-                             }
-		                      }
-		                      for(int i = 0; i < n_slice; i++)
-			                    {
-			                         if (p_miss_perp_4pto3p[count][j]<pperp_max[i] && p_miss_perp_4pto3p[count][j]>pperp_min[i]){
-			                              h1_Etot_4pto3p_slice[i]->Fill(E_cal_4pto3p[count][j], P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-			                              h1_Erec_4pto3p_slice[i]->Fill(E_rec, P_4pto3p[count][j]*(N_p4_p3[g]/N_p_four)*1/Mott_cross_sec);
-			                         }
-			                    }
-		                    } //end loop over N_2p
-		                 } //end loop over N_comb : number of 2 proton combination out of 3 protons
-
-		   //-----------------------------------------  4p to 3p->1p  -----------------------------------------------------------------------
-		   	             for(int j = 0; j < N_3p; j++)    { //4p to 3p->1, looping through 1p out of 3p
-                        //P_43pto1p doesnt have to be an array, one local variable here
-		                     P_43pto1p[j]= N_p1[j]/N_p_three*(N_p4_p3[g]/N_p_four);
-		                     h1_E_tot_43pto1p->Fill(E_cal_43pto1p[j], P_43pto1p[j]*1/Mott_cross_sec);
-		                     h1_E_rec_43pto1p->Fill(E_rec,P_43pto1p[j]*1/Mott_cross_sec);
-		                     h1_Etot_p431_bkgd09->Fill(E_cal_43pto1p[j],P_43pto1p[j]*1/Mott_cross_sec);
-		                     h2_Erec_pperp_431p->Fill(p_miss_perp_43pto1p[j],E_rec,P_43pto1p[j]*1/Mott_cross_sec);
-		                     h1_E_tot_43pto1p_fracfeed->Fill((E_cal_43pto1p[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], P_43pto1p[j]*1/Mott_cross_sec);
-		                     h1_E_rec_43pto1p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_43pto1p[j]*1/Mott_cross_sec);
-		                     h2_pperp_W->Fill(W_var,p_miss_perp_43pto1p[j],P_43pto1p[j]*1/Mott_cross_sec);
-  		                   h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_prot_uncorr[j])*TMath::RadToDeg(),P_43pto1p[j]*1/Mott_cross_sec);
-		                     h2_Ecal_Eqe->Fill(E_rec,E_cal_43pto1p[j],P_43pto1p[j]*1/Mott_cross_sec);
-		                     h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_cal_43pto1p[j],P_43pto1p[j]*1/Mott_cross_sec);
-		                     h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_cal_43pto1p[j],P_43pto1p[j]*1/Mott_cross_sec);
-
-		                     for (int n = 0; n < N_pperp; n++){
-		                         for(int z = 0; z < N_Ecal; z++){
-			                            if(E_cal_43pto1p[j] > Ecal_lowlim[z] && E_cal_43pto1p[j] < Ecal_uplim[z] && p_miss_perp_43pto1p[j]>pperp_cut[n]) {
-                                      h1_Etot_p_bkgd_slice_Ecalcut431[n][z]->Fill(E_cal_43pto1p[j], P_43pto1p[j]*1/Mott_cross_sec);
-                                  }
-		                         }
-		                     }
-                         for(int i = 0; i <n_slice; i++)
-		                     {
-			                        if (p_miss_perp_43pto1p[j]<pperp_max[i] && p_miss_perp_43pto1p[j]>pperp_min[i]){
-			                             h1_Etot_43pto1p_slice[i]->Fill(E_cal_43pto1p[j],P_43pto1p[j]*1/Mott_cross_sec);
-			                             h1_Erec_43pto1p_slice[i]->Fill(E_rec,P_43pto1p[j]*1/Mott_cross_sec);
-			                        }
-		                     }
-                    } // end loop over N_3p
-		             }//end of N_p_three and N_p_four !=0
-	            }//end of the loop through 3p combinations out of 4, g < Ncomb_4to3
-
-              //still no pions or photons num_pi_phot == 0
-	            int N_4to2=0;
-      	      TVector3 V3p2[2],V3p2_uncorr[2];
-	            double E_cal_4pto2p[2]={0};
-              double p_miss_perp_4pto2p[2]={0};
-              double P_4pto2p[2]={0};
-              double N_two=0;
-
-  //-----------------------------------------  4p to 2p->1  -----------------------------------------------------------------------
-	            for(int ind1 = 0; ind1 < N_p4; ind1++){          //estimating the undetected 4p contribution to  2p
-		              for(int ind2 = 0; ind2 < N_p4; ind2++){
-		                  if(ind1!=ind2 && ind1 < ind2){
-
-		                      V3p2[0]=V3_prot4_corr[ind1];
-		                      V3p2[1]=V3_prot4_corr[ind2];
-		                      V3p2_uncorr[0]=V3_prot4[ind1];
-		                      V3p2_uncorr[1]=V3_prot4[ind2];
-
-		                      rotation->prot2_rot_func( V3p2,V3p2_uncorr, V4_el,E_cal_4pto2p,p_miss_perp_4pto2p,  P_4pto2p, &N_two);
-
-		                      if( N_two!=0  && N_p_four!=0){
-		                          for(int j = 0; j < N_2p; j++)  {  //looping through  1 proton combination out of 2 protons
-
-	                               h1_E_tot_4pto2p->Fill(E_cal_4pto2p[j], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h1_E_rec_4pto2p->Fill(E_rec, P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h1_Etot_p421_bkgd09->Fill(E_cal_4pto2p[j],P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h2_Erec_pperp_421p->Fill( p_miss_perp_4pto2p[j],E_rec,P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h1_E_tot_4pto2p_fracfeed->Fill((E_cal_4pto2p[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h1_E_rec_4pto2p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h2_pperp_W->Fill(W_var,p_miss_perp_4pto2p[j], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3p2_uncorr[j])*TMath::RadToDeg(),P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-                                 h2_Ecal_Eqe->Fill(E_rec,E_cal_4pto2p[j],P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-	                               h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_cal_4pto2p[j],P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-		                             h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_cal_4pto2p[j],P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-
-	                               for (int n = 0; n < N_pperp; n++){
-	                                  for(int z = 0; z < N_Ecal; z++){
-	                                     if(E_cal_4pto2p[j] > Ecal_lowlim[z] && E_cal_4pto2p[j] < Ecal_uplim[z] && p_miss_perp_4pto2p[j]>pperp_cut[n]) {
-                                          h1_Etot_p_bkgd_slice_Ecalcut421[n][z]->Fill(E_cal_4pto2p[j], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-                                       }
-	                                  }
-	                               }
-	                               for(int i = 0; i < n_slice; i++)
-	                               {
-	                                  if (p_miss_perp_4pto2p[j]<pperp_max[i] && p_miss_perp_4pto2p[j]>pperp_min[i]){
-	                                     h1_Etot_4pto2p_slice[i]->Fill(E_cal_4pto2p[j], P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-		                                   h1_Erec_4pto2p_slice[i]->Fill(E_rec, P_4pto2p[j]*(N_p4_p2[N_4to2]/N_p_four)*1/Mott_cross_sec);
-		                                }
-		                             }
-		                          } //end loop over N_2p
-                          } //end if N_two!=0  && N_p_four!=0
-		                      N_4to2= N_4to2+1;
-                      } //end if ind1!=ind2 && ind1 < ind2
-                  } //end loop over ind2
-	            } //end loop over ind1
-
- //-----------------------------------------  4p to 1p  -----------------------------------------------------------------------
-	            if( N_p_four!=0){
-		              for(int j = 0; j < N_p4; j++)    {       //estimating the undetected 4p contribution to  1p
-                      //P_4pto1p[j] doesnt have to be an array since it is only used here as a local variable
-		                  P_4pto1p[j]= N_p4_p1[j]/N_p_four;
-		                  h1_E_tot_4pto1p->Fill(E_cal_p4[j], P_4pto1p[j]*1/Mott_cross_sec);
-		                  h1_E_rec_4pto1p->Fill(E_rec,P_4pto1p[j]*1/Mott_cross_sec);
-		                  h1_Etot_p41_bkgd09->Fill(E_cal_p4[j],P_4pto1p[j]*1/Mott_cross_sec);
-		                  h2_Erec_pperp_41p->Fill(p_miss_perp_p4[j],E_rec, P_4pto1p[j]*1/Mott_cross_sec);
-		                  h1_E_tot_4pto1p_fracfeed->Fill((E_cal_p4[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], P_4pto1p[j]*1/Mott_cross_sec);
-		                  h1_E_rec_4pto1p_fracfeed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_4pto1p[j]*1/Mott_cross_sec);
-		                  h2_pperp_W->Fill(W_var,p_miss_perp_p4[j],-P_4pto1p[j]*1/Mott_cross_sec);
-		                  h1_theta0->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_prot4[j])*TMath::RadToDeg(),-P_4pto1p[j]*1/Mott_cross_sec);
-		                  h2_Ecal_Eqe->Fill(E_rec,E_cal_p4[j],-P_4pto1p[j]*1/Mott_cross_sec);
-		                  h2_EqeEcalratio_Eqe->Fill(E_rec,E_rec/E_cal_p4[j],-P_4pto1p[j]*1/Mott_cross_sec);
-		                  h2_EqeEcaldiff_Eqe->Fill(E_rec,E_rec-E_cal_p4[j],-P_4pto1p[j]*1/Mott_cross_sec);
-
-		                  for (int n = 0; n < N_pperp; n++){
-		                      for(int z = 0; z < N_Ecal; z++){
-		                          if(E_cal_p4[j] > Ecal_lowlim[z] && E_cal_p4[j] < Ecal_uplim[z] && p_miss_perp_p4[j]>pperp_cut[n]) {
-                                  h1_Etot_p_bkgd_slice_Ecalcut41[n][z]->Fill(E_cal_p4[j], P_4pto1p[j]*1/Mott_cross_sec);
-                              }
-		                      }
-		                  }
-		                  for(int i = 0; i < n_slice; i++)
-		                  {
-		                      if (p_miss_perp_p4[j]<pperp_max[i] && p_miss_perp_p4[j]>pperp_min[i]){
-                              h1_Etot_4pto1p_slice[i]->Fill(E_cal_p4[j],P_4pto1p[j]*1/Mott_cross_sec);
-			                        h1_Erec_4pto1p_slice[i]->Fill(E_rec,P_4pto1p[j]*1/Mott_cross_sec);
-		                      }
-		                  }
-                  } //end loop over N_p4
-	            } // end if N_p_four!=0
-           }//no pion statment ends
-	      }//4 proton vertex cut
-	   }//4 proton requirement (num_p == 4)
-
      double P_undet=0;
      TVector3 V3_pi;
 
@@ -2560,146 +2266,6 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
        h1_E_rec_0pi->Fill(E_rec,1/Mott_cross_sec);
 	     h1_E_rec_0pi_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],1/Mott_cross_sec);
      }
-
-//----------------------------- e- ,1pi  -----------------------------------------
-
-	   if (num_pi_phot==1) {
-
-	      V3_pi.SetXYZ(p[ind_pi_phot[0]]*cx[ind_pi_phot[0]],p[ind_pi_phot[0]]*cy[ind_pi_phot[0]],p[ind_pi_phot[0]]*cz[ind_pi_phot[0]]);
-	      rotation->pi1_rot_func(V3_pi,q[ind_pi_phot[0]],&P_undet);
-
-	      h1_E_rec_1pi_weight->Fill(E_rec,P_undet*1/Mott_cross_sec);
-	      h1_E_rec_1pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_undet*1/Mott_cross_sec);
-
-	      if(!ec_radstat_n[0])  h1_E_rec_1pi->Fill(E_rec,1/Mott_cross_sec);
-	      if(ec_num_n==1)       h2_phot_e_angle_Erec->Fill(E_rec,V3_pi.Angle(V4_el.Vect())*TMath::RadToDeg());
-	   }
-//----------------------------- e- ,2pi  -----------------------------------------
-
-     if (num_pi_phot==2) {
-
-	      const int N_2pi=2;
-	      TVector3 V3_2pi[N_2pi];
-	      int q_pi2[N_2pi];
-        bool radstat_pi2[N_2pi]={false};
-	      double P_1pi[N_2pi]={0};
-        double P_0pi=0;
-
-        V3_2pi[0].SetXYZ(p[ind_pi_phot[0]]*cx[ind_pi_phot[0]],p[ind_pi_phot[0]]*cy[ind_pi_phot[0]],p[ind_pi_phot[0]]*cz[ind_pi_phot[0]]);
-        V3_2pi[1].SetXYZ(p[ind_pi_phot[1]]*cx[ind_pi_phot[1]],p[ind_pi_phot[1]]*cy[ind_pi_phot[1]],p[ind_pi_phot[1]]*cz[ind_pi_phot[1]]);
-        q_pi2[0]=q[ind_pi_phot[0]];
-        q_pi2[1]=q[ind_pi_phot[1]];
-        radstat_pi2[0]=ec_radstat_n[0];
-        radstat_pi2[1]=ec_radstat_n[1];
-
-        rotation->pi2_rot_func( V3_2pi, q_pi2,&P_0pi,P_1pi);
-
-//----------------------------- e- ,2pi->0pi (-) -----------------------------------------
-        h1_E_rec_2pi_weight->Fill(E_rec,(-P_0pi)*1/Mott_cross_sec);
-        h1_E_rec_2pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_0pi)*1/Mott_cross_sec);
-        h1_E_rec_20pi->Fill(E_rec,(P_0pi)*1/Mott_cross_sec);
-//----------------------------- e- ,2pi->1pi->0pi (+)  -----------------------------------------
-        for(int k = 0; k < N_2pi; k++){ //loop over two pions
-          h1_E_rec_2pi_weight->Fill(E_rec,P_1pi[k]*1/Mott_cross_sec);
-          h1_E_rec_2pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1pi[k]*1/Mott_cross_sec);
-          h1_E_rec_21pi->Fill(E_rec,(P_1pi[k])*1/Mott_cross_sec);
-        }
-     } //end if for two pion events
-
-//----------------------------- e- ,3pi  -----------------------------------------
-
-     if (num_pi_phot==3) {
-
-        const int N_3pi=3;
-        const int N_2pi=2;
-        TVector3 V3_3pi[N_3pi];
-        int q_pi3[N_3pi]={0};
-        bool radstat_pi3[N_3pi]={false};
-        double P_0pi=0;
-        double P_1pi[N_3pi]={0};
-        double P_320pi[N_3pi]={0};
-        double P_3210pi[N_3pi][N_2pi]={0};
-
-        for (int h = 0; h < N_3pi; h++){ //loop over three pions
-
-          V3_3pi[h].SetXYZ(p[ind_pi_phot[h]]*cx[ind_pi_phot[h]],p[ind_pi_phot[h]]*cy[ind_pi_phot[h]],p[ind_pi_phot[h]]*cz[ind_pi_phot[h]]);
-          q_pi3[h]=q[ind_pi_phot[h]];
-          radstat_pi3[h]=ec_radstat_n[h];
-        }
-
-        rotation->pi3_rot_func( V3_3pi, q_pi3,&P_0pi, P_1pi, P_320pi,P_3210pi);
-
- //---------------------------3pi->0pi----------------------------------------------
-        h1_E_rec_3pi_weight->Fill(E_rec,(-P_0pi)*1/Mott_cross_sec);
-        h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_0pi)*1/Mott_cross_sec);
-        h1_E_rec_30pi->Fill(E_rec,(P_0pi)*1/Mott_cross_sec);
-
-        for(int h = 0; h < N_3pi; h++){ //loop over three pions
-
-//---------------------------3pi->1pi->0pi----------------------------------------------
-          h1_E_rec_3pi_weight->Fill(E_rec,P_1pi[h]*1/Mott_cross_sec);
-          h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_1pi[h]*1/Mott_cross_sec);
-          h1_E_rec_310pi->Fill(E_rec,(P_1pi[h])*1/Mott_cross_sec);
- //---------------------------3pi->2pi->0pi----------------------------------------------
-          h1_E_rec_3pi_weight->Fill(E_rec,P_320pi[h]*1/Mott_cross_sec);
-          h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_320pi[h]*1/Mott_cross_sec);
-          h1_E_rec_320pi->Fill(E_rec,(P_320pi[h])*1/Mott_cross_sec);
-//---------------------------3pi->2pi->1pi->0pi----------------------------------------------
-          for(int g = 0; g < N_2pi; g++){ //loop over two pions
-            h1_E_rec_3pi_weight->Fill(E_rec,(-P_3210pi[h][g])*1/Mott_cross_sec);
-            h1_E_rec_3pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_3210pi[h][g])*1/Mott_cross_sec);
-            h1_E_rec_3210pi->Fill(E_rec,(P_3210pi[h][g])*1/Mott_cross_sec);
-          }
-        }//end of 3pi loop
-     }//end of 3pi requirement
-
-//----------------------------- e- ,4pi  -----------------------------------------
-     if (num_pi_phot==4) {
-
-       const int N_4pi=4;
-       TVector3 V3_4pi[N_4pi];
-       int q_pi4[N_4pi]={0};
-       bool  radstat_pi4[N_4pi]={false};
-       double P_0pi=0;
-       double P_410pi=0;
-       double P_420pi=0;
-       double P_4210pi=0;
-       double P_430pi=0;
-       double P_4310pi=0;
-       double P_4320pi=0;
-       double P_43210pi=0;
-
-       for (int h = 0; h < N_4pi;h++){ //loop over four pions
-
-         V3_4pi[h].SetXYZ(p[ind_pi_phot[h]]*cx[ind_pi_phot[h]],p[ind_pi_phot[h]]*cy[ind_pi_phot[h]],p[ind_pi_phot[h]]*cz[ind_pi_phot[h]]);
-         q_pi4[h]=q[ind_pi_phot[h]];
-         radstat_pi4[h]=ec_radstat_n[h];
-       }
-
-       rotation->pi4_rot_func( V3_4pi, q_pi4,&P_0pi,&P_410pi,&P_420pi,&P_4210pi,&P_430pi,&P_4310pi,&P_4320pi,&P_43210pi);
-
- //---------------------------4pi->0pi----------------------------------------------
-//why is it here not split like for 3pi case, sum over all weights is done here
-       h1_E_rec_4pi_weight->Fill(E_rec,(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*1/Mott_cross_sec);
-       h1_E_rec_4pi_weight_frac_feed->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],(-P_0pi+P_410pi+P_420pi-P_4210pi+P_430pi-P_4310pi-P_4320pi+P_43210pi)*1/Mott_cross_sec);
-       h1_E_rec_40pi->Fill(E_rec,(P_0pi)*1/Mott_cross_sec);
-//---------------------------4pi->1pi->0pi----------------------------------------------
-       h1_E_rec_410pi->Fill(E_rec,(P_410pi)*1/Mott_cross_sec);
-//---------------------------4pi->2pi->0pi----------------------------------------------
-       h1_E_rec_420pi->Fill(E_rec,(P_420pi)*1/Mott_cross_sec);
-//---------------------------4pi->2pi->1pi->0pi----------------------------------------------
-       h1_E_rec_4210pi->Fill(E_rec,(P_4210pi)*1/Mott_cross_sec);
-//---------------------------4pi->3pi->0pi----------------------------------------------
-       h1_E_rec_430pi->Fill(E_rec,(P_430pi)*1/Mott_cross_sec);
-//---------------------------4pi->3pi->1pi->0pi----------------------------------------------
-       h1_E_rec_4310pi->Fill(E_rec,(P_4310pi)*1/Mott_cross_sec);
-//---------------------------4pi->3pi->2pi->0pi----------------------------------------------
-       h1_E_rec_4320pi->Fill(E_rec,(P_4320pi)*1/Mott_cross_sec);
-//---------------------------4pi->3pi->2pi->1pi->0pi----------------------------------------------
-       h1_E_rec_43210pi->Fill(E_rec,(P_43210pi)*1/Mott_cross_sec);
-
-     }//end of 4 pi/photon requirement
-
 
    //------------------------------------------requiring there to be a proton -------------------------------------
     //Events with exactly one proton
@@ -2761,7 +2327,7 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
          radstat_pi2[0]=ec_radstat_n[0];
          radstat_pi2[1]=ec_radstat_n[1];
 
-         rotation->prot1_pi2_rot_func(V3_prot_uncorr,V3_2pi,q_pi2,&P_1p0pi,P_1p1pi);
+         rotation->prot1_pi2_rot_func(V3_prot_uncorr,V3_2pi,q_pi2,P_1p1pi);
 
  //---------------------------------- 1p 2pi->1p1pi   ----------------------------------------------
 
@@ -2836,7 +2402,7 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
          double N_pi=0;
          double N_nopi=0;
          double N_0pi_1p=0;
-         double P_1p3pi=0;
+         double P_1p3pi[3]={0};
          V3_q=(V4_beam-V4_el).Vect();
 
          V3_3pi[0].SetXYZ(p[ind_pi_phot[0]]*cx[ind_pi_phot[0]],p[ind_pi_phot[0]]*cy[ind_pi_phot[0]],p[ind_pi_phot[0]]*cz[ind_pi_phot[0]]);
@@ -2849,7 +2415,7 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
          radstat_pi3[1]=ec_radstat_n[1];
          radstat_pi3[2]=ec_radstat_n[2];
 
-         rotation->prot1_pi3_rot_func(V3_prot_uncorr,V3_3pi,q_pi3,&P_1p3pi);
+         rotation->prot1_pi3_rot_func(V3_prot_uncorr,V3_3pi,q_pi3,P_1p3pi);
 
  //---------------------------------- 1p 3pi->1p 0pi  total ?? F.H. 08/13/19 check logic here compared to 1p 2pi case ----------------------------------------------
          h1_E_tot_1p3pi->Fill(E_tot,P_1p3pi*1/Mott_cross_sec);
@@ -2885,8 +2451,6 @@ void e2a_ep_neutrino6_united4_radphot::Loop()
          TVector3 V3_pi_phot;
          V3_q=(V4_beam-V4_el).Vect();
          V3_pi_phot.SetXYZ(p[ind_pi_phot[0]]*cx[ind_pi_phot[0]],p[ind_pi_phot[0]]*cy[ind_pi_phot[0]],p[ind_pi_phot[0]]*cz[ind_pi_phot[0]]);	N_piphot_det=N_piphot_undet=0;
-
-         rotation->prot1_pi1_rot_func(V3_prot_uncorr,V3_pi_phot, q[ind_pi_phot[0]], &N_piphot_det,&N_piphot_undet);
 
 		     if(N_piphot_det!=0){
 
