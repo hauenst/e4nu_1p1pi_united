@@ -13,7 +13,7 @@
 #include <TGraph.h>
 #include "Subtraction.h"
 
-void Subtraction::prot1_pi2_rot_func(TVector3  V3prot, TVector3 V3pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal[2], double p_miss_perp[2], double P_1p1pi[2]){
+void Subtraction::prot1_pi2_rot_func(TVector3  V3prot, TVector3 V3pi[2], TLorentzVector V4prot, TLorentzVector V4pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal[2], double p_miss_perp[2], double P_1p1pi[2]){
 
     const int N_pi=2;
     double rotation_ang;
@@ -49,7 +49,7 @@ void Subtraction::prot1_pi2_rot_func(TVector3  V3prot, TVector3 V3pi[2], int q_p
          //----------------------1p2pi->1p1pi
          for(int h=0;h<N_pi;h++){
   	        P_1p1pi[h]=(N_1p1pi[h]/N_all);
-            prot1_pi1_en_calc(V3prot, V3pi[h], q_pi[h], V4_el, Ecal[h], p_miss_perp[h]);
+            prot1_pi1_en_calc(V4prot, V4pi[h], q_pi[h], V4_el, Ecal[h], p_miss_perp[h]);
          }
        }   //N_all!=0 statement
 
@@ -59,7 +59,7 @@ void Subtraction::prot1_pi2_rot_func(TVector3  V3prot, TVector3 V3pi[2], int q_p
        }
   }
 
-void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], int q_pi[3], TLorentzVector V4_el, double Ecal[3], double p_miss_perp[3], double P_tot[3]){
+void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], TLorentzVector V4prot, TLorentzVector V4pi[3], int q_pi[3], TLorentzVector V4_el, double Ecal[3], double p_miss_perp[3], double P_tot[3]){
     const int N_pi=3;
     double P_1p3pito1p1pi[3] = {0};
     double rotation_ang;
@@ -106,6 +106,7 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], int q_p
     double P_1p2pito1p1pi[6] = {0};
     int count = 0;
     TVector3 V3pi2[2];
+    TLorentzVector V4pi2[2];
     int q_pi2[2] = {0};
     double P_1p1pi[2] = {0};
     double Ecal2[2] = {0};
@@ -121,9 +122,11 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], int q_p
               P_1p1pi[0] = P_1p1pi[1] = 0;
               V3pi2[0] = V3pi[i];
               V3pi2[1] = V3pi[j];
+              V4pi2[0] = V4pi[i];
+              V4pi2[1] = V4pi[j];
               q_pi2[0] = q_pi[i];
               q_pi2[1] = q_pi[j];
-              prot1_pi2_rot_func(V3prot, V3pi2, q_pi2, V4_el, Ecal2, p_miss_perp2, P_1p1pi);
+              prot1_pi2_rot_func(V3prot, V3pi2, V4prot, V4pi2, q_pi2, V4_el, Ecal2, p_miss_perp2, P_1p1pi);
               Ecal[i] = Ecal2[0];
               Ecal[j] = Ecal2[1];
               p_miss_perp[i] = p_miss_perp2[0];
@@ -141,7 +144,7 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], int q_p
 }
 
 
-void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot_uncorr[2],TVector3 V3_1pi, int q_pi, TLorentzVector V4_el, double Ecal[2], double p_miss_perp[2], double P_tot[2]){
+void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot_uncorr[2],TVector3 V3_1pi, TLorentzVector V4_2prot_corr[2], TLorentzVector V4_1pi, int q_pi, TLorentzVector V4_el, double Ecal[2], double p_miss_perp[2], double P_tot[2]){
 
     const int N_2prot=2;
     TVector3 V3_2p_rotated[N_2prot],V3_1pirot;
@@ -176,8 +179,8 @@ void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
      {
        P_tot[0] = N_1p_1pi[0]/N_all;
        P_tot[1] = N_1p_1pi[1]/N_all;
-       prot1_pi1_en_calc(V3_2prot_corr[0], V3_1pi, q_pi, V4_el, Ecal[0], p_miss_perp[0]);
-       prot1_pi1_en_calc(V3_2prot_corr[1], V3_1pi, q_pi, V4_el, Ecal[1], p_miss_perp[1]);
+       prot1_pi1_en_calc(V4_2prot_corr[0], V4_1pi, q_pi, V4_el, Ecal[0], p_miss_perp[0]);
+       prot1_pi1_en_calc(V4_2prot_corr[1], V4_1pi, q_pi, V4_el, Ecal[1], p_miss_perp[1]);
      }
      else
      {
@@ -187,7 +190,7 @@ void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
   }
 
 
-void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot_uncorr[2],TVector3 V3_2pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal[2][2], double p_miss_perp[2][2], double P_tot_2p[2][2]){
+void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot_uncorr[2],TVector3 V3_2pi[2], TLorentzVector V4_2prot_corr[2], TLorentzVector V4_2pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal[2][2], double p_miss_perp[2][2], double P_tot_2p[2][2]){
 
     const int N_2prot=2,N_2pi=2;
     TVector3 V3_2p_rotated[N_2prot],V3_2pirot[N_2pi];
@@ -235,7 +238,7 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
         double p_miss_perp2[2] = {0};
       for(int i=0;i<2;i++)
       {
-        prot1_pi2_rot_func(V3_2prot_uncorr[i], V3_2pi, q_pi, V4_el, Ecal2, p_miss_perp2, P_tot);
+        prot1_pi2_rot_func(V3_2prot_uncorr[i], V3_2pi, V4_2prot_corr[i], V4_2pi, q_pi, V4_el, Ecal2, p_miss_perp2, P_tot);
         Ecal[i][0] = Ecal2[0];
         Ecal[i][1] = Ecal2[1];
         p_miss_perp[i][0] = p_miss_perp2[0];
@@ -247,7 +250,7 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
       P_tot[0] = P_tot[1] = 0;
     for(int i=0;i<2;i++)
     {
-      prot2_pi1_rot_func(V3_2prot_corr, V3_2prot_uncorr, V3_2pi[i], q_pi[i], V4_el, Ecal2, p_miss_perp2, P_tot);
+      prot2_pi1_rot_func(V3_2prot_corr, V3_2prot_uncorr, V3_2pi[i], V4_2prot_corr, V4_2pi[i], q_pi[i], V4_el, Ecal2, p_miss_perp2, P_tot);
       Ecal[0][i] = Ecal2[0];
       Ecal[1][i] = Ecal2[1];
       p_miss_perp[0][i] = p_miss_perp2[0];
@@ -271,7 +274,7 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
   }
 }
 
-void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot_uncorr[3],TVector3 V3_pi, int q_pi, TLorentzVector V4_el, double Ecal[3], double p_miss_perp[3], double P_tot_3p[3]){
+void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot_uncorr[3],TVector3 V3_pi, TLorentzVector V4_3prot_corr[3], TLorentzVector V4_pi, int q_pi, TLorentzVector V4_el, double Ecal[3], double p_miss_perp[3], double P_tot_3p[3]){
 
     const int N_3prot=3;
     TVector3 V3_3p_rotated[N_3prot],V3_pirot;
@@ -321,6 +324,7 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
    //---------------------------------- 3p 1pi ->2p 1pi   ----------------------------------------------
    TVector3 V3_prot_corr[2];
    TVector3 V3_prot_uncorr[2];
+   TLorentzVector V4_prot_corr[2];
    double Ecal2[2] = {0};
    double p_miss_perp2[2] = {0};
    for(int i=0;i<N_3prot;i++){       //looping through 2p combinations  out of 3p
@@ -332,7 +336,9 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
           V3_prot_corr[1] = V3_3prot_corr[i];
           V3_prot_uncorr[0] = V3_3prot_uncorr[z];
           V3_prot_uncorr[1] = V3_3prot_uncorr[i];
-          prot2_pi1_rot_func(V3_prot_corr,V3_prot_uncorr,V3_pi, q_pi, V4_el, Ecal2, p_miss_perp2, P_2p1pito1p1pi);
+          V4_prot_corr[0] = V4_3prot_corr[z];
+          V4_prot_corr[1] = V4_3prot_corr[z];
+          prot2_pi1_rot_func(V3_prot_corr,V3_prot_uncorr,V3_pi,V4_prot_corr, V4_pi, q_pi, V4_el, Ecal2, p_miss_perp2, P_2p1pito1p1pi);
           Ecal[z] = Ecal2[0];
           Ecal[i] = Ecal2[1];
           p_miss_perp[z] = p_miss_perp2[0];
@@ -358,11 +364,11 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
 
   }
 
-void Subtraction::prot1_pi1_en_calc(TVector3 V3prot, TVector3 V3pi, int q_pi, TLorentzVector V4_el, double Ecal, double p_miss_perp)
+void Subtraction::prot1_pi1_en_calc(TLorentzVector V4prot, TLorentzVector V4pi, int q_pi, TLorentzVector V4_el, double Ecal, double p_miss_perp)
 {
     double m_prot=0.9382720813;
-    TVector3 V3_total = V3prot + V3pi + V4_el.Vect();
-    Ecal = V4_el.E()+ TMath::Sqrt(m_prot*m_prot+V3prot.Mag()*V3prot.Mag())-m_prot+bind_en[target_name];
+    TVector3 V3_total = V4prot.Vect() + V4pi.Vect() + V4_el.Vect();
+    Ecal = V4_el.E() + V4prot.E() - m_prot + V4pi.E();
     p_miss_perp = TMath::Sqrt(V3_total.Px()*V3_total.Px()+V3_total.Py()*V3_total.Py());
 }
 #endif

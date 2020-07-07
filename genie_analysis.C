@@ -1131,6 +1131,10 @@ void genie_analysis::Loop(Int_t choice) {
 			TVector3 V3_2prot_corr[2];
 			V3_2prot_corr[0] = V3_prot_corr1;
 			V3_2prot_corr[1] = V3_prot_corr2;
+
+			TLorentzVector V4_2prot_corr[2];
+			V4_2prot_corr[0] = V4_prot_uncorr1;
+			V4_2prot_corr[1] = V4_prot_uncorr2;
 			//---------------------------------- 2p 1pi   ----------------------------------------------
 			//Const int can be placed somewhere up after if for 2 protons F.H. 05.09.19
 			const int N_2prot=2;
@@ -1141,15 +1145,18 @@ void genie_analysis::Loop(Int_t choice) {
 			if (num_pi_phot==1) {
 
 				TVector3 V3_1pi_corr;
+				TLorentzVector V4_1pi_corr;
 				double pion_acc_ratio = 1;
 
 				if (choice == 0) { //CLAS data
 					V3_1pi_corr.SetXYZ(pxf[ind_pi_phot[0]],pyf[ind_pi_phot[0]],pzf[ind_pi_phot[0]]);
+					V4_1pi_corr.SetPxPyPzE(pxf[ind_pi_phot[0]],pyf[ind_pi_phot[0]],pzf[ind_pi_phot[0]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[0]]*pf[ind_pi_phot[0]]));
 				}
 
 				if (choice == 1) { //GENIE data
 					pion_acc_ratio = 0;//reset to 0 just to be save
 					V3_1pi_corr.SetXYZ(Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pxf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pyf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pzf[ind_pi_phot[0]]);
+					V4_1pi_corr.SetPxPyPzE(Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pxf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pyf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pzf[ind_pi_phot[0]], TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[0]]*pf[ind_pi_phot[0]]));
 
 					double phi_pion = V3_1pi_corr.Phi();
 					V3_1pi_corr.SetPhi(phi_pion + TMath::Pi()); // Vec.Phi() is between (-180,180)
@@ -1178,7 +1185,7 @@ void genie_analysis::Loop(Int_t choice) {
 				double Ptot[2] = {0};
 				double E_tot_2p[2] = {0};
 				double p_perp_tot_2p[2] = {0};
-				rotation->prot2_pi1_rot_func(V3_2prot_corr, V3_2prot_uncorr, V3_1pi_corr, charge_pi[0], V4_el, E_tot_2p, p_perp_tot_2p, Ptot);
+				rotation->prot2_pi1_rot_func(V3_2prot_corr, V3_2prot_uncorr, V3_1pi_corr, V4_2prot_corr, V4_1pi_corr, charge_pi[0], V4_el, E_tot_2p, p_perp_tot_2p, Ptot);
 				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Is this correct in the following loop? F.H. 09/01/19
 
@@ -1397,7 +1404,7 @@ void genie_analysis::Loop(Int_t choice) {
 			double Ecal_2p2pi[N_2prot];
 			double p_miss_perp_2p2pi[N_2prot];
 			double Ptot_2p[2][2]={0};
-
+			TLorentzVector V4_2pi_corr[2];
 			if (num_pi_phot == 2) {
 
 				TVector3 V3_2pi_corr[N_2pi];
@@ -1406,6 +1413,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 					if (choice == 0) { //CLAS data
 						V3_2pi_corr[i].SetXYZ(pxf[ind_pi_phot[i]],pyf[ind_pi_phot[i]],pzf[ind_pi_phot[i]]);
+						V4_2pi_corr[i].SetPxPyPzE(pxf[ind_pi_phot[i]],pyf[ind_pi_phot[i]],pzf[ind_pi_phot[i]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[i]]*pf[ind_pi_phot[i]]));
 						pion_acc_ratio[i] = 1; //Acceptance 1 for CLAS data
 					}
 
@@ -1413,6 +1421,8 @@ void genie_analysis::Loop(Int_t choice) {
 						pion_acc_ratio[i] = 0; //reset to 0 just to be same
 						V3_2pi_corr[i].SetXYZ(Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pxf[ind_pi_phot[i]],Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pyf[ind_pi_phot[i]],
 								Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pzf[ind_pi_phot[i]]);
+						V4_2pi_corr[i].SetPxPyPzE(Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pxf[ind_pi_phot[i]],Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pyf[ind_pi_phot[i]],
+								Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pzf[ind_pi_phot[i]], TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[i]]*pf[ind_pi_phot[i]]));
 						double phi_pion = V3_2pi_corr[i].Phi();
 						V3_2pi_corr[i].SetPhi(phi_pion + TMath::Pi() ); // Vec.Phi() is between (-180,180)
 						phi_pion += TMath::Pi(); // GENIE coordinate system flipped with respect to CLAS
@@ -1439,7 +1449,7 @@ void genie_analysis::Loop(Int_t choice) {
 				double p_miss_perp2p2pi[2][2];
 				double P_tot_2p[2][2];
 
-				rotation->prot2_pi2_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi_corr,charge_pi,V4_el, Ecal2p2pi, p_miss_perp2p2pi, P_tot_2p);
+				rotation->prot2_pi2_rot_func(V3_2prot_corr,V3_2prot_uncorr,V3_2pi_corr,V4_2prot_corr, V4_2pi_corr, charge_pi,V4_el, Ecal2p2pi, p_miss_perp2p2pi, P_tot_2p);
 
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
 				double histoweight = weight_pions * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
@@ -1602,10 +1612,12 @@ void genie_analysis::Loop(Int_t choice) {
 				double Ecal_3p1pi[N_3p]={0};
 				double p_miss_perp_3p1pi[N_3p]={0};
 				TVector3 V3_pi_corr;
+				TLorentzVector V4_pi_corr;
 				double pion_acc_ratio = 1;
 
 				if (choice == 0) { //CLAS data
 					V3_pi_corr.SetXYZ(pxf[ind_pi_phot[0]],pyf[ind_pi_phot[0]],pzf[ind_pi_phot[0]]);
+					V4_pi_corr.SetPxPyPzE(pxf[ind_pi_phot[0]],pyf[ind_pi_phot[0]],pzf[ind_pi_phot[0]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[0]]*pf[ind_pi_phot[0]]));
 					pion_acc_ratio = 1; //Acceptance is 1 for CLAS datafile
 				}
 
@@ -1614,7 +1626,8 @@ void genie_analysis::Loop(Int_t choice) {
 					pion_acc_ratio = 0; //Reset to 0 just to be sure
 					V3_pi_corr.SetXYZ(Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pxf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pyf[ind_pi_phot[0]],
 							Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pzf[ind_pi_phot[0]]);
-
+					V4_pi_corr.SetPxPyPzE(Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pxf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pyf[ind_pi_phot[0]],
+							Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pzf[ind_pi_phot[0]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[0]]*pf[ind_pi_phot[0]]));
 					double phi_pion = V3_pi_corr.Phi(); //in Radians
 					V3_pi_corr.SetPhi(phi_pion + TMath::Pi() ); // Vec.Phi() is between (-180,180)
 					phi_pion += TMath::Pi(); // GENIE coordinate system flipped with respect to CLAS
@@ -1637,7 +1650,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 				}
 
-				rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot_uncorr, V3_pi_corr, charge_pi[0], V4_el, Ecal_3p1pi, p_miss_perp_3p1pi, P_tot_3p);
+				rotation->prot3_pi1_rot_func(V3_prot_corr,V3_prot_uncorr, V3_pi_corr, V4_p_corr, V4_pi_corr, charge_pi[0], V4_el, Ecal_3p1pi, p_miss_perp_3p1pi, P_tot_3p);
 				//for CLAS data is histoweight = 1/Mott_cross_sec
 				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Weight for 3protons, 1 pion, 1 electron, GENIE weight and Mott cross section
@@ -1764,11 +1777,12 @@ void genie_analysis::Loop(Int_t choice) {
 				double N_piphot_undet;
 				TVector3 V3_pi_corr;
 				double pion_acc_ratio = 1;
-
+				TLorentzVector V4_pi_corr;
 				if (choice == 0) { //CLAS data
 
 					pion_acc_ratio = 1; //Acceptance is 1 for CLAS data
 					V3_pi_corr.SetXYZ(pxf[ind_pi_phot[0]], pyf[ind_pi_phot[0]], pzf[ind_pi_phot[0]]);
+					V4_pi_corr.SetPxPyPzE(pxf[ind_pi_phot[0]], pyf[ind_pi_phot[0]], pzf[ind_pi_phot[0]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[0]]*pf[ind_pi_phot[0]]));
 				}
 
 				if (choice == 1) { //GENIE data
@@ -1776,6 +1790,8 @@ void genie_analysis::Loop(Int_t choice) {
 					pion_acc_ratio = 1; //Reset to 0 just to be sure
 					V3_pi_corr.SetXYZ(Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pxf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pyf[ind_pi_phot[0]],
 							Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pzf[ind_pi_phot[0]]);
+				  V4_pi_corr.SetPxPyPzE(Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pxf[ind_pi_phot[0]],Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pyf[ind_pi_phot[0]],
+							Smeared_Ppi[0]/pf[ind_pi_phot[0]] * pzf[ind_pi_phot[0]] ,TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[0]]*pf[ind_pi_phot[0]]));
 					double phi_pion = V3_pi_corr.Phi(); //in Radians
 					V3_pi_corr.SetPhi(phi_pion + TMath::Pi() ); // Vec.Phi() is between (-180,180)
 					phi_pion += TMath::Pi(); // GENIE coordinate system flipped with respect to CLAS
@@ -1800,7 +1816,7 @@ void genie_analysis::Loop(Int_t choice) {
 				}
 				double E_tot = 0;
 				double p_perp_tot = 0;
-				rotation->prot1_pi1_en_calc(V3_prot_uncorr, V3_pi_corr, charge_pi[0], V4_el, E_tot, p_perp_tot);
+				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, E_tot, p_perp_tot);
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
 				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
@@ -1823,6 +1839,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 				const int N_2pi=2;
 				TVector3 V3_2pi_corr[N_2pi],V3_2pi_rot[N_2pi],V3_p_rot;
+				TLorentzVector V4_2pi_corr[2];
 				double P_1p0pi=0;
 				double P_1p1pi[N_2pi]={0};
 
@@ -1832,6 +1849,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 					if (choice == 0) { //CLAS data
 						V3_2pi_corr[i].SetXYZ( pxf[ind_pi_phot[i]], pyf[ind_pi_phot[i]], pzf[ind_pi_phot[i]]);
+						V4_2pi_corr[i].SetPxPyPzE(pxf[ind_pi_phot[i]], pyf[ind_pi_phot[i]], pzf[ind_pi_phot[i]], TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[i]]*pf[ind_pi_phot[i]]));
 						pion_acc_ratio[i] = 1; //Acceptance is 1 for CLAS data
 					}
 
@@ -1839,6 +1857,8 @@ void genie_analysis::Loop(Int_t choice) {
 
 						V3_2pi_corr[i].SetXYZ(Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pxf[ind_pi_phot[i]],Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pyf[ind_pi_phot[i]],
 									Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pzf[ind_pi_phot[i]]);
+						V4_2pi_corr[i].SetPxPyPzE(Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pxf[ind_pi_phot[i]],Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pyf[ind_pi_phot[i]],
+									Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pzf[ind_pi_phot[i]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[i]]*pf[ind_pi_phot[i]]));
 						double phi_pion = V3_2pi_corr[i].Phi(); //in Radians
 						V3_2pi_corr[i].SetPhi(phi_pion + TMath::Pi() ); // Vec.Phi() is between (-180,180)
 						phi_pion += TMath::Pi(); // GENIE coordinate system flipped with respect to CLAS
@@ -1864,7 +1884,7 @@ void genie_analysis::Loop(Int_t choice) {
 				double Ecal[2] = {0};
 				double p_miss_perp[2] = {0};
 
-				rotation->prot1_pi2_rot_func(V3_prot_uncorr,V3_2pi_corr,charge_pi, V4_el, Ecal, p_miss_perp, P_1p1pi);
+				rotation->prot1_pi2_rot_func(V3_prot_uncorr,V3_2pi_corr, V4_prot_corr, V4_2pi_corr, charge_pi, V4_el, Ecal, p_miss_perp, P_1p1pi);
 
 				//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1];
@@ -1953,6 +1973,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 				const int N_3pi=3;
 				TVector3 V3_3pi_corr[N_3pi],V3_3pi_rot[N_3pi],V3_p_rot;
+				TLorentzVector V4_3pi_corr[3];
 				double P_1p3pi[3] = {0};
 				double pion_acc_ratio[N_3pi] = {1};
 
@@ -1960,6 +1981,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 					if (choice == 0) { //CLAS data
 						V3_3pi_corr[i].SetXYZ( pxf[ind_pi_phot[i]], pyf[ind_pi_phot[i]], pzf[ind_pi_phot[i]]);
+						V4_3pi_corr[i].SetPxPyPzE(pxf[ind_pi_phot[i]], pyf[ind_pi_phot[i]], pzf[ind_pi_phot[i]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[i]]*pf[ind_pi_phot[i]]));
 						pion_acc_ratio[i] = 1; //Acceptance is 1 for CLAS data
 					}
 
@@ -1967,6 +1989,8 @@ void genie_analysis::Loop(Int_t choice) {
 						pion_acc_ratio[i] = 0; //Reset to 0 just to be sure
 						V3_3pi_corr[i].SetXYZ(Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pxf[ind_pi_phot[i]],Smeared_Pp[i]/pf[ind_pi_phot[i]] * pyf[ind_pi_phot[i]],
 									Smeared_Pp[i]/pf[ind_pi_phot[i]] * pzf[ind_pi_phot[i]]);
+						V4_3pi_corr[i].SetPxPyPzE(Smeared_Ppi[i]/pf[ind_pi_phot[i]] * pxf[ind_pi_phot[i]],Smeared_Pp[i]/pf[ind_pi_phot[i]] * pyf[ind_pi_phot[i]],
+									Smeared_Pp[i]/pf[ind_pi_phot[i]] * pzf[ind_pi_phot[i]],TMath::Sqrt(m_pion*m_pion+pf[ind_pi_phot[i]]*pf[ind_pi_phot[i]]));
 						double phi_pion = V3_3pi_corr[i].Phi(); //in Radians
 						V3_3pi_corr[i].SetPhi(phi_pion + TMath::Pi() ); // Vec.Phi() is between (-180,180)
 						phi_pion += TMath::Pi(); // GENIE coordinate system flipped with respect to CLAS
@@ -1991,7 +2015,7 @@ void genie_analysis::Loop(Int_t choice) {
 				} //end loop over num_pi_phot
 				double Ecal1p3pi[3] = {0};
 				double p_perp1p3pi[3] = {0};
-				rotation->prot1_pi3_rot_func(V3_prot_uncorr, V3_3pi_corr, charge_pi, V4_el, Ecal1p3pi, p_perp1p3pi, P_1p3pi);
+				rotation->prot1_pi3_rot_func(V3_prot_uncorr, V3_3pi_corr, V4_prot_corr, V4_3pi_corr, charge_pi, V4_el, Ecal1p3pi, p_perp1p3pi, P_1p3pi);
 		 		//weight_pions is 1 for CLAS data
 				double weight_pions = pion_acc_ratio[0] * pion_acc_ratio[1] * pion_acc_ratio[2];
 				//histoweight is 1/Mott_cross_sec for CLAS data
