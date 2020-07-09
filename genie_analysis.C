@@ -1816,9 +1816,8 @@ void genie_analysis::Loop(Int_t choice) {
 				}
 				double Ecal = 0;
 				double p_perp_tot = 0;
-				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, Ecal, p_perp_tot);
-				cout << "E_tot: "<< Ecal << endl;
-				cout << "p_perp: " << p_perp_tot << endl;
+				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, &Ecal, &p_perp_tot);
+				
 				//histoweight is 1/Mott_cross_sec for CLAS data
 				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
 				//1proton, 1 Pion, 1 electron acceptance, GENIE weight and Mott
