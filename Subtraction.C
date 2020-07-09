@@ -48,8 +48,8 @@ void Subtraction::prot1_pi2_rot_func(TVector3  V3prot, TVector3 V3pi[2], TLorent
        if(N_all!=0){
          //----------------------1p2pi->1p1pi
          for(int h=0;h<N_pi;h++){
-  	        P_1p1pi[h]=(N_1p1pi[h]/N_all);
-            prot1_pi1_en_calc(V4prot, V4pi[h], q_pi[h], V4_el, Ecal[h], p_miss_perp[h]);
+  	        P_1p1pi[h]=-(N_1p1pi[h]/N_all);
+            prot1_pi1_en_calc(V4prot, V4pi[h], q_pi[h], V4_el, &Ecal[h], &p_miss_perp[h]);
          }
        }   //N_all!=0 statement
 
@@ -67,7 +67,6 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], TLorent
     bool status_pi[N_pi]={true};
     double N_all = 0;
     double N_1p1pi[3]={0},N_1p2pi[3]={0};
-    P_tot = {0};
 
     for(int g=0; g<N_tot; g++){
 
@@ -95,7 +94,7 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], TLorent
     {
       if(N_all!=0)
       {
-        P_1p3pito1p1pi[i] = (N_1p1pi[i]/N_all);
+        P_1p3pito1p1pi[i] = -(N_1p1pi[i]/N_all);
       }
       else
       {
@@ -131,15 +130,15 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], TLorent
               Ecal[j] = Ecal2[1];
               p_miss_perp[i] = p_miss_perp2[0];
               p_miss_perp[j] = p_miss_perp2[1];
-              P_1p3pito1p1pi[i] = P_1p1pi[0]*N_1p2pi[count]/N_all;
-              P_1p3pito1p1pi[j] = P_1p1pi[1]*N_1p2pi[count]/N_all;
+              P_1p3pito1p1pi[i] = -P_1p1pi[0]*N_1p2pi[count]/N_all;
+              P_1p3pito1p1pi[j] = -P_1p1pi[1]*N_1p2pi[count]/N_all;
               count = count+1;
             }
           }
         }
-        P_tot[0] = P_1p3pito1p1pi[0] - P_1p3pito1p1pi[0] - P_1p3pito1p1pi[1];
-        P_tot[1] = P_1p3pito1p1pi[1] - P_1p3pito1p1pi[0] - P_1p3pito1p1pi[2];
-        P_tot[2] = P_1p3pito1p1pi[2] - P_1p3pito1p1pi[1] - P_1p3pito1p1pi[2];
+        P_tot[0] = P_1p3pito1p1pi[0] + P_1p3pito1p1pi[0] + P_1p3pito1p1pi[1];
+        P_tot[1] = P_1p3pito1p1pi[1] + P_1p3pito1p1pi[0] + P_1p3pito1p1pi[2];
+        P_tot[2] = P_1p3pito1p1pi[2] + P_1p3pito1p1pi[1] + P_1p3pito1p1pi[2];
       }
 }
 
@@ -152,7 +151,6 @@ void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
     double N_all=0,N_1p_1pi[N_2prot]={0};
     double P_2pto1p[N_2prot]={0},N_2p_det=0;
     double rot_angle;
-    *P_tot={0};
 
 
        for(int g=0; g<N_tot; g++){
@@ -177,10 +175,10 @@ void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
      }
      if(N_all != 0)
      {
-       P_tot[0] = N_1p_1pi[0]/N_all;
-       P_tot[1] = N_1p_1pi[1]/N_all;
-       prot1_pi1_en_calc(V4_2prot_corr[0], V4_1pi, q_pi, V4_el, Ecal[0], p_miss_perp[0]);
-       prot1_pi1_en_calc(V4_2prot_corr[1], V4_1pi, q_pi, V4_el, Ecal[1], p_miss_perp[1]);
+       P_tot[0] = -N_1p_1pi[0]/N_all;
+       P_tot[1] = -N_1p_1pi[1]/N_all;
+       prot1_pi1_en_calc(V4_2prot_corr[0], V4_1pi, q_pi, V4_el, &Ecal[0], &p_miss_perp[0]);
+       prot1_pi1_en_calc(V4_2prot_corr[1], V4_1pi, q_pi, V4_el, &Ecal[1], &p_miss_perp[1]);
      }
      else
      {
@@ -243,8 +241,8 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
         Ecal[i][1] = Ecal2[1];
         p_miss_perp[i][0] = p_miss_perp2[0];
         p_miss_perp[i][1] = p_miss_perp2[1];
-        prob2p2pito1p1pi[i][0]= -(N_2p_1pi[i]/N_all)*P_tot[0];
-        prob2p2pito1p1pi[i][1]= -(N_2p_1pi[i]/N_all)*P_tot[1];
+        prob2p2pito1p1pi[i][0]= (N_2p_1pi[i]/N_all)*P_tot[0];
+        prob2p2pito1p1pi[i][1]= (N_2p_1pi[i]/N_all)*P_tot[1];
       }
       //---------------------------------------------------2p2pi->2p1pi-------------------------------------------------------
       P_tot[0] = P_tot[1] = 0;
@@ -255,15 +253,15 @@ void Subtraction::prot2_pi2_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
       Ecal[1][i] = Ecal2[1];
       p_miss_perp[0][i] = p_miss_perp2[0];
       p_miss_perp[1][i] = p_miss_perp2[1];
-      prob2p2pito1p1pi[0][i] -= (N_1p_2pi[i]/N_all)*P_tot[0];
-      prob2p2pito1p1pi[0][i] -= (N_1p_2pi[i]/N_all)*P_tot[1];
+      prob2p2pito1p1pi[0][i] += (N_1p_2pi[i]/N_all)*P_tot[0];
+      prob2p2pito1p1pi[0][i] += (N_1p_2pi[i]/N_all)*P_tot[1];
     }
     //----------------------------------------------------2p2pi->1p1pi---------------------------------------------------------
     for(int i=0;i<2;i++)
     {
         for(int j=0;j<2;j++)
         {
-          prob2p2pito1p1pi[i][j] += N_1p_1pi[i][j]/N_all;
+          prob2p2pito1p1pi[i][j] -= N_1p_1pi[i][j]/N_all;
         }
     }
     P_tot_2p = prob2p2pito1p1pi;
@@ -319,7 +317,7 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
       for(int z=0;z<N_3prot;z++){
 
    //---------------------------------- 3p 1pi ->1p 1pi   ----------------------------------------------
-          P_3p1pito1p1pi[z]=(N_1p1pi[z]/N_all);
+          P_3p1pito1p1pi[z]=-(N_1p1pi[z]/N_all);
 
    //---------------------------------- 3p 1pi ->2p 1pi   ----------------------------------------------
    TVector3 V3_prot_corr[2];
@@ -343,8 +341,8 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
           Ecal[i] = Ecal2[1];
           p_miss_perp[z] = p_miss_perp2[0];
           p_miss_perp[i] = p_miss_perp2[1];
-          P_3p1pito2p1pi[z] = P_3p1pito2p1pi[z]+(N_2p1pi[count]/N_all)*(-P_2p1pito1p1pi[0]);
-          P_3p1pito2p1pi[i] = P_3p1pito2p1pi[i]+(N_2p1pi[count]/N_all)*(-P_2p1pito1p1pi[1]);
+          P_3p1pito2p1pi[z] = P_3p1pito2p1pi[z]+(N_2p1pi[count]/N_all)*(P_2p1pito1p1pi[0]);
+          P_3p1pito2p1pi[i] = P_3p1pito2p1pi[i]+(N_2p1pi[count]/N_all)*(P_2p1pito1p1pi[1]);
 
   	      count=count+1;
   		  	}
@@ -364,11 +362,11 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
 
   }
 
-void Subtraction::prot1_pi1_en_calc(TLorentzVector V4prot, TLorentzVector V4pi, int q_pi, TLorentzVector V4_el, double Ecal, double p_miss_perp)
+void Subtraction::prot1_pi1_en_calc(TLorentzVector V4prot, TLorentzVector V4pi, int q_pi, TLorentzVector V4_el, double *Ecal, double *p_miss_perp)
 {
     double m_prot=0.9382720813;
     TVector3 V3_total = V4prot.Vect() + V4pi.Vect() + V4_el.Vect();
-    Ecal = V4_el.E() + V4prot.E() - m_prot + V4pi.E();
-    p_miss_perp = TMath::Sqrt(V3_total.Px()*V3_total.Px()+V3_total.Py()*V3_total.Py());
+    *Ecal = V4_el.E() + V4prot.E() - m_prot + V4pi.E();
+    *p_miss_perp = TMath::Sqrt(V3_total.Px()*V3_total.Px()+V3_total.Py()*V3_total.Py());
 }
 #endif
