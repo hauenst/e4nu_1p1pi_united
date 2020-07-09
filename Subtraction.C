@@ -67,7 +67,6 @@ void Subtraction::prot1_pi3_rot_func(TVector3  V3prot, TVector3 V3pi[3], TLorent
     bool status_pi[N_pi]={true};
     double N_all = 0;
     double N_1p1pi[3]={0},N_1p2pi[3]={0};
-    P_tot = {0};
 
     for(int g=0; g<N_tot; g++){
 
@@ -368,7 +367,12 @@ void Subtraction::prot1_pi1_en_calc(TLorentzVector V4prot, TLorentzVector V4pi, 
 {
     double m_prot=0.9382720813;
     TVector3 V3_total = V4prot.Vect() + V4pi.Vect() + V4_el.Vect();
+    std::cout<<"V4_el.E()"<<V4_el.E()<<std::endl;
+    std::cout<<"V4prot.E()"<<V4prot.E()<<std::endl;
+    std::cout<<"V4pi.E()"<<V4pi.E()<<std::endl;
     Ecal = V4_el.E() + V4prot.E() - m_prot + V4pi.E();
+    std::cout<< "Ecal" << Ecal << std::endl;
     p_miss_perp = TMath::Sqrt(V3_total.Px()*V3_total.Px()+V3_total.Py()*V3_total.Py());
+    std::cout<< "p_perp"<< p_miss_perp << std::endl;
 }
 #endif
