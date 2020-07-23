@@ -169,14 +169,17 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_Etot_bkgd_1p3pi_pipl[n_slice], *h1_Erec_bkgd_1p3pi_pipl[n_slice];
 	TH1F *h1_Etot_bkgd_1p3pi_pimi[n_slice], *h1_Erec_bkgd_1p3pi_pimi[n_slice];
 
-	TH1F *h1_Etot_p_bkgd_slice_2p2pi[n_slice], *h1_Erec_p_bkgd_slice_2p2pi[n_slice];
-	TH1F *h1_Etot_p_bkgd_slice_2p1pi_to1p1pi[n_slice],*h1_Erec_p_bkgd_slice_2p1pi_to1p1pi[n_slice];
+	//TH1F *h1_Etot_p_bkgd_slice_2p2pi[n_slice], *h1_Erec_p_bkgd_slice_2p2pi[n_slice];
+	TH1F *h1_Etot_p_bkgd_slice_2p2pi_pimi[n_slice], *h1_Etot_p_bkgd_slice_2p2pi_pipl[n_slice];
+	TH1F *h1_Erec_p_bkgd_slice_2p2pi_pimi[n_slice], *h1_Erec_p_bkgd_slice_2p2pi_pipl[n_slice];
+	TH1F *h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pipl[n_slice], *h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pimi[n_slice], *h1_Erec_p_bkgd_slice_2p1pi_to1p1pi_pipl[n_slice], *h1_Erec_p_bkgd_slice_2p1pi_to1p1pi_pimi[n_slice];
 
 	TH1F *h1_Etot_piplpimi_subtruct_fact[n_slice],*h1_Erec_piplpimi_subtruct_fact[n_slice];
 	TH1F *h1_Etot_p_bkgd_slice_sub[n_slice],*h1_Erec_p_bkgd_slice_sub[n_slice];
 	TH1F *h1_Etot_3pto1p_slice[n_slice],*h1_Erec_3pto1p_slice[n_slice];
 	TH1F *h1_Etot_3pto2p_slice[n_slice],*h1_Erec_3pto2p_slice[n_slice];
-	TH1F *h1_Etot_3p1pi_slice[n_slice], *h1_Erec_3p1pi_slice[n_slice];
+	TH1F *h1_Etot_3p1pi_slice[n_slice], *h1_Erec_3p1pi_slice_pipl[n_slice], *h1_Erec_3p1pi_slice_pimi[n_slice];
+	TH1F *h1_Etot_3p1pi_slice_pipl[n_slice], *h1_Etot_3p1pi_slice_pimi[n_slice];
 	TH1F *h1_Etot_4pto3p_slice[n_slice],*h1_Erec_4pto3p_slice[n_slice];
 	TH1F *h1_Etot_4pto1p_slice[n_slice],*h1_Erec_4pto1p_slice[n_slice];
 	TH1F *h1_Etot_4pto2p_slice[n_slice],*h1_Erec_4pto2p_slice[n_slice];
@@ -401,7 +404,9 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_E_rec_2p2pi_fracfeed_pimi = new TH1F("h1_E_rec_2p2pi_fracfeed_pimi","",n_bins,x_qe);
 	TH1F *h1_E_tot_3p1pi_fracfeed_pipl = new TH1F("h1_E_tot_3p1pi_fracfeed_pipl","",n_bins,x_qe);
 	TH1F *h1_E_tot_3p1pi_fracfeed_pimi = new TH1F("h1_E_tot_3p1pi_fracfeed_pimi","",n_bins,x_qe);
-	TH1F *h1_E_rec_3p1pi_fracfeed = new TH1F("h1_E_rec_3p1pi_fracfeed","",n_bins,x_qe);
+	//TH1F *h1_E_rec_3p1pi_fracfeed = new TH1F("h1_E_rec_3p1pi_fracfeed","",n_bins,x_qe);
+	TH1F *h1_E_rec_3p1pi_fracfeed_pipl = new TH1F("h1_E_rec_3p1pi_fracfeed_pipl","",n_bins,x_qe);
+	TH1F *h1_E_rec_3p1pi_fracfeed_pimi = new TH1F("h1_E_rec_3p1pi_fracfeed_pimi","",n_bins,x_qe);
 	TH1F *h1_E_rec_undetfactor_fracfeed = new TH1F("h1_E_rec_undetfactor_fracfeed","",n_bins,x_qe);
 	TH1F *h1_E_tot_undetfactor_fracfeed = new TH1F("h1_E_tot_undetfactor_fracfeed","",n_bins,x_qe);
 
@@ -551,7 +556,7 @@ void genie_analysis::Loop(Int_t choice) {
 	TH1F *h1_E_tot_3p1pi_pipl	= new TH1F("h1_E_tot_3p1pi_pipl","",n_bins,x_values);
 	TH1F *h1_E_tot_3p1pi_pimi	= new TH1F("h1_E_tot_3p1pi_pimi","",n_bins,x_values);
 	TH1F *h1_E_rec_3p1pi_pipl	= new TH1F("h1_E_rec_3p1pi_pipl","",n_bins,x_values);
-	TH1F *h1_E_rec_3p1pi_pimi	= new TH1F("h1_E_rec_3p1pi_pimi","",n_bins,x_values);
+  TH1F *h1_E_rec_3p1pi_pimi	= new TH1F("h1_E_rec_3p1pi_pimi","",n_bins,x_values);
 	TH1F *h1_E_tot_2p1pi_1p1pi_pipl	= new TH1F("h1_E_tot_2p1pi_1p1pi_pipl","",n_bins,x_values);
 	TH1F *h1_E_tot_2p1pi_1p1pi_pimi	= new TH1F("h1_E_tot_2p1pi_1p1pi_pimi","",n_bins,x_values);
 	TH1F *h1_E_rec_2p1pi_1p1pi_pipl	= new TH1F("h1_E_rec_2p1pi_1p1pi_pipl","",n_bins,x_values);
@@ -601,7 +606,8 @@ void genie_analysis::Loop(Int_t choice) {
 		h1_Erec_Npi1[h] = new TH1F(Form("h1_Erec_Npi1_%d",h+1),"",n_bins,x_values);
 		h1_Etot_bkgd_1p2pi_pipl[h] = new TH1F(Form("h1_Etot_bkgd_1p2pi_pipl_%d",h+1),"",n_bins,x_values);
 		h1_Etot_bkgd_1p2pi_pimi[h] = new TH1F(Form("h1_Etot_bkgd_1p2pi_pimi_%d",h+1),"",n_bins,x_values);
-		h1_Erec_bkgd_1p2pi[h] = new TH1F(Form("h1_Erec_bkgd_1p2pi_%d",h+1),"",n_bins,x_values);
+		h1_Erec_bkgd_1p2pi_pipl[h] = new TH1F(Form("h1_Erec_bkgd_1p2pi_pipl_%d",h+1),"",n_bins,x_values);
+		h1_Erec_bkgd_1p2pi_pimi[h] = new TH1F(Form("h1_Erec_bkgd_1p2pi_pimi_%d",h+1),"",n_bins,x_values);
 		h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pipl[h] = new TH1F(Form("h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pipl_%d",h+1),"",n_bins,x_values);
 		h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pimi[h] = new TH1F(Form("h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pimi_%d",h+1),"",n_bins,x_values);
 		h1_Erec_p_bkgd_slice_2p1pi_to1p1pi_pipl[h] = new TH1F(Form("h1_Erec_p_bkgd_slice_2p1pi_to1p1pi_pipl_%d",h+1),"",n_bins,x_values);
@@ -612,7 +618,9 @@ void genie_analysis::Loop(Int_t choice) {
 		h1_Etot_p_bkgd_slice_2p2pi_pimi[h] = new TH1F(Form("h1_Etot_p_bkgd_slice_2p2pi_pimi_%d",h+1),"",n_bins,x_values);
 		h1_Etot_bkgd_1p3pi_pipl[h] = new TH1F(Form("h1_Etot_bkgd_1p3pi_pipl_%d",h+1),"",n_bins,x_values);
 		h1_Etot_bkgd_1p3pi_pimi[h] = new TH1F(Form("h1_Etot_bkgd_1p3pi_pimi_%d",h+1),"",n_bins,x_values);
-		h1_Erec_bkgd_1p3pi[h] = new TH1F(Form("h1_Erec_bkgd_1p3pi_%d",h+1),"",n_bins,x_values);
+		//h1_Erec_bkgd_1p3pi[h] = new TH1F(Form("h1_Erec_bkgd_1p3pi_%d",h+1),"",n_bins,x_values);
+		h1_Erec_bkgd_1p3pi_pimi[h] = new TH1F(Form("h1_Erec_bkgd_1p3pi_pimi_%d",h+1),"",n_bins,x_values);
+		h1_Erec_bkgd_1p3pi_pipl[h] = new TH1F(Form("h1_Erec_bkgd_1p3pi__pipl_%d",h+1),"",n_bins,x_values);
 	}
 
 	for(int h=0;h<20;h++){
@@ -1911,7 +1919,7 @@ void genie_analysis::Loop(Int_t choice) {
 						h2_Erec_pperp_3p1pi_pipl->Fill(p_miss_perp[j],E_rec,P_tot_3p[j]*histoweight);
 						h2_Etot_pperp_pipl->Fill(p_miss_perp[j],E_cal[j],P_tot_3p[j]*histoweight);
 						h1_E_tot_3p1pi_fracfeed_pipl->Fill((E_cal[j]-en_beam_Ecal[fbeam_en])/en_beam_Ecal[fbeam_en], P_tot_3p[j]*histoweight);
-						h1_E_rec_3p1pi_fracfeed_pipl->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_tot_3p[j]*histoweight);
+					  h1_E_rec_3p1pi_fracfeed_pipl->Fill((E_rec-en_beam_Eqe[fbeam_en])/en_beam_Eqe[fbeam_en],P_tot_3p[j]*histoweight);
 						h2_pperp_W_pipl->Fill(W_var,p_miss_perp[j],P_tot_3p[j]*histoweight);
 						h1_theta0_pipl->Fill((V4_beam.Vect()).Angle(V4_el.Vect()+V3_prot_uncorr[j])*TMath::RadToDeg(),P_tot_3p[j]*histoweight);
 						h2_Ecal_Eres_pipl->Fill(E_rec,E_cal[j],P_tot_3p[j]*histoweight);
@@ -2641,16 +2649,20 @@ void genie_analysis::Loop(Int_t choice) {
 		//------------------------------------undetected 1p 2pi  ------ --------------------------------------
 
 		h1_Etot_p_bkgd_slice_sub1p2pi[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub41[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub1p2pi_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub1p2pi[i]->Add(h1_Etot_bkgd_1p2pi[i]);
+		h1_Etot_p_bkgd_slice_sub1p2pi[i]->Add(h1_Etot_bkgd_1p2pi_pipl[i]);
+		h1_Etot_p_bkgd_slice_sub1p2pi[i]->Add(h1_Etot_bkgd_1p2pi_pimi[i]);
 		h1_Erec_p_bkgd_slice_sub1p2pi[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub41[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub1p2pi_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub1p2pi[i]->Add(h1_Erec_bkgd_1p2pi[i]);
+		h1_Erec_p_bkgd_slice_sub1p2pi[i]->Add(h1_Erec_bkgd_1p2pi_pimi[i]);
+		h1_Erec_p_bkgd_slice_sub1p2pi[i]->Add(h1_Erec_bkgd_1p2pi_pipl[i]);
 
 		//------------------------------------undetected 2p 1pi ->1p 1pi  ------ --------------------------------------
 
 		h1_Etot_p_bkgd_slice_sub2p1pi_1p[i]=(TH1F*) h1_Etot_p_bkgd_slice_sub2p1pi_2p[i]->Clone(Form("h1_Etot_p_bkgd_slice_sub2p1pi_1p_%d",i+1));
-		h1_Etot_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Etot_p_bkgd_slice_2p1pi_to1p1pi[i]);
+		h1_Etot_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pipl[i]);
+		h1_Etot_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Etot_p_bkgd_slice_2p1pi_to1p1pi_pimi[i]); //Ali Look over here! Was originally without pl,mi
 		h1_Erec_p_bkgd_slice_sub2p1pi_1p[i]=(TH1F*) h1_Erec_p_bkgd_slice_sub2p1pi_2p[i]->Clone(Form("h1_Erec_p_bkgd_slice_sub2p1pi_1p_%d",i+1));
-		h1_Erec_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Erec_p_bkgd_slice_2p1pi_to1p1pi[i]);
+		h1_Erec_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Erec_p_bkgd_slice_2p1pi_to1p1pi_pipl[i]);
+		h1_Erec_p_bkgd_slice_sub2p1pi_1p[i]->Add(h1_Erec_p_bkgd_slice_2p1pi_to1p1pi_pimi[i]);
 
 	}
 
