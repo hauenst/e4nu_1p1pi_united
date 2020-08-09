@@ -1226,6 +1226,7 @@ void genie_analysis::Loop(Int_t choice) {
 				double E_tot_2p[2] = {0};
 				double p_perp_tot_2p[2] = {0};
 				rotation->prot2_pi1_rot_func(V3_2prot_corr, V3_2prot_uncorr, V3_1pi_corr, V4_2prot_corr, V4_1pi_corr, charge_pi[0], V4_el, E_tot_2p, p_perp_tot_2p, Ptot);
+				rotation->prot2_pi1_rot_func(V3_2prot_corr, V3_2prot_uncorr, V3_1pi_corr, V4_2prot_corr, V4_1pi_corr, charge_pi[0], V4_el, E_tot_2p,p_perp_tot_2p, P_2p1pito1p1pi);
 				double histoweight = pion_acc_ratio * weight_protons * e_acc_ratio * wght/Mott_cross_sec;
 				//Is this correct in the following loop? F.H. 09/01/19
 
@@ -2145,7 +2146,7 @@ void genie_analysis::Loop(Int_t choice) {
 				}
 				double Ecal = 0;
 				double p_perp_tot = 0;
-				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, &Ecal, &p_perp_tot);
+				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, Ecal, p_perp_tot);
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
 				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
@@ -2540,6 +2541,7 @@ void genie_analysis::Loop(Int_t choice) {
 					// -----------------------------------------------------------------------------------------------
 					// apapadop: Reconstruct xB, W, Q2 using Ecal instead of Etrue
 
+
 					CalKineVars = CalculateCalKineVars(Ecal1p3pi[z],V4_el);
 					LocalWeight = P_1p3pi[z]*histoweight;
 
@@ -2587,8 +2589,32 @@ void genie_analysis::Loop(Int_t choice) {
 	} //end of event loop (jentry)
 
 	gStyle->SetOptFit(1);
+	TH1F* h1_E_cal_pimi_sub = (TH1F*) h1_E_tot_pimi->Clone("h1_E_cal_pimi_sub");
+	//Creates new histogram filled with floats and makes it a clone of h1_Ecal_pimi
+	//Quotation marks are title of histogram when it is formed -> Should be same as variable name
+	h1_E_cal_pimi_sub->Add(h1_E_tot_2p1pi_1p1pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process1");
+	h1_E_cal_pimi_sub->Add(h1_E_tot_1p2pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process2");
+	h1_E_cal_pimi_sub->Add(h1_E_tot_2p2pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process3");
+	h1_E_cal_pimi_sub->Add(h1_E_tot_3p1pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process4");
+	h1_E_cal_pimi_sub->Add(h1_E_tot_1p3pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process5");
+	//Takes new histogram and adds h1_E_tot...etc with weight of -1
+	//Negative one makes it subtraction bc math
 
-	for(int i = 0; i <= n_slice-1; i++) {
+	TH1F* h1_E_cal_pipl_sub = (TH1F*) h1_Ecal_pipl->Clone("h1_E_cal_pipl_sub");
+
+	h1_E_cal_pipl_sub->Add(h1_E_tot_3p1pi_pipl, -1);
+	h1_E_cal_pipl_sub->Add(h1_E_tot_2p1pi_1p1pi_pipl, -1);
+	h1_E_cal_pipl_sub->Add(h1_E_tot_2p2pi_pipl, -1);
+	h1_E_cal_pipl_sub->Add(h1_E_tot_1p2pi_pipl, -1);
+	h1_E_cal_pipl_sub->Add(h1_E_tot_1p3pi_pipl, -1);
+
+
+/*	for(int i = 0; i <= n_slice-1; i++) {
 
 		//------------------------------------using the ratio of the pi- to pi+  --------------------------------------
 
@@ -2808,7 +2834,9 @@ void genie_analysis::Loop(Int_t choice) {
 
 	//------------------------------------undetected 1p 2pi ->1 p1pi ------ --------------------------------------
 
-	TH1F *h_Erec_subtruct_pipl_1p2pi=(TH1F*)	h_Erec_subtruct_pipl_41prot->Clone("h_Erec_subtruct_piplpimi_1p2pi");
+
+	/*TH1F *h_Erec_subtruct_pipl_1p2pi=(TH1F*)	h_Erec_subtruct_pipl_41prot->Clone("h_Erec_subtruct_piplpimi_1p2pi");
+
 	h_Erec_subtruct_pipl_1p2pi->Add(h1_E_rec_1p2pi_pipl);
 
 	TH1F *h_Etot_subtruct_pipl_1p2pi=(TH1F*)	h_Etot_subtruct_pipl_41prot->Clone("h_Etot_subtruct_piplpimi_1p2pi");
@@ -2836,7 +2864,8 @@ void genie_analysis::Loop(Int_t choice) {
 	h_Erec_subtruct_pimi_1p2pi_fracfeed->Add(h1_E_rec_1p2pi_fracfeed_pimi);
 
 	TH1F *h_Etot_subtruct_pimi_1p2pi_fracfeed=(TH1F*)	h_Etot_subtruct_pimi_41prot_fracfeed->Clone("h_Etot_subtruct_pimi_1p2pi_fracfeed");
-	h_Etot_subtruct_pimi_1p2pi_fracfeed->Add(h1_E_tot_1p2pi_fracfeed_pimi);
+	h_Etot_subtruct_pimi_1p2pi_fracfeed->Add(h1_E_tot_1p2pi_fracfeed_pimi);*/
+
 
 	 //-----------------------------------looking only at e-, 2pi undetected pion subtraction  ---------------------------------------
 /* Commented out bc dependent on 0pi Histograms
