@@ -2541,6 +2541,7 @@ void genie_analysis::Loop(Int_t choice) {
 					// -----------------------------------------------------------------------------------------------
 					// apapadop: Reconstruct xB, W, Q2 using Ecal instead of Etrue
 
+
 					CalKineVars = CalculateCalKineVars(Ecal1p3pi[z],V4_el);
 					LocalWeight = P_1p3pi[z]*histoweight;
 
@@ -2833,7 +2834,9 @@ void genie_analysis::Loop(Int_t choice) {
 
 	//------------------------------------undetected 1p 2pi ->1 p1pi ------ --------------------------------------
 
+
 	/*TH1F *h_Erec_subtruct_pipl_1p2pi=(TH1F*)	h_Erec_subtruct_pipl_41prot->Clone("h_Erec_subtruct_piplpimi_1p2pi");
+
 	h_Erec_subtruct_pipl_1p2pi->Add(h1_E_rec_1p2pi_pipl);
 
 	TH1F *h_Etot_subtruct_pipl_1p2pi=(TH1F*)	h_Etot_subtruct_pipl_41prot->Clone("h_Etot_subtruct_piplpimi_1p2pi");
@@ -2862,6 +2865,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 	TH1F *h_Etot_subtruct_pimi_1p2pi_fracfeed=(TH1F*)	h_Etot_subtruct_pimi_41prot_fracfeed->Clone("h_Etot_subtruct_pimi_1p2pi_fracfeed");
 	h_Etot_subtruct_pimi_1p2pi_fracfeed->Add(h1_E_tot_1p2pi_fracfeed_pimi);*/
+
 
 	 //-----------------------------------looking only at e-, 2pi undetected pion subtraction  ---------------------------------------
 /* Commented out bc dependent on 0pi Histograms
