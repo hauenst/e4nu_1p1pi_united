@@ -14,7 +14,7 @@
 #include "Subtraction.h"
 
 void Subtraction::prot1_pi2_rot_func(TVector3  V3prot, TVector3 V3pi[2], TLorentzVector V4prot, TLorentzVector V4pi[2], int q_pi[2], TLorentzVector V4_el, double Ecal[2], double p_miss_perp[2], double P_1p1pi[]){
-   
+
     const int N_pi=2;
     double rotation_ang;
     TVector3 V3_rot_pi[2], V3_p_rot;
@@ -49,7 +49,7 @@ void Subtraction::prot1_pi2_rot_func(TVector3  V3prot, TVector3 V3pi[2], TLorent
          //----------------------1p2pi->1p1pi
          for(int h=0;h<N_pi;h++){
   	    P_1p1pi[h] = (N_1p1pi[h]/N_all);//MADE Positive :) ALI
-            prot1_pi1_en_calc(V4prot, V4pi[h], q_pi[h], V4_el, &Ecal[h], &p_miss_perp[h]);
+            prot1_pi1_en_calc(V4prot, V4pi[h], q_pi[h], V4_el, Ecal[h], p_miss_perp[h]);
          }
        }   //N_all!=0 statement
 
@@ -178,8 +178,8 @@ void Subtraction::prot2_pi1_rot_func(TVector3 V3_2prot_corr[2],TVector3 V3_2prot
      {
        P_tot[0] = N_1p_1pi[0]/N_all;
        P_tot[1] = N_1p_1pi[1]/N_all;
-       prot1_pi1_en_calc(V4_2prot_corr[0], V4_1pi, q_pi, V4_el, &Ecal[0], &p_miss_perp[0]);
-       prot1_pi1_en_calc(V4_2prot_corr[1], V4_1pi, q_pi, V4_el, &Ecal[1], &p_miss_perp[1]);
+       prot1_pi1_en_calc(V4_2prot_corr[0], V4_1pi, q_pi, V4_el, Ecal[0], p_miss_perp[0]);
+       prot1_pi1_en_calc(V4_2prot_corr[1], V4_1pi, q_pi, V4_el, Ecal[1], p_miss_perp[1]);
      }
      else
      {
@@ -365,11 +365,11 @@ void Subtraction::prot3_pi1_rot_func(TVector3 V3_3prot_corr[3],TVector3 V3_3prot
 
   }
 
-void Subtraction::prot1_pi1_en_calc(TLorentzVector V4prot, TLorentzVector V4pi, int q_pi, TLorentzVector V4_el, double *Ecal, double *p_miss_perp)
+void Subtraction::prot1_pi1_en_calc(TLorentzVector V4prot, TLorentzVector V4pi, int q_pi, TLorentzVector V4_el, double Ecal, double p_miss_perp)
 {
     double m_prot=0.9382720813;
     TVector3 V3_total = V4prot.Vect() + V4pi.Vect() + V4_el.Vect();
-    *Ecal = V4_el.E() + V4prot.E() - m_prot + V4pi.E();
-    *p_miss_perp = TMath::Sqrt(V3_total.Px()*V3_total.Px()+V3_total.Py()*V3_total.Py());
+    Ecal = V4_el.E() + V4prot.E() - m_prot + V4pi.E();
+    p_miss_perp = TMath::Sqrt(V3_total.Px()*V3_total.Px()+V3_total.Py()*V3_total.Py());
 }
 #endif

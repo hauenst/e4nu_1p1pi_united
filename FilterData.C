@@ -404,7 +404,7 @@ void FilterData::Loop()
 	}
 
 	//Output file definition
-	TFile *file_out = new TFile(Form("/w/hallb-scifs17exp/clas/claseg2/apapadop/genie_filtered_data_e2a_ep_%s_%s_neutrino6_united4_radphot_test_100M.root",ftarget.c_str(),fbeam_en.c_str()), "Recreate");
+	TFile *file_out = new TFile(Form("/home/ltracy/Root_work/datafiles/genie_filtered_data_e2a_ep_%s_%s_neutrino6_united4_radphot_test_100M.root",ftarget.c_str(),fbeam_en.c_str()), "Recreate");
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -677,7 +677,7 @@ void FilterData::Loop()
 		}
 
 		if (runnb==18258 || runnb==18259 || (runnb>18382 && runnb<18438) || (runnb>18220 && runnb<18253)) {
-			vz_corr_func->SetParameters(pars); 
+			vz_corr_func->SetParameters(pars);
 			//setting appropriate parameters of the vertex correction function for the runs with the same target and beam energy, but different vertex correction
 		}
 
@@ -754,7 +754,7 @@ void FilterData::Loop()
 		genie_EvRF = -99.;
 		genie_pxv = 0.;
 		genie_pyv = 0.;
-		genie_pzv = sqrt(en_beam[fbeam_en] * en_beam[fbeam_en] - e_mass*e_mass); 
+		genie_pzv = sqrt(en_beam[fbeam_en] * en_beam[fbeam_en] - e_mass*e_mass);
 		genie_En = -99.;
 		genie_pxn = -99.;
 		genie_pyn = -99.;
@@ -858,7 +858,7 @@ void FilterData::Loop()
 		if(en_beam[fbeam_en] < 3.  && en_beam[fbeam_en] > 2 &&
 		  ( ec_ei[ec[ind_em] - 1] < 0.06 || ece/p[ind_em] < fsub_e->Eval(p[ind_em]) || ece/p[ind_em] > fsum_e->Eval(p[ind_em]) ||
 				p[ind_em] < min_good_mom || cc_c2[cc[ind_em]-1] >= 0.1 || el_sccc_timediff < sc_cc_delt_cut_sect[el_cc_sector-1] ||
-				TMath::Sqrt(p[ind_em]*p[ind_em]+e_mass*e_mass)>en_beam[fbeam_en] ) ) 
+				TMath::Sqrt(p[ind_em]*p[ind_em]+e_mass*e_mass)>en_beam[fbeam_en] ) )
 		//only here a cut on electron momentum to cut some very scarse events where p_e > beam energy (see Mariana's anaysis note)
 		{
 				continue;
@@ -971,7 +971,7 @@ void FilterData::Loop()
 		CounterEvents++;
 
 		//Loop for Hadrons, electrons have i=0
-	
+
 		for( int i = 1; i < TMath::Min(gpart, 20); i++ )
 		{
 
@@ -1115,7 +1115,7 @@ void FilterData::Loop()
 
 			if(q[i] > 0 &&  sc[i] > 0 && dc[i] > 0 && stat[i] > 0) //positive particle. possible pi plus
 			{
-	
+
 				V3_pipl.SetXYZ(p[i]*cx[i],p[i]*cy[i],p[i]*cz[i]);
 				beta = p[i]/TMath::Sqrt(p[i]*p[i]+m_pipl*m_pipl);
 				delta= sc_t[sc[i]-1]-sc_r[sc[i]-1]/(beta*c*ns_to_s) - tr_time;

@@ -24,8 +24,8 @@ public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
-   std::string ftarget;    // The target name  
-   std::string fbeam_en;   // The beam energy  
+   std::string ftarget;    // The target name
+   std::string fbeam_en;   // The beam energy
 
    Fiducial   *fiducialcut;
    int fTorusCurrent;
@@ -316,7 +316,7 @@ FilterData::FilterData(std::string a_target,std::string a_beam_en, TTree *tree) 
       // The following code should be used if you want this class to access a chain
       // of trees.
       TChain * chain = new TChain("ch","FilterData");
-      chain->Add(Form("/work/clas/clase2/Mariana/data/e2a_%s_%s_v1/*.root/h10", ftarget.c_str(), fbeam_en.c_str()));
+      chain->Add(Form("/cache/mss/clas/e2a/production/pass2/v1/%s/%s/HROOT/*.root/h10", fbeam_en.c_str(),ftarget.c_str()));
       //chain->Add("datafile.root/h10");
 
       tree = chain;

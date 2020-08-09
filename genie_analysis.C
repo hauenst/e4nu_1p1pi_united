@@ -2146,7 +2146,7 @@ void genie_analysis::Loop(Int_t choice) {
 				}
 				double Ecal = 0;
 				double p_perp_tot = 0;
-				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, &Ecal, &p_perp_tot);
+				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, Ecal, p_perp_tot);
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
 				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
@@ -2588,19 +2588,24 @@ void genie_analysis::Loop(Int_t choice) {
 	} //end of event loop (jentry)
 
 	gStyle->SetOptFit(1);
-	TH1F* h1_E_cal_pimi_sub = (TH1F*) h1_Ecal_pimi->Clone("h1_E_cal_pimi_sub");
+	TH1F* h1_E_cal_pimi_sub = (TH1F*) h1_E_tot_pimi->Clone("h1_E_cal_pimi_sub");
 	//Creates new histogram filled with floats and makes it a clone of h1_Ecal_pimi
 	//Quotation marks are title of histogram when it is formed -> Should be same as variable name
+	h1_E_cal_pimi_sub->Add(h1_E_tot_2p1pi_1p1pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process1");
+	h1_E_cal_pimi_sub->Add(h1_E_tot_1p2pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process2");
+	h1_E_cal_pimi_sub->Add(h1_E_tot_2p2pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process3");
 	h1_E_cal_pimi_sub->Add(h1_E_tot_3p1pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process4");
+	h1_E_cal_pimi_sub->Add(h1_E_tot_1p3pi_pimi, -1);
+	h1_E_cal_pimi_sub->Write("process5");
 	//Takes new histogram and adds h1_E_tot...etc with weight of -1
 	//Negative one makes it subtraction bc math
-	h1_E_cal_pimi_sub->Add(h1_E_tot_2p1pi_1p1pi_pimi, -1);
-	h1_E_cal_pimi_sub->Add(h1_E_tot_2p2pi_pimi, -1);
-	h1_E_cal_pimi_sub->Add(h1_E_tot_1p2pi_pimi, -1);
-	h1_E_cal_pimi_sub->Add(h1_E_tot_1p3pi_pimi, -1);
 
 	TH1F* h1_E_cal_pipl_sub = (TH1F*) h1_Ecal_pipl->Clone("h1_E_cal_pipl_sub");
-		
+
 	h1_E_cal_pipl_sub->Add(h1_E_tot_3p1pi_pipl, -1);
 	h1_E_cal_pipl_sub->Add(h1_E_tot_2p1pi_1p1pi_pipl, -1);
 	h1_E_cal_pipl_sub->Add(h1_E_tot_2p2pi_pipl, -1);
