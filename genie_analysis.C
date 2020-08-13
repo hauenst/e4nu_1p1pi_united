@@ -2146,7 +2146,7 @@ void genie_analysis::Loop(Int_t choice) {
 				}
 				double Ecal = 0;
 				double p_perp_tot = 0;
-				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, Ecal, p_perp_tot);
+				rotation->prot1_pi1_en_calc(V4_prot_uncorr, V4_pi_corr, charge_pi[0], V4_el, &Ecal, &p_perp_tot);
 
 				//histoweight is 1/Mott_cross_sec for CLAS data
 				double histoweight = pion_acc_ratio * p_acc_ratio * e_acc_ratio * wght/Mott_cross_sec;
@@ -2541,7 +2541,6 @@ void genie_analysis::Loop(Int_t choice) {
 					// -----------------------------------------------------------------------------------------------
 					// apapadop: Reconstruct xB, W, Q2 using Ecal instead of Etrue
 
-
 					CalKineVars = CalculateCalKineVars(Ecal1p3pi[z],V4_el);
 					LocalWeight = P_1p3pi[z]*histoweight;
 
@@ -2601,7 +2600,7 @@ void genie_analysis::Loop(Int_t choice) {
 	h1_E_cal_pimi_sub->Add(h1_E_tot_3p1pi_pimi, -1);
 	h1_E_cal_pimi_sub->Write("process4");
 	h1_E_cal_pimi_sub->Add(h1_E_tot_1p3pi_pimi, -1);
-	h1_E_cal_pimi_sub->Write("process5");
+	h1_E_cal_pimi_sub->Write("process1");
 	//Takes new histogram and adds h1_E_tot...etc with weight of -1
 	//Negative one makes it subtraction bc math
 
@@ -2834,9 +2833,7 @@ void genie_analysis::Loop(Int_t choice) {
 
 	//------------------------------------undetected 1p 2pi ->1 p1pi ------ --------------------------------------
 
-
 	/*TH1F *h_Erec_subtruct_pipl_1p2pi=(TH1F*)	h_Erec_subtruct_pipl_41prot->Clone("h_Erec_subtruct_piplpimi_1p2pi");
-
 	h_Erec_subtruct_pipl_1p2pi->Add(h1_E_rec_1p2pi_pipl);
 
 	TH1F *h_Etot_subtruct_pipl_1p2pi=(TH1F*)	h_Etot_subtruct_pipl_41prot->Clone("h_Etot_subtruct_piplpimi_1p2pi");
@@ -2865,7 +2862,6 @@ void genie_analysis::Loop(Int_t choice) {
 
 	TH1F *h_Etot_subtruct_pimi_1p2pi_fracfeed=(TH1F*)	h_Etot_subtruct_pimi_41prot_fracfeed->Clone("h_Etot_subtruct_pimi_1p2pi_fracfeed");
 	h_Etot_subtruct_pimi_1p2pi_fracfeed->Add(h1_E_tot_1p2pi_fracfeed_pimi);*/
-
 
 	 //-----------------------------------looking only at e-, 2pi undetected pion subtraction  ---------------------------------------
 /* Commented out bc dependent on 0pi Histograms
